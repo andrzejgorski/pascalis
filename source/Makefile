@@ -3,6 +3,12 @@ all:
 	alex -g LexPascalis.x
 	ghc --make TestPascalis.hs -o TestPascalis
 
+test:
+	happy -gca ParPascalis.y
+	alex -g LexPascalis.x
+	ghc --make TestPascalis.hs -o TestPascalis
+	./run_tests.py
+
 clean:
 	-rm -f *.log *.aux *.hi *.o *.dvi
 
@@ -11,5 +17,4 @@ gramma:
 
 distclean: clean
 	-rm -f DocPascalis.* LexPascalis.* ParPascalis.* LayoutPascalis.* SkelPascalis.* PrintPascalis.* TestPascalis.* AbsPascalis.* TestPascalis ErrM.* SharedString.* ComposOp.* Pascalis.dtd XMLPascalis.* Makefile*
-
 
