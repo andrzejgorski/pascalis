@@ -5,6 +5,7 @@ module Main where
 import System.IO ( stdin, hGetContents )
 import System.Environment ( getArgs, getProgName )
 import System.Exit ( exitFailure, exitSuccess )
+import System.Process
 
 import LexPascalis
 import ParPascalis
@@ -64,6 +65,7 @@ usage = do
     ]
   exitFailure
 
+
 main :: IO ()
 main = do
   args <- getArgs
@@ -72,8 +74,3 @@ main = do
     [] -> hGetContents stdin >>= run 2 pProgram
     "-s":fs -> mapM_ (runFile 0 pProgram) fs
     fs -> mapM_ (runFile 2 pProgram) fs
-
-
-
-
-

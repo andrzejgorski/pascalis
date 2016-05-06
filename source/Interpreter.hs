@@ -21,7 +21,7 @@ interpretStmts (h:t) = do {
   }
   where
     iStmt Skip           = return ()
-    iStmt (SPrint value) = putStrLn $ show $ interpretExp value
+    iStmt (SPrint value) = putStr $ show $ interpretExp value
 
 interpretProg (Prog _ _ stmts) = interpretStmts stmts
 
