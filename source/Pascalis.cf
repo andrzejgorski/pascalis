@@ -22,22 +22,33 @@
 	BFalse.  BExp ::= "falsum" ;
     BOr.     BExp ::= BExp "uel" BExp ;
     BAnd.    BExp ::= BExp "et" BExp ;
-	EBAss.   BExp ::= BExp "=" BExp ;
-	EBNAss.  BExp ::= BExp "<>" BExp ;
+	BAss.    BExp ::= BExp "=" BExp ;
+	BNAss.   BExp ::= BExp "<>" BExp ;
+
 	EAss.    BExp ::= Exp "=" Exp ;
 	ENAss.   BExp ::= Exp "<>" Exp ;
 	ELt.     BExp ::= Exp2 "<" Exp2 ;
 	EGt.     BExp ::= Exp2 ">" Exp2 ;
 	ELEt.    BExp ::= Exp2 "=<" Exp2 ;
 	EGEt.    BExp ::= Exp2 ">=" Exp2 ;
+
+	EChar.   CExp ::= Char ;
+	CAss.    BExp ::= CExp "=" CExp ;
+	CNAss.   BExp ::= CExp "<>" CExp ;
+	CLt.     BExp ::= CExp "<" CExp ;
+	CGt.     BExp ::= CExp ">" CExp ;
+	CLEt.    BExp ::= CExp "=<" CExp ;
+	CGEt.    BExp ::= CExp ">=" CExp ;
+
 	EAdd.    Exp2 ::= Exp2 "+" Exp3 ;
 	ESub.    Exp2 ::= Exp2 "-" Exp3 ;
 	EMul.    Exp3 ::= Exp3 "*" Exp4 ;
 	EDiv.    Exp3 ::= Exp3 "/" Exp4 ;
+
 	Call.    Exp4 ::= Ident "(" [Exp] ")" ;
 
-	EVar.    Exp4 ::= Ident ;
 	EStr.    Exp4 ::= String ;
+	EVar.    Exp4 ::= Ident ;
 	EInt.    Exp4 ::= Integer ;
 	EDouble. Exp4 ::= Double ;
 

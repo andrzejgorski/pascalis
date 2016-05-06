@@ -23,6 +23,10 @@ String literals //String// have the form
 except ``"`` unless preceded by ``\``.
 
 
+Character literals //Char// have the form
+``'``//c//``'``, where //c// is any single character.
+
+
 Integer literals //Integer// are nonempty sequences of digits.
 
 
@@ -46,8 +50,9 @@ The reserved words used in Pascalis are the following:
 The symbols used in Pascalis are the following:
   | ; | fini. | : | ,
   | ( | ) | = | <>
-  | < | > | + | -
-  | * | / | numeri integri | 
+  | < | > | =< | >=
+  | + | - | * | /
+  | numeri integri |  |  | 
 
 ===Comments===
 Single-line comments begin with //.Multiple-line comments are  enclosed with { and }.
@@ -86,6 +91,14 @@ All other symbols are terminals.
   |  |  **|**  | //Exp// ``<>`` //Exp// 
   |  |  **|**  | //Exp2// ``<`` //Exp2// 
   |  |  **|**  | //Exp2// ``>`` //Exp2// 
+  |  |  **|**  | //Exp2// ``=<`` //Exp2// 
+  |  |  **|**  | //Exp2// ``>=`` //Exp2// 
+  |  |  **|**  | //Exp// ``=`` //Exp// 
+  |  |  **|**  | //Exp// ``<>`` //Exp// 
+  |  |  **|**  | //Exp2// ``<`` //Exp2// 
+  |  |  **|**  | //Exp2// ``>`` //Exp2// 
+  |  |  **|**  | //Exp2// ``=<`` //Exp2// 
+  |  |  **|**  | //Exp2// ``>=`` //Exp2// 
   | //Exp2// | -> | //Exp2// ``+`` //Exp3// 
   |  |  **|**  | //Exp2// ``-`` //Exp3// 
   |  |  **|**  | //Exp3// 
@@ -95,6 +108,7 @@ All other symbols are terminals.
   | //Exp4// | -> | //Ident// ``(`` //[Exp]// ``)`` 
   |  |  **|**  | //Ident// 
   |  |  **|**  | //String// 
+  |  |  **|**  | //Char// 
   |  |  **|**  | //Integer// 
   |  |  **|**  | //Double// 
   |  |  **|**  | ``(`` //Exp// ``)`` 

@@ -3,6 +3,7 @@ module Interpreter where
 import AbsPascalis
 import PrintPascalis
 import ErrM
+import Data.Char
 
 -- interpret :: Exp -> Integer
 calcInt x = case x of
@@ -13,13 +14,16 @@ calcInt x = case x of
     EInt n  -> n
 
 
+calcChar (EChar c) = ord c
+
+
 calcBool exp = case exp of
     BTrue -> True
     BFalse -> False
     BAnd exp1 exp2 -> if calcBool exp1 then calcBool exp2 else False
     BOr exp1 exp2 -> if calcBool exp1 then True else calcBool exp2
-    EBAss exp1 exp2 -> calcBool exp1 == calcBool exp2
-    EBNAss exp1 exp2 -> calcBool exp1 /= calcBool exp2
+    BAss exp1 exp2 -> calcBool exp1 == calcBool exp2
+    BNAss exp1 exp2 -> calcBool exp1 /= calcBool exp2
 
     -- int expressions
     EAss exp1 exp2 -> calcInt exp1 == calcInt exp2
@@ -28,6 +32,15 @@ calcBool exp = case exp of
     EGt exp1 exp2 -> calcInt exp1 > calcInt exp2
     ELEt exp1 exp2 -> calcInt exp1 <= calcInt exp2
     EGEt exp1 exp2 -> calcInt exp1 >= calcInt exp2
+
+    -- char expressions
+    CAss exp1 exp2 -> calcChar exp1 == calcChar exp2
+    CNAss exp1 exp2 -> calcChar exp1 /= calcChar exp2
+    CLt exp1 exp2 -> calcChar exp1 < calcChar exp2
+    CGt exp1 exp2 -> calcChar exp1 > calcChar exp2
+    CLEt exp1 exp2 -> calcChar exp1 <= calcChar exp2
+    CGEt exp1 exp2 -> calcChar exp1 >= calcChar exp2
+
 
 -- interpretStmts :: [Stm] -> IO ()
 interpretStmts [] = return ()

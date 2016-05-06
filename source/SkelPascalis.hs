@@ -35,14 +35,23 @@ transBExp x = case x of
   BFalse -> failure x
   BOr bexp1 bexp2 -> failure x
   BAnd bexp1 bexp2 -> failure x
-  EBAss bexp1 bexp2 -> failure x
-  EBNAss bexp1 bexp2 -> failure x
+  BAss bexp1 bexp2 -> failure x
+  BNAss bexp1 bexp2 -> failure x
   EAss exp1 exp2 -> failure x
   ENAss exp1 exp2 -> failure x
   ELt exp1 exp2 -> failure x
   EGt exp1 exp2 -> failure x
   ELEt exp1 exp2 -> failure x
   EGEt exp1 exp2 -> failure x
+  CAss cexp1 cexp2 -> failure x
+  CNAss cexp1 cexp2 -> failure x
+  CLt cexp1 cexp2 -> failure x
+  CGt cexp1 cexp2 -> failure x
+  CLEt cexp1 cexp2 -> failure x
+  CGEt cexp1 cexp2 -> failure x
+transCExp :: CExp -> Result
+transCExp x = case x of
+  EChar char -> failure x
 transExp :: Exp -> Result
 transExp x = case x of
   EAdd exp1 exp2 -> failure x
@@ -50,8 +59,8 @@ transExp x = case x of
   EMul exp1 exp2 -> failure x
   EDiv exp1 exp2 -> failure x
   Call ident exps -> failure x
-  EVar ident -> failure x
   EStr string -> failure x
+  EVar ident -> failure x
   EInt integer -> failure x
   EDouble double -> failure x
 transType :: Type -> Result

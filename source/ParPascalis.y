@@ -15,6 +15,7 @@ import ErrM
 %name pListIdent ListIdent
 %name pStm Stm
 %name pBExp BExp
+%name pCExp CExp
 %name pExp2 Exp2
 %name pExp3 Exp3
 %name pExp4 Exp4
@@ -61,6 +62,7 @@ import ErrM
   'verum' { PT _ (TS _ 33) }
 
 L_ident  { PT _ (TV $$) }
+L_charac { PT _ (TC $$) }
 L_quoted { PT _ (TL $$) }
 L_integ  { PT _ (TI $$) }
 L_doubl  { PT _ (TD $$) }
@@ -69,6 +71,7 @@ L_doubl  { PT _ (TD $$) }
 %%
 
 Ident   :: { Ident }   : L_ident  { Ident $1 }
+Char    :: { Char }    : L_charac { (read ( $1)) :: Char }
 String  :: { String }  : L_quoted {  $1 }
 Integer :: { Integer } : L_integ  { (read ( $1)) :: Integer }
 Double  :: { Double }  : L_doubl  { (read ( $1)) :: Double }
@@ -100,14 +103,22 @@ BExp : 'verum' { AbsPascalis.BTrue }
      | 'falsum' { AbsPascalis.BFalse }
      | BExp 'uel' BExp { AbsPascalis.BOr $1 $3 }
      | BExp 'et' BExp { AbsPascalis.BAnd $1 $3 }
-     | BExp '=' BExp { AbsPascalis.EBAss $1 $3 }
-     | BExp '<>' BExp { AbsPascalis.EBNAss $1 $3 }
+     | BExp '=' BExp { AbsPascalis.BAss $1 $3 }
+     | BExp '<>' BExp { AbsPascalis.BNAss $1 $3 }
      | Exp '=' Exp { AbsPascalis.EAss $1 $3 }
      | Exp '<>' Exp { AbsPascalis.ENAss $1 $3 }
      | Exp2 '<' Exp2 { AbsPascalis.ELt $1 $3 }
      | Exp2 '>' Exp2 { AbsPascalis.EGt $1 $3 }
      | Exp2 '=<' Exp2 { AbsPascalis.ELEt $1 $3 }
      | Exp2 '>=' Exp2 { AbsPascalis.EGEt $1 $3 }
+     | CExp '=' CExp { AbsPascalis.CAss $1 $3 }
+     | CExp '<>' CExp { AbsPascalis.CNAss $1 $3 }
+     | CExp '<' CExp { AbsPascalis.CLt $1 $3 }
+     | CExp '>' CExp { AbsPascalis.CGt $1 $3 }
+     | CExp '=<' CExp { AbsPascalis.CLEt $1 $3 }
+     | CExp '>=' CExp { AbsPascalis.CGEt $1 $3 }
+CExp :: { CExp }
+CExp : Char { AbsPascalis.EChar $1 }
 Exp2 :: { Exp }
 Exp2 : Exp2 '+' Exp3 { AbsPascalis.EAdd $1 $3 }
      | Exp2 '-' Exp3 { AbsPascalis.ESub $1 $3 }
@@ -118,8 +129,8 @@ Exp3 : Exp3 '*' Exp4 { AbsPascalis.EMul $1 $3 }
      | Exp4 { $1 }
 Exp4 :: { Exp }
 Exp4 : Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
-     | Ident { AbsPascalis.EVar $1 }
      | String { AbsPascalis.EStr $1 }
+     | Ident { AbsPascalis.EVar $1 }
      | Integer { AbsPascalis.EInt $1 }
      | Double { AbsPascalis.EDouble $1 }
      | '(' Exp ')' { $2 }

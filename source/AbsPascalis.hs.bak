@@ -31,12 +31,20 @@ data BExp
     | BFalse
     | BOr BExp BExp
     | BAnd BExp BExp
-    | EBAss BExp BExp
-    | EBNAss BExp BExp
+    | BAss BExp BExp
+    | BNAss BExp BExp
     | EAss Exp Exp
     | ENAss Exp Exp
     | ELt Exp Exp
     | EGt Exp Exp
+    | ELEt Exp Exp
+    | EGEt Exp Exp
+    | CAss Exp Exp
+    | CNAss Exp Exp
+    | CLt Exp Exp
+    | CGt Exp Exp
+    | CLEt Exp Exp
+    | CGEt Exp Exp
   deriving (Eq, Ord, Show, Read)
 
 data Exp
@@ -47,6 +55,7 @@ data Exp
     | Call Ident [Exp]
     | EVar Ident
     | EStr String
+    | EChar Char
     | EInt Integer
     | EDouble Double
   deriving (Eq, Ord, Show, Read)

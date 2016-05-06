@@ -18,6 +18,10 @@ reserved words excluded.
 
 ===Literals===
 
+Character literals //Char// have the form
+``'``//c//``'``, where //c// is any single character.
+
+
 String literals //String// have the form
 ``"``//x//``"``}, where //x// is any sequence of any characters
 except ``"`` unless preceded by ``\``.
@@ -89,6 +93,13 @@ All other symbols are terminals.
   |  |  **|**  | //Exp2// ``>`` //Exp2// 
   |  |  **|**  | //Exp2// ``=<`` //Exp2// 
   |  |  **|**  | //Exp2// ``>=`` //Exp2// 
+  |  |  **|**  | //CExp// ``=`` //CExp// 
+  |  |  **|**  | //CExp// ``<>`` //CExp// 
+  |  |  **|**  | //CExp// ``<`` //CExp// 
+  |  |  **|**  | //CExp// ``>`` //CExp// 
+  |  |  **|**  | //CExp// ``=<`` //CExp// 
+  |  |  **|**  | //CExp// ``>=`` //CExp// 
+  | //CExp// | -> | //Char// 
   | //Exp2// | -> | //Exp2// ``+`` //Exp3// 
   |  |  **|**  | //Exp2// ``-`` //Exp3// 
   |  |  **|**  | //Exp3// 
@@ -96,8 +107,8 @@ All other symbols are terminals.
   |  |  **|**  | //Exp3// ``/`` //Exp4// 
   |  |  **|**  | //Exp4// 
   | //Exp4// | -> | //Ident// ``(`` //[Exp]// ``)`` 
-  |  |  **|**  | //Ident// 
   |  |  **|**  | //String// 
+  |  |  **|**  | //Ident// 
   |  |  **|**  | //Integer// 
   |  |  **|**  | //Double// 
   |  |  **|**  | ``(`` //Exp// ``)`` 

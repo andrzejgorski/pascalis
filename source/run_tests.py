@@ -40,6 +40,8 @@ OUTPUTS = {
     'test_le_false': "0",
     'test_ge_true': "1",
     'test_ge_false': "0",
+    'test_eq_char_false': "0",
+    'test_eq_char_true': "1",
 }
 
 
