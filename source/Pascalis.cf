@@ -58,3 +58,7 @@
 	separator Exp "," ;
 
     TInt.   Type ::= "numeri integri" ;
+    TBool.  Type ::= "logica booleana" ;
+    TStr.   Type ::= "titulus" ;
+    TChar.  Type ::= "litera" ;
+    TFunc.  Type ::= "functio" ;

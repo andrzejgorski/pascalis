@@ -52,20 +52,24 @@ import ErrM
   'falsum' { PT _ (TS _ 25) }
   'fini' { PT _ (TS _ 26) }
   'fini.' { PT _ (TS _ 27) }
-  'incipe' { PT _ (TS _ 28) }
-  'incribo' { PT _ (TS _ 29) }
-  'longitudo' { PT _ (TS _ 30) }
-  'non' { PT _ (TS _ 31) }
-  'numeri integri' { PT _ (TS _ 32) }
-  'ord' { PT _ (TS _ 33) }
-  'persulta' { PT _ (TS _ 34) }
-  'program' { PT _ (TS _ 35) }
-  'refer' { PT _ (TS _ 36) }
-  'si' { PT _ (TS _ 37) }
-  'tunc' { PT _ (TS _ 38) }
-  'uel' { PT _ (TS _ 39) }
-  'variabilis' { PT _ (TS _ 40) }
-  'verum' { PT _ (TS _ 41) }
+  'functio' { PT _ (TS _ 28) }
+  'incipe' { PT _ (TS _ 29) }
+  'incribo' { PT _ (TS _ 30) }
+  'litera' { PT _ (TS _ 31) }
+  'logica booleana' { PT _ (TS _ 32) }
+  'longitudo' { PT _ (TS _ 33) }
+  'non' { PT _ (TS _ 34) }
+  'numeri integri' { PT _ (TS _ 35) }
+  'ord' { PT _ (TS _ 36) }
+  'persulta' { PT _ (TS _ 37) }
+  'program' { PT _ (TS _ 38) }
+  'refer' { PT _ (TS _ 39) }
+  'si' { PT _ (TS _ 40) }
+  'titulus' { PT _ (TS _ 41) }
+  'tunc' { PT _ (TS _ 42) }
+  'uel' { PT _ (TS _ 43) }
+  'variabilis' { PT _ (TS _ 44) }
+  'verum' { PT _ (TS _ 45) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -148,6 +152,10 @@ ListExp : {- empty -} { [] }
         | Exp ',' ListExp { (:) $1 $3 }
 Type :: { Type }
 Type : 'numeri integri' { AbsPascalis.TInt }
+     | 'logica booleana' { AbsPascalis.TBool }
+     | 'titulus' { AbsPascalis.TStr }
+     | 'litera' { AbsPascalis.TChar }
+     | 'functio' { AbsPascalis.TFunc }
 {
 
 returnM :: a -> Err a

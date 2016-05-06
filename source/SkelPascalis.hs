@@ -62,4 +62,8 @@ transExp x = case x of
 transType :: Type -> Result
 transType x = case x of
   TInt -> failure x
+  TBool -> failure x
+  TStr -> failure x
+  TChar -> failure x
+  TFunc -> failure x
 

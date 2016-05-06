@@ -5,8 +5,32 @@ import PrintPascalis
 import ErrM
 import Data.Char
 
--- interpret :: Exp -> Integer
-calcInt :: Exp -> Integer
+import qualified Data.Map as M
+import Control.Monad.Reader
+import Data.Maybe(fromMaybe)
+import Control.Monad.State
+
+
+type Var = String
+type Loc = Int
+type Env = M.Map Var Loc
+type Store = M.Map Loc Exp
+type MRSIO a = ReaderT Env (StateT Store IO) a
+
+
+return_IO :: MRSIO ()
+return_IO = lift $ lift $ return ()
+
+putStr_IO :: String -> MRSIO ()
+putStr_IO s = lift $ lift $ putStr s
+
+askEnv :: MRSIO Env
+askEnv = ask
+
+getStore :: MRSIO Store
+getStore = lift $ get
+
+
 calcInt x = case x of
     EAdd exp0 exp  -> calcInt exp0 + calcInt exp
     ESub exp0 exp  -> calcInt exp0 - calcInt exp
@@ -21,38 +45,34 @@ calcExpInt exp = EInt $ calcInt exp
 calcChar (EChar c) = (EChar c)
 
 
-data EType = TEInt | TEChar | TEString | TEBool | TEFunc
-    deriving(Eq, Ord, Show, Read)
-
-
 getType exp = case exp of
-    BTrue       -> TEBool
-    BFalse      -> TEBool
+    BTrue       -> TBool
+    BFalse      -> TBool
 
-    EOr _ _     -> TEBool
-    EAnd _ _    -> TEBool
-    EAss _ _    -> TEBool
-    ENAss _ _   -> TEBool
-    ELt _ _     -> TEBool
-    EGt _ _     -> TEBool
-    ELEt _ _    -> TEBool
-    EGEt _ _    -> TEBool
+    EOr _ _     -> TBool
+    EAnd _ _    -> TBool
+    EAss _ _    -> TBool
+    ENAss _ _   -> TBool
+    ELt _ _     -> TBool
+    EGt _ _     -> TBool
+    ELEt _ _    -> TBool
+    EGEt _ _    -> TBool
 
     EAdd e _    -> getType e
-    ESub _ _    -> TEInt
-    EMul _ _    -> TEInt
-    EDiv _ _    -> TEInt
+    ESub _ _    -> TInt
+    EMul _ _    -> TInt
+    EDiv _ _    -> TInt
 
-    EInt _      -> TEInt
-    EStr _      -> TEString
-    EChar _     -> TEChar
-    EFSub _     -> TEString
-    ELSub _ _   -> TEString
-    ERSub _ _   -> TEString
-    ELRSub _ _ _-> TEString
-    EKey _ _    -> TEString
-    ELen _      -> TEFunc
-    EOrd _      -> TEFunc
+    EInt _      -> TInt
+    EChar _     -> TChar
+    EStr _      -> TStr
+    EFSub _     -> TStr
+    ELSub _ _   -> TStr
+    ERSub _ _   -> TStr
+    ELRSub _ _ _-> TStr
+    EKey _ _    -> TStr
+    ELen _      -> TFunc
+    EOrd _      -> TFunc
     -- TODO
     -- EVar     ->
 
@@ -121,11 +141,11 @@ calcFunc (EOrd (EChar c)) = EInt (toInteger $ ord c)
 
 
 getConverter t = case t of
-    TEBool      -> calcBool
-    TEInt       -> calcExpInt
-    TEChar      -> calcChar
-    TEString    -> calcString
-    TEFunc      -> calcFunc
+    TBool      -> calcBool
+    TInt       -> calcExpInt
+    TChar      -> calcChar
+    TStr       -> calcString
+    TFunc      -> calcFunc
 
 
 showExp (EInt i)    = show i
@@ -134,9 +154,12 @@ showExp (EChar s)   = [s]
 showExp BTrue       = "verum"
 showExp BFalse      = "falsum"
 
+iDecl :: Decl -> MRSIO ()
+iDecl (DVar ind t) = return_IO
 
-iStmt Skip           = return ()
-iStmt (SPrint value) = putStr $ showExp $ getConverter (getType value) value
+iStmt :: Stm -> MRSIO ()
+iStmt Skip           = return_IO
+iStmt (SPrint value) = putStr_IO $ showExp $ getConverter (getType value) value
 iStmt (SExp value)   = interSExp value
   where
     interSExp (Call (Ident "incribe") list) = printParams list
@@ -152,29 +175,25 @@ iStmt (SIfElse exp stm1 stm2) = if calcBool exp == BTrue then iStmt stm1 else iS
 
 
 -- interpretStmts :: [Stm] -> IO ()
-interpretStmts [] = return ()
+interpretStmts :: [Stm] -> MRSIO ()
+interpretStmts [] = return_IO
 interpretStmts (h:t) = do {
     iStmt h;
     interpretStmts t;
   }
 
-interpretProg (Prog _ _ stmts) = interpretStmts stmts
 
-
+interpretProg prog = runStateT (runReaderT (interpret_ prog) M.empty) M.empty
+  where
+    interpret_ :: Program -> MRSIO ()
+    interpret_ (Prog _ d i) = do {
+        interpretStmts i;
+    }
 
 
 -- module Interpreter where
--- import qualified Data.Map as M
--- import Control.Monad.Reader
--- import Data.Maybe(fromMaybe)
--- import Control.Monad.State
 -- 
 -- 
--- type Var = String
--- type Loc = Int
--- type Env = M.Map Var Loc
--- type Store = M.Map Loc Int
--- type SS a = StateT Store (Reader Env) a
 -- -- runStateT :: StateT s m a -> s -> m (a, s)
 -- -- evalStateT :: Monad m => StateT s m a -> s -> m a
 -- -- execStateT :: Monad m => StateT s m a -> s -> m s
@@ -259,7 +278,7 @@ interpretProg (Prog _ _ stmts) = interpretStmts stmts
 -- 
 -- -- stmtToStr :: Stmt -> String
 -- -- stmtToStr st = show $ execStateT (interpret st) M.empty
--- stmtToStr st = show $ runReader (execStateT (interpret st) M.empty) M.empty
+-- stmtToStr st = runReader (execStateT (interpret st) M.empty) M.empty
 -- 
 -- 
 -- -- type RR a = ReaderT Env (State Store) a
