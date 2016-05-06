@@ -6,11 +6,11 @@ import System.IO ( stdin, hGetContents )
 import System.Environment ( getArgs, getProgName )
 import System.Exit ( exitFailure, exitSuccess )
 
-import LexCalc
-import ParCalc
-import SkelCalc
-import PrintCalc
-import AbsCalc
+import LexPascalis
+import ParPascalis
+import SkelPascalis
+import PrintPascalis
+import AbsPascalis
 
 
 
@@ -26,10 +26,10 @@ type Verbosity = Int
 putStrV :: Verbosity -> String -> IO ()
 putStrV v s = if v > 1 then putStrLn s else return ()
 
-runFile :: (Print a, Show a) => Verbosity -> ParseFun a -> FilePath -> IO ()
+-- runFile :: (Print a, Show a) => Verbosity -> ParseFun a -> FilePath -> IO ()
 runFile v p f = putStrLn f >> readFile f >>= run v p
 
-run :: (Print a, Show a) => Verbosity -> ParseFun a -> String -> IO ()
+-- run :: (Print a, Show a) => Verbosity -> ParseFun a -> String -> IO ()
 run v p s = let ts = myLLexer s in case p ts of
            Bad s    -> do putStrLn "\nParse              Failed...\n"
                           putStrV v "Tokens:"
@@ -64,9 +64,9 @@ main = do
   args <- getArgs
   case args of
     ["--help"] -> usage
-    [] -> hGetContents stdin >>= run 2 pExp
-    "-s":fs -> mapM_ (runFile 0 pExp) fs
-    fs -> mapM_ (runFile 2 pExp) fs
+    [] -> hGetContents stdin >>= run 2 pProgram
+    "-s":fs -> mapM_ (runFile 0 pProgram) fs
+    fs -> mapM_ (runFile 2 pProgram) fs
 
 
 

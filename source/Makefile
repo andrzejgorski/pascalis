@@ -1,12 +1,12 @@
 all:
-	happy -gca ParCalc.y
-	alex -g LexCalc.x
-	ghc --make TestCalc.hs -o TestCalc
+	happy -gca ParPascalis.y
+	alex -g LexPascalis.x
+	ghc --make TestPascalis.hs -o TestPascalis
 
 clean:
 	-rm -f *.log *.aux *.hi *.o *.dvi
 
 distclean: clean
-	-rm -f DocCalc.* LexCalc.* ParCalc.* LayoutCalc.* SkelCalc.* PrintCalc.* TestCalc.* AbsCalc.* TestCalc ErrM.* SharedString.* ComposOp.* Calc.dtd XMLCalc.* Makefile*
+	-rm -f DocPascalis.* LexPascalis.* ParPascalis.* LayoutPascalis.* SkelPascalis.* PrintPascalis.* TestPascalis.* AbsPascalis.* TestPascalis ErrM.* SharedString.* ComposOp.* Pascalis.dtd XMLPascalis.* Makefile*
 	
 

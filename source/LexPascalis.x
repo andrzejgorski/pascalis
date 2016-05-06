@@ -3,7 +3,7 @@
 {
 {-# OPTIONS -fno-warn-incomplete-patterns #-}
 {-# OPTIONS_GHC -w #-}
-module LexCalc where
+module LexPascalis where
 
 
 
@@ -20,18 +20,19 @@ $i = [$l $d _ ']          -- identifier character
 $u = [\0-\255]          -- universal: any character
 
 @rsyms =    -- symbols and non-identifier-like reserved words
-   \+ | \- | \* | \/ | \( | \)
+   \; | "fini" \. | \: | \, | \( | \) | \= | \< | \+ | \- | \* | "numeri" \  "integri"
 
 :-
+"//" [.]* ; -- Toss single line comments
 
 $white+ ;
 @rsyms { tok (\p s -> PT p (eitherResIdent (TV . share) s)) }
 
 $l $i*   { tok (\p s -> PT p (eitherResIdent (TV . share) s)) }
-
+\" ([$u # [\" \\ \n]] | (\\ (\" | \\ | \' | n | t)))* \"{ tok (\p s -> PT p (TL $ share $ unescapeInitTail s)) }
 
 $d+      { tok (\p s -> PT p (TI $ share s))    }
-
+$d+ \. $d+ (e (\-)? $d+)? { tok (\p s -> PT p (TD $ share s)) }
 
 {
 
@@ -95,7 +96,7 @@ eitherResIdent tv s = treeFind resWords
                               | s == a = t
 
 resWords :: BTree
-resWords = b "+" 4 (b ")" 2 (b "(" 1 N N) (b "*" 3 N N)) (b "/" 6 (b "-" 5 N N) N)
+resWords = b "donec" 11 (b "-" 6 (b "*" 3 (b ")" 2 (b "(" 1 N N) N) (b "," 5 (b "+" 4 N N) N)) (b "<" 9 (b ";" 8 (b ":" 7 N N) N) (b "=" 10 N N))) (b "numeri integri" 17 (b "fini." 14 (b "fini" 13 (b "fac" 12 N N) N) (b "incribo" 16 (b "incipe" 15 N N) N)) (b "refer" 20 (b "program" 19 (b "persulta" 18 N N) N) (b "variabilis" 21 N N)))
    where b s n = let bs = id s
                   in B bs (TS bs n)
 
