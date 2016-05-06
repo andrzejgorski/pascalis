@@ -1,0 +1,5 @@
+program printFalse;
+
+incipe
+    incribo(falsum);
+fini.

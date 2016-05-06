@@ -1,0 +1,9 @@
+program eq_strings;
+
+incipe
+    si "lol" = "lol" tunc
+        incribe(1);
+    alter
+        incribe(0);
+    persulta;
+fini.

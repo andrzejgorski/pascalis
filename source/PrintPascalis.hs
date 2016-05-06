@@ -98,8 +98,8 @@ instance Print Stm where
   prt i e = case e of
     Skip -> prPrec i 0 (concatD [doc (showString "persulta"), doc (showString ";")])
     SPrint exp -> prPrec i 0 (concatD [doc (showString "incribo"), doc (showString "("), prt 0 exp, doc (showString ")"), doc (showString ";")])
-    SIf bexp stm -> prPrec i 0 (concatD [doc (showString "si"), prt 0 bexp, doc (showString "tunc"), prt 0 stm])
-    SIfElse bexp stm1 stm2 -> prPrec i 0 (concatD [doc (showString "si"), prt 0 bexp, doc (showString "tunc"), prt 0 stm1, doc (showString "alter"), prt 0 stm2])
+    SIf exp stm -> prPrec i 0 (concatD [doc (showString "si"), prt 0 exp, doc (showString "tunc"), prt 0 stm])
+    SIfElse exp stm1 stm2 -> prPrec i 0 (concatD [doc (showString "si"), prt 0 exp, doc (showString "tunc"), prt 0 stm1, doc (showString "alter"), prt 0 stm2])
     SDecl decl -> prPrec i 0 (concatD [prt 0 decl, doc (showString ";")])
     SExp exp -> prPrec i 0 (concatD [prt 0 exp, doc (showString ";")])
     SBlock stms -> prPrec i 0 (concatD [doc (showString "incipe"), prt 0 stms, doc (showString "fini")])
@@ -107,39 +107,26 @@ instance Print Stm where
     SReturn exp -> prPrec i 0 (concatD [doc (showString "refer"), prt 0 exp, doc (showString ";")])
   prtList _ [] = (concatD [])
   prtList _ (x:xs) = (concatD [prt 0 x, prt 0 xs])
-instance Print BExp where
+instance Print Exp where
   prt i e = case e of
     BTrue -> prPrec i 0 (concatD [doc (showString "verum")])
     BFalse -> prPrec i 0 (concatD [doc (showString "falsum")])
-    BOr bexp1 bexp2 -> prPrec i 0 (concatD [prt 0 bexp1, doc (showString "uel"), prt 0 bexp2])
-    BAnd bexp1 bexp2 -> prPrec i 0 (concatD [prt 0 bexp1, doc (showString "et"), prt 0 bexp2])
-    BAss bexp1 bexp2 -> prPrec i 0 (concatD [prt 0 bexp1, doc (showString "="), prt 0 bexp2])
-    BNAss bexp1 bexp2 -> prPrec i 0 (concatD [prt 0 bexp1, doc (showString "<>"), prt 0 bexp2])
+    BNot exp -> prPrec i 0 (concatD [doc (showString "non"), prt 0 exp])
+    EOr exp1 exp2 -> prPrec i 0 (concatD [prt 0 exp1, doc (showString "uel"), prt 0 exp2])
+    EAnd exp1 exp2 -> prPrec i 0 (concatD [prt 0 exp1, doc (showString "et"), prt 0 exp2])
     EAss exp1 exp2 -> prPrec i 0 (concatD [prt 0 exp1, doc (showString "="), prt 0 exp2])
     ENAss exp1 exp2 -> prPrec i 0 (concatD [prt 0 exp1, doc (showString "<>"), prt 0 exp2])
     ELt exp1 exp2 -> prPrec i 0 (concatD [prt 2 exp1, doc (showString "<"), prt 2 exp2])
     EGt exp1 exp2 -> prPrec i 0 (concatD [prt 2 exp1, doc (showString ">"), prt 2 exp2])
     ELEt exp1 exp2 -> prPrec i 0 (concatD [prt 2 exp1, doc (showString "=<"), prt 2 exp2])
     EGEt exp1 exp2 -> prPrec i 0 (concatD [prt 2 exp1, doc (showString ">="), prt 2 exp2])
-    CAss cexp1 cexp2 -> prPrec i 0 (concatD [prt 0 cexp1, doc (showString "="), prt 0 cexp2])
-    CNAss cexp1 cexp2 -> prPrec i 0 (concatD [prt 0 cexp1, doc (showString "<>"), prt 0 cexp2])
-    CLt cexp1 cexp2 -> prPrec i 0 (concatD [prt 0 cexp1, doc (showString "<"), prt 0 cexp2])
-    CGt cexp1 cexp2 -> prPrec i 0 (concatD [prt 0 cexp1, doc (showString ">"), prt 0 cexp2])
-    CLEt cexp1 cexp2 -> prPrec i 0 (concatD [prt 0 cexp1, doc (showString "=<"), prt 0 cexp2])
-    CGEt cexp1 cexp2 -> prPrec i 0 (concatD [prt 0 cexp1, doc (showString ">="), prt 0 cexp2])
-
-instance Print CExp where
-  prt i e = case e of
-    EChar c -> prPrec i 0 (concatD [prt 0 c])
-
-instance Print Exp where
-  prt i e = case e of
     EAdd exp1 exp2 -> prPrec i 2 (concatD [prt 2 exp1, doc (showString "+"), prt 3 exp2])
     ESub exp1 exp2 -> prPrec i 2 (concatD [prt 2 exp1, doc (showString "-"), prt 3 exp2])
     EMul exp1 exp2 -> prPrec i 3 (concatD [prt 3 exp1, doc (showString "*"), prt 4 exp2])
     EDiv exp1 exp2 -> prPrec i 3 (concatD [prt 3 exp1, doc (showString "/"), prt 4 exp2])
     Call id exps -> prPrec i 4 (concatD [prt 0 id, doc (showString "("), prt 0 exps, doc (showString ")")])
     EStr str -> prPrec i 4 (concatD [prt 0 str])
+    EChar c -> prPrec i 4 (concatD [prt 0 c])
     EVar id -> prPrec i 4 (concatD [prt 0 id])
     EInt n -> prPrec i 4 (concatD [prt 0 n])
     EDouble d -> prPrec i 4 (concatD [prt 0 d])

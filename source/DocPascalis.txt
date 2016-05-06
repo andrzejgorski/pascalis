@@ -18,13 +18,13 @@ reserved words excluded.
 
 ===Literals===
 
-Character literals //Char// have the form
-``'``//c//``'``, where //c// is any single character.
-
-
 String literals //String// have the form
 ``"``//x//``"``}, where //x// is any sequence of any characters
 except ``"`` unless preceded by ``\``.
+
+
+Character literals //Char// have the form
+``'``//c//``'``, where //c// is any single character.
 
 
 Integer literals //Integer// are nonempty sequences of digits.
@@ -44,8 +44,9 @@ The set of reserved words is the set of terminals appearing in the grammar. Thos
 The reserved words used in Pascalis are the following:
   | ``alter`` | ``donec`` | ``et`` | ``fac``
   | ``falsum`` | ``fini`` | ``incipe`` | ``incribo``
-  | ``persulta`` | ``program`` | ``refer`` | ``si``
-  | ``tunc`` | ``uel`` | ``variabilis`` | ``verum``
+  | ``non`` | ``persulta`` | ``program`` | ``refer``
+  | ``si`` | ``tunc`` | ``uel`` | ``variabilis``
+  | ``verum`` |  |  | 
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | ,
@@ -74,32 +75,25 @@ All other symbols are terminals.
   |  |  **|**  | //Ident// ``,`` //[Ident]// 
   | //Stm// | -> | ``persulta`` ``;`` 
   |  |  **|**  | ``incribo`` ``(`` //Exp// ``)`` ``;`` 
-  |  |  **|**  | ``si`` //BExp// ``tunc`` //Stm// 
-  |  |  **|**  | ``si`` //BExp// ``tunc`` //Stm// ``alter`` //Stm// 
+  |  |  **|**  | ``si`` //Exp// ``tunc`` //Stm// 
+  |  |  **|**  | ``si`` //Exp// ``tunc`` //Stm// ``alter`` //Stm// 
   |  |  **|**  | //Decl// ``;`` 
   |  |  **|**  | //Exp// ``;`` 
   |  |  **|**  | ``incipe`` //[Stm]// ``fini`` 
   |  |  **|**  | ``donec`` //Exp// ``fac`` //Stm// 
   |  |  **|**  | ``refer`` //Exp// ``;`` 
-  | //BExp// | -> | ``verum`` 
+  | //Exp// | -> | ``verum`` 
   |  |  **|**  | ``falsum`` 
-  |  |  **|**  | //BExp// ``uel`` //BExp// 
-  |  |  **|**  | //BExp// ``et`` //BExp// 
-  |  |  **|**  | //BExp// ``=`` //BExp// 
-  |  |  **|**  | //BExp// ``<>`` //BExp// 
+  |  |  **|**  | ``non`` //Exp// 
+  |  |  **|**  | //Exp// ``uel`` //Exp// 
+  |  |  **|**  | //Exp// ``et`` //Exp// 
   |  |  **|**  | //Exp// ``=`` //Exp// 
   |  |  **|**  | //Exp// ``<>`` //Exp// 
   |  |  **|**  | //Exp2// ``<`` //Exp2// 
   |  |  **|**  | //Exp2// ``>`` //Exp2// 
   |  |  **|**  | //Exp2// ``=<`` //Exp2// 
   |  |  **|**  | //Exp2// ``>=`` //Exp2// 
-  |  |  **|**  | //CExp// ``=`` //CExp// 
-  |  |  **|**  | //CExp// ``<>`` //CExp// 
-  |  |  **|**  | //CExp// ``<`` //CExp// 
-  |  |  **|**  | //CExp// ``>`` //CExp// 
-  |  |  **|**  | //CExp// ``=<`` //CExp// 
-  |  |  **|**  | //CExp// ``>=`` //CExp// 
-  | //CExp// | -> | //Char// 
+  |  |  **|**  | //Exp1// 
   | //Exp2// | -> | //Exp2// ``+`` //Exp3// 
   |  |  **|**  | //Exp2// ``-`` //Exp3// 
   |  |  **|**  | //Exp3// 
@@ -108,11 +102,11 @@ All other symbols are terminals.
   |  |  **|**  | //Exp4// 
   | //Exp4// | -> | //Ident// ``(`` //[Exp]// ``)`` 
   |  |  **|**  | //String// 
+  |  |  **|**  | //Char// 
   |  |  **|**  | //Ident// 
   |  |  **|**  | //Integer// 
   |  |  **|**  | //Double// 
   |  |  **|**  | ``(`` //Exp// ``)`` 
-  | //Exp// | -> | //Exp1// 
   | //Exp1// | -> | //Exp2// 
   | //[Exp]// | -> | **eps**
   |  |  **|**  | //Exp// 

@@ -96,7 +96,7 @@ eitherResIdent tv s = treeFind resWords
                               | s == a = t
 
 resWords :: BTree
-resWords = b "donec" 17 (b ";" 9 (b "," 5 (b "*" 3 (b ")" 2 (b "(" 1 N N) N) (b "+" 4 N N)) (b "/" 7 (b "-" 6 N N) (b ":" 8 N N))) (b "=<" 13 (b "<>" 11 (b "<" 10 N N) (b "=" 12 N N)) (b ">=" 15 (b ">" 14 N N) (b "alter" 16 N N)))) (b "persulta" 26 (b "fini." 22 (b "falsum" 20 (b "fac" 19 (b "et" 18 N N) N) (b "fini" 21 N N)) (b "incribo" 24 (b "incipe" 23 N N) (b "numeri integri" 25 N N))) (b "tunc" 30 (b "refer" 28 (b "program" 27 N N) (b "si" 29 N N)) (b "variabilis" 32 (b "uel" 31 N N) (b "verum" 33 N N))))
+resWords = b "et" 18 (b ";" 9 (b "," 5 (b "*" 3 (b ")" 2 (b "(" 1 N N) N) (b "+" 4 N N)) (b "/" 7 (b "-" 6 N N) (b ":" 8 N N))) (b ">" 14 (b "=" 12 (b "<>" 11 (b "<" 10 N N) N) (b "=<" 13 N N)) (b "alter" 16 (b ">=" 15 N N) (b "donec" 17 N N)))) (b "persulta" 27 (b "incipe" 23 (b "fini" 21 (b "falsum" 20 (b "fac" 19 N N) N) (b "fini." 22 N N)) (b "non" 25 (b "incribo" 24 N N) (b "numeri integri" 26 N N))) (b "tunc" 31 (b "refer" 29 (b "program" 28 N N) (b "si" 30 N N)) (b "variabilis" 33 (b "uel" 32 N N) (b "verum" 34 N N))))
    where b s n = let bs = id s
                   in B bs (TS bs n)
 

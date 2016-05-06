@@ -10,35 +10,26 @@
 
     Skip.    Stm ::= "persulta" ";" ;
     SPrint.  Stm ::= "incribo" "(" Exp ")" ";" ;
-    SIf.     Stm ::= "si" BExp "tunc" Stm ;
-    SIfElse. Stm ::= "si" BExp "tunc" Stm "alter" Stm;
+    SIf.     Stm ::= "si" Exp "tunc" Stm ;
+    SIfElse. Stm ::= "si" Exp "tunc" Stm "alter" Stm;
 	SDecl.   Stm ::= Decl ";"  ;
 	SExp.    Stm ::= Exp ";" ;
 	SBlock.  Stm ::= "incipe" [Stm] "fini" ;
 	SWhile.  Stm ::= "donec" Exp "fac" Stm ;
 	SReturn. Stm ::= "refer" Exp ";" ;
 
-	BTrue.   BExp ::= "verum" ;
-	BFalse.  BExp ::= "falsum" ;
-    BOr.     BExp ::= BExp "uel" BExp ;
-    BAnd.    BExp ::= BExp "et" BExp ;
-	BAss.    BExp ::= BExp "=" BExp ;
-	BNAss.   BExp ::= BExp "<>" BExp ;
+	BTrue.   Exp ::= "verum" ;
+	BFalse.  Exp ::= "falsum" ;
+	BNot.    Exp ::= "non" Exp ;
 
-	EAss.    BExp ::= Exp "=" Exp ;
-	ENAss.   BExp ::= Exp "<>" Exp ;
-	ELt.     BExp ::= Exp2 "<" Exp2 ;
-	EGt.     BExp ::= Exp2 ">" Exp2 ;
-	ELEt.    BExp ::= Exp2 "=<" Exp2 ;
-	EGEt.    BExp ::= Exp2 ">=" Exp2 ;
-
-	EChar.   CExp ::= Char ;
-	CAss.    BExp ::= CExp "=" CExp ;
-	CNAss.   BExp ::= CExp "<>" CExp ;
-	CLt.     BExp ::= CExp "<" CExp ;
-	CGt.     BExp ::= CExp ">" CExp ;
-	CLEt.    BExp ::= CExp "=<" CExp ;
-	CGEt.    BExp ::= CExp ">=" CExp ;
+    EOr.     Exp ::= Exp "uel" Exp ;
+    EAnd.    Exp ::= Exp "et" Exp ;
+	EAss.    Exp ::= Exp "=" Exp ;
+	ENAss.   Exp ::= Exp "<>" Exp ;
+	ELt.     Exp ::= Exp2 "<" Exp2 ;
+	EGt.     Exp ::= Exp2 ">" Exp2 ;
+	ELEt.    Exp ::= Exp2 "=<" Exp2 ;
+	EGEt.    Exp ::= Exp2 ">=" Exp2 ;
 
 	EAdd.    Exp2 ::= Exp2 "+" Exp3 ;
 	ESub.    Exp2 ::= Exp2 "-" Exp3 ;
@@ -48,6 +39,7 @@
 	Call.    Exp4 ::= Ident "(" [Exp] ")" ;
 
 	EStr.    Exp4 ::= String ;
+	EChar.   Exp4 ::= Char ;
 	EVar.    Exp4 ::= Ident ;
 	EInt.    Exp4 ::= Integer ;
 	EDouble. Exp4 ::= Double ;

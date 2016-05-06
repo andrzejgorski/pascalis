@@ -42,6 +42,11 @@ OUTPUTS = {
     'test_ge_false': "0",
     'test_eq_char_false': "0",
     'test_eq_char_true': "1",
+    'test_eq_string_true': "1",
+    'test_print_string': "printed string",
+    'test_print_char': 'c',
+    'test_print_true': 'verum',
+    'test_print_false': 'falsum',
 }
 
 

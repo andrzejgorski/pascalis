@@ -1,0 +1,5 @@
+program printString;
+
+incipe
+    incribo("printed string");
+fini.

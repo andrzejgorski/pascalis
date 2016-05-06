@@ -1,0 +1,5 @@
+program printChar;
+
+incipe
+    incribo('c');
+fini.

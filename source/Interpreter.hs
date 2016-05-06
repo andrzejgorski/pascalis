@@ -6,6 +6,7 @@ import ErrM
 import Data.Char
 
 -- interpret :: Exp -> Integer
+calcInt :: Exp -> Integer
 calcInt x = case x of
     EAdd exp0 exp  -> calcInt exp0 + calcInt exp
     ESub exp0 exp  -> calcInt exp0 - calcInt exp
@@ -14,32 +15,108 @@ calcInt x = case x of
     EInt n  -> n
 
 
-calcChar (EChar c) = ord c
+calcExpInt exp = EInt $ calcInt exp
 
+calcChar (EChar c) = (EChar c)
+
+data EType = TEInt | TEChar | TEString | TEBool
+    deriving(Eq, Ord, Show, Read)
+
+getType exp = case exp of
+    BTrue       -> TEBool
+    BFalse      -> TEBool
+
+    EOr _ _     -> TEBool
+    EAnd _ _    -> TEBool
+    EAss _ _    -> TEBool
+    ENAss _ _   -> TEBool
+    ELt _ _     -> TEBool
+    EGt _ _     -> TEBool
+    ELEt _ _    -> TEBool
+    EGEt _ _    -> TEBool
+
+    EAdd _ _    -> TEInt
+    ESub _ _    -> TEInt
+    EMul _ _    -> TEInt
+    EDiv _ _    -> TEInt
+
+    EInt _      -> TEInt
+    EStr _      -> TEString
+    EChar _     -> TEChar
+    -- TODO
+    -- EVar     ->
+
+calcString (EStr s) = EStr s
 
 calcBool exp = case exp of
-    BTrue -> True
-    BFalse -> False
-    BAnd exp1 exp2 -> if calcBool exp1 then calcBool exp2 else False
-    BOr exp1 exp2 -> if calcBool exp1 then True else calcBool exp2
-    BAss exp1 exp2 -> calcBool exp1 == calcBool exp2
-    BNAss exp1 exp2 -> calcBool exp1 /= calcBool exp2
 
-    -- int expressions
-    EAss exp1 exp2 -> calcInt exp1 == calcInt exp2
-    ENAss exp1 exp2 -> calcInt exp1 /= calcInt exp2
-    ELt exp1 exp2 -> calcInt exp1 < calcInt exp2
-    EGt exp1 exp2 -> calcInt exp1 > calcInt exp2
-    ELEt exp1 exp2 -> calcInt exp1 <= calcInt exp2
-    EGEt exp1 exp2 -> calcInt exp1 >= calcInt exp2
+    -- bool expressions
+    BTrue           -> BTrue
+    BFalse          -> BFalse
+    BNot v          -> if calcBool v == BTrue then
+                            BFalse
+                       else
+                            BTrue
 
-    -- char expressions
-    CAss exp1 exp2 -> calcChar exp1 == calcChar exp2
-    CNAss exp1 exp2 -> calcChar exp1 /= calcChar exp2
-    CLt exp1 exp2 -> calcChar exp1 < calcChar exp2
-    CGt exp1 exp2 -> calcChar exp1 > calcChar exp2
-    CLEt exp1 exp2 -> calcChar exp1 <= calcChar exp2
-    CGEt exp1 exp2 -> calcChar exp1 >= calcChar exp2
+    EAnd exp1 exp2  -> if calcBool exp1 == BTrue then
+                            calcBool exp2
+                       else
+                            BFalse
+
+    EOr exp1 exp2   -> if calcBool exp1 == BTrue then
+                            BTrue
+                       else
+                            calcBool exp2
+
+    EAss exp1 exp2  -> calcConvered (==) exp1 exp2
+    ENAss exp1 exp2 -> calcConvered (/=) exp1 exp2
+    ELt exp1 exp2   -> calcConvered (<)  exp1 exp2
+    EGt exp1 exp2   -> calcConvered (>)  exp1 exp2
+    ELEt exp1 exp2  -> calcConvered (<=) exp1 exp2
+    EGEt exp1 exp2  -> calcConvered (>=) exp1 exp2
+  where
+    calcConvered func exp1 exp2 = let {
+            t1 = getType exp1;
+            t2 = getType exp2;
+            converter = getConverter t1;
+        }
+        in if t1 == t2 then
+            if func (converter exp1) (converter exp2) then
+                BTrue
+            else
+                BFalse
+        else
+            -- TODO handle errors
+            BFalse
+
+
+getConverter t = case t of
+    TEBool      -> calcBool
+    TEInt       -> calcExpInt
+    TEChar      -> calcChar
+    TEString    -> calcString
+
+showExp (EInt i)    = show i
+showExp (EStr s)    = s
+showExp (EChar s)   = [s]
+showExp BTrue       = "verum"
+showExp BFalse      = "falsum"
+
+
+iStmt Skip           = return ()
+iStmt (SPrint value) = putStr $ showExp $ getConverter (getType value) value
+iStmt (SExp value)   = interSExp value
+  where
+    interSExp (Call (Ident "incribe") list) = printParams list
+      where
+        printParams [] = return ()
+        printParams (h:t) = do{iStmt (SPrint h); printParams t}
+
+iStmt (SIf exp stm)  = if calcBool exp == BTrue then iStmt stm else return ()
+
+
+iStmt (SIfElse exp stm1 stm2) = if calcBool exp == BTrue then iStmt stm1 else iStmt stm2
+
 
 
 -- interpretStmts :: [Stm] -> IO ()
@@ -48,11 +125,6 @@ interpretStmts (h:t) = do {
     iStmt h;
     interpretStmts t;
   }
-  where
-    iStmt Skip           = return ()
-    iStmt (SPrint value) = putStr $ show $ calcInt value
-    iStmt (SIf bexp stm) = if calcBool bexp then iStmt stm else return ()
-    iStmt (SIfElse bexp stm1 stm2) = if calcBool bexp then iStmt stm1 else iStmt stm2
 
 interpretProg (Prog _ _ stmts) = interpretStmts stmts
 
@@ -60,7 +132,6 @@ interpretProg (Prog _ _ stmts) = interpretStmts stmts
 
 
 -- module Interpreter where
--- 
 -- import qualified Data.Map as M
 -- import Control.Monad.Reader
 -- import Data.Maybe(fromMaybe)

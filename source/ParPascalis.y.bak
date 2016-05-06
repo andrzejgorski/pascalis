@@ -14,11 +14,10 @@ import ErrM
 %name pListDecl ListDecl
 %name pListIdent ListIdent
 %name pStm Stm
-%name pBExp BExp
+%name pExp Exp
 %name pExp2 Exp2
 %name pExp3 Exp3
 %name pExp4 Exp4
-%name pExp Exp
 %name pExp1 Exp1
 %name pListExp ListExp
 %name pType Type
@@ -90,32 +89,25 @@ ListIdent : Ident { (:[]) $1 } | Ident ',' ListIdent { (:) $1 $3 }
 Stm :: { Stm }
 Stm : 'persulta' ';' { AbsPascalis.Skip }
     | 'incribo' '(' Exp ')' ';' { AbsPascalis.SPrint $3 }
-    | 'si' BExp 'tunc' Stm { AbsPascalis.SIf $2 $4 }
-    | 'si' BExp 'tunc' Stm 'alter' Stm { AbsPascalis.SIfElse $2 $4 $6 }
+    | 'si' Exp 'tunc' Stm { AbsPascalis.SIf $2 $4 }
+    | 'si' Exp 'tunc' Stm 'alter' Stm { AbsPascalis.SIfElse $2 $4 $6 }
     | Decl ';' { AbsPascalis.SDecl $1 }
     | Exp ';' { AbsPascalis.SExp $1 }
     | 'incipe' ListStm 'fini' { AbsPascalis.SBlock (reverse $2) }
     | 'donec' Exp 'fac' Stm { AbsPascalis.SWhile $2 $4 }
     | 'refer' Exp ';' { AbsPascalis.SReturn $2 }
-BExp :: { BExp }
-BExp : 'verum' { AbsPascalis.BTrue }
-     | 'falsum' { AbsPascalis.BFalse }
-     | BExp 'uel' BExp { AbsPascalis.BOr $1 $3 }
-     | BExp 'et' BExp { AbsPascalis.BAnd $1 $3 }
-     | BExp '=' BExp { AbsPascalis.BAss $1 $3 }
-     | BExp '<>' BExp { AbsPascalis.BNAss $1 $3 }
-     | Exp '=' Exp { AbsPascalis.EAss $1 $3 }
-     | Exp '<>' Exp { AbsPascalis.ENAss $1 $3 }
-     | Exp2 '<' Exp2 { AbsPascalis.ELt $1 $3 }
-     | Exp2 '>' Exp2 { AbsPascalis.EGt $1 $3 }
-     | Exp2 '=<' Exp2 { AbsPascalis.ELEt $1 $3 }
-     | Exp2 '>=' Exp2 { AbsPascalis.EGEt $1 $3 }
-     | Exp '=' Exp { AbsPascalis.CAss $1 $3 }
-     | Exp '<>' Exp { AbsPascalis.CNAss $1 $3 }
-     | Exp2 '<' Exp2 { AbsPascalis.CLt $1 $3 }
-     | Exp2 '>' Exp2 { AbsPascalis.CGt $1 $3 }
-     | Exp2 '=<' Exp2 { AbsPascalis.CLEt $1 $3 }
-     | Exp2 '>=' Exp2 { AbsPascalis.CGEt $1 $3 }
+Exp :: { Exp }
+Exp : 'verum' { AbsPascalis.BTrue }
+    | 'falsum' { AbsPascalis.BFalse }
+    | Exp 'uel' Exp { AbsPascalis.EOr $1 $3 }
+    | Exp 'et' Exp { AbsPascalis.EAnd $1 $3 }
+    | Exp '=' Exp { AbsPascalis.EAss $1 $3 }
+    | Exp '<>' Exp { AbsPascalis.ENAss $1 $3 }
+    | Exp2 '<' Exp2 { AbsPascalis.ELt $1 $3 }
+    | Exp2 '>' Exp2 { AbsPascalis.EGt $1 $3 }
+    | Exp2 '=<' Exp2 { AbsPascalis.ELEt $1 $3 }
+    | Exp2 '>=' Exp2 { AbsPascalis.EGEt $1 $3 }
+    | Exp1 { $1 }
 Exp2 :: { Exp }
 Exp2 : Exp2 '+' Exp3 { AbsPascalis.EAdd $1 $3 }
      | Exp2 '-' Exp3 { AbsPascalis.ESub $1 $3 }
@@ -126,14 +118,12 @@ Exp3 : Exp3 '*' Exp4 { AbsPascalis.EMul $1 $3 }
      | Exp4 { $1 }
 Exp4 :: { Exp }
 Exp4 : Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
-     | Ident { AbsPascalis.EVar $1 }
      | String { AbsPascalis.EStr $1 }
      | Char { AbsPascalis.EChar $1 }
+     | Ident { AbsPascalis.EVar $1 }
      | Integer { AbsPascalis.EInt $1 }
      | Double { AbsPascalis.EDouble $1 }
      | '(' Exp ')' { $2 }
-Exp :: { Exp }
-Exp : Exp1 { $1 }
 Exp1 :: { Exp }
 Exp1 : Exp2 { $1 }
 ListExp :: { [Exp] }
