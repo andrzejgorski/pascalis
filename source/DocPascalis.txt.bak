@@ -45,8 +45,7 @@ The reserved words used in Pascalis are the following:
 The symbols used in Pascalis are the following:
   | ; | fini. | : | ,
   | ( | ) | = | <
-  | + | - | * | /
-  | numeri integri |  |  | 
+  | + | - | * | numeri integri
 
 ===Comments===
 Single-line comments begin with //.Multiple-line comments are  enclosed with { and }.
@@ -81,7 +80,6 @@ All other symbols are terminals.
   |  |  **|**  | //Exp2// ``-`` //Exp3// 
   |  |  **|**  | //Exp3// 
   | //Exp3// | -> | //Exp3// ``*`` //Exp4// 
-  |  |  **|**  | //Exp3// ``/`` //Exp4// 
   |  |  **|**  | //Exp4// 
   | //Exp4// | -> | //Ident// ``(`` //[Exp]// ``)`` 
   |  |  **|**  | //Ident// 

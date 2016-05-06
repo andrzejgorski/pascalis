@@ -31,22 +31,21 @@ import ErrM
   '+' { PT _ (TS _ 4) }
   ',' { PT _ (TS _ 5) }
   '-' { PT _ (TS _ 6) }
-  '/' { PT _ (TS _ 7) }
-  ':' { PT _ (TS _ 8) }
-  ';' { PT _ (TS _ 9) }
-  '<' { PT _ (TS _ 10) }
-  '=' { PT _ (TS _ 11) }
-  'donec' { PT _ (TS _ 12) }
-  'fac' { PT _ (TS _ 13) }
-  'fini' { PT _ (TS _ 14) }
-  'fini.' { PT _ (TS _ 15) }
-  'incipe' { PT _ (TS _ 16) }
-  'incribo' { PT _ (TS _ 17) }
-  'numeri integri' { PT _ (TS _ 18) }
-  'persulta' { PT _ (TS _ 19) }
-  'program' { PT _ (TS _ 20) }
-  'refer' { PT _ (TS _ 21) }
-  'variabilis' { PT _ (TS _ 22) }
+  ':' { PT _ (TS _ 7) }
+  ';' { PT _ (TS _ 8) }
+  '<' { PT _ (TS _ 9) }
+  '=' { PT _ (TS _ 10) }
+  'donec' { PT _ (TS _ 11) }
+  'fac' { PT _ (TS _ 12) }
+  'fini' { PT _ (TS _ 13) }
+  'fini.' { PT _ (TS _ 14) }
+  'incipe' { PT _ (TS _ 15) }
+  'incribo' { PT _ (TS _ 16) }
+  'numeri integri' { PT _ (TS _ 17) }
+  'persulta' { PT _ (TS _ 18) }
+  'program' { PT _ (TS _ 19) }
+  'refer' { PT _ (TS _ 20) }
+  'variabilis' { PT _ (TS _ 21) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -90,9 +89,7 @@ Exp2 : Exp2 '+' Exp3 { AbsPascalis.EAdd $1 $3 }
      | Exp2 '-' Exp3 { AbsPascalis.ESub $1 $3 }
      | Exp3 { $1 }
 Exp3 :: { Exp }
-Exp3 : Exp3 '*' Exp4 { AbsPascalis.EMul $1 $3 }
-     | Exp3 '/' Exp4 { AbsPascalis.EDiv $1 $3 }
-     | Exp4 { $1 }
+Exp3 : Exp3 '*' Exp4 { AbsPascalis.EMul $1 $3 } | Exp4 { $1 }
 Exp4 :: { Exp }
 Exp4 : Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
      | Ident { AbsPascalis.EVar $1 }

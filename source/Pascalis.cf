@@ -21,6 +21,7 @@
 	EAdd.    Exp2 ::= Exp2 "+" Exp3 ;
 	ESub.    Exp2 ::= Exp2 "-" Exp3 ;
 	EMul.    Exp3 ::= Exp3 "*" Exp4 ;
+	EDiv.    Exp3 ::= Exp3 "/" Exp4 ;
 	Call.    Exp4 ::= Ident "(" [Exp] ")" ;
 
 	EVar.    Exp4 ::= Ident ;

@@ -34,7 +34,6 @@ transExp x = case x of
   EAdd exp1 exp2 -> failure x
   ESub exp1 exp2 -> failure x
   EMul exp1 exp2 -> failure x
-  EDiv exp1 exp2 -> failure x
   Call ident exps -> failure x
   EVar ident -> failure x
   EStr string -> failure x

@@ -2,3 +2,4 @@
 
 bnfc -m -haskell Pascalis.cf
 mv TestPascalis.hs.bak TestPascalis.hs
+mv Makefile.bak Makefile

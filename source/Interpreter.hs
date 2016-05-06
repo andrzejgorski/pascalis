@@ -1,19 +1,29 @@
 module Interpreter where
 
-import AbsCalc
-import PrintCalc
+import AbsPascalis
+import PrintPascalis
 import ErrM
 
-interpret :: Exp -> Integer
-interpret x = case x of
-  EAdd exp0 exp  -> interpret exp0 + interpret exp
-  ESub exp0 exp  -> interpret exp0 - interpret exp
-  EMul exp0 exp  -> interpret exp0 * interpret exp
-  EDiv exp0 exp  -> interpret exp0 `div` interpret exp
-  EInt n  -> n
+-- interpret :: Exp -> Integer
+interpretExp x = case x of
+    EAdd exp0 exp  -> interpretExp exp0 + interpretExp exp
+    ESub exp0 exp  -> interpretExp exp0 - interpretExp exp
+    EMul exp0 exp  -> interpretExp exp0 * interpretExp exp
+    EDiv exp0 exp  -> interpretExp exp0 `div` interpretExp exp
+    EInt n  -> n
 
-interpretM :: Err Exp -> Integer
-interpretM (Ok exp) = interpret exp
+
+-- interpretStmts :: [Stm] -> IO ()
+interpretStmts [] = return ()
+interpretStmts (h:t) = do {
+    iStmt h;
+    interpretStmts t;
+  }
+  where
+    iStmt Skip           = return ()
+    iStmt (SPrint value) = putStrLn $ show $ interpretExp value
+
+interpretProg (Prog _ _ stmts) = interpretStmts stmts
 
 
 
