@@ -54,16 +54,18 @@ import ErrM
   'fini.' { PT _ (TS _ 27) }
   'incipe' { PT _ (TS _ 28) }
   'incribo' { PT _ (TS _ 29) }
-  'non' { PT _ (TS _ 30) }
-  'numeri integri' { PT _ (TS _ 31) }
-  'persulta' { PT _ (TS _ 32) }
-  'program' { PT _ (TS _ 33) }
-  'refer' { PT _ (TS _ 34) }
-  'si' { PT _ (TS _ 35) }
-  'tunc' { PT _ (TS _ 36) }
-  'uel' { PT _ (TS _ 37) }
-  'variabilis' { PT _ (TS _ 38) }
-  'verum' { PT _ (TS _ 39) }
+  'longitudo' { PT _ (TS _ 30) }
+  'non' { PT _ (TS _ 31) }
+  'numeri integri' { PT _ (TS _ 32) }
+  'ord' { PT _ (TS _ 33) }
+  'persulta' { PT _ (TS _ 34) }
+  'program' { PT _ (TS _ 35) }
+  'refer' { PT _ (TS _ 36) }
+  'si' { PT _ (TS _ 37) }
+  'tunc' { PT _ (TS _ 38) }
+  'uel' { PT _ (TS _ 39) }
+  'variabilis' { PT _ (TS _ 40) }
+  'verum' { PT _ (TS _ 41) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -110,6 +112,9 @@ Exp : 'verum' { AbsPascalis.BTrue }
     | Exp '[' Exp ':]' { AbsPascalis.ELSub $1 $3 }
     | Exp '[:' Exp ']' { AbsPascalis.ERSub $1 $3 }
     | Exp '[' Exp ':' Exp ']' { AbsPascalis.ELRSub $1 $3 $5 }
+    | Exp '[' Exp ']' { AbsPascalis.EKey $1 $3 }
+    | 'longitudo' '(' Exp ')' { AbsPascalis.ELen $3 }
+    | 'ord' '(' Exp ')' { AbsPascalis.EOrd $3 }
     | Exp 'uel' Exp { AbsPascalis.EOr $1 $3 }
     | Exp 'et' Exp { AbsPascalis.EAnd $1 $3 }
     | Exp '=' Exp { AbsPascalis.EAss $1 $3 }

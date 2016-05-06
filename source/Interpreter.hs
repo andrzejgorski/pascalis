@@ -21,7 +21,7 @@ calcExpInt exp = EInt $ calcInt exp
 calcChar (EChar c) = (EChar c)
 
 
-data EType = TEInt | TEChar | TEString | TEBool
+data EType = TEInt | TEChar | TEString | TEBool | TEFunc
     deriving(Eq, Ord, Show, Read)
 
 
@@ -50,6 +50,9 @@ getType exp = case exp of
     ELSub _ _   -> TEString
     ERSub _ _   -> TEString
     ELRSub _ _ _-> TEString
+    EKey _ _    -> TEString
+    ELen _      -> TEFunc
+    EOrd _      -> TEFunc
     -- TODO
     -- EVar     ->
 
@@ -68,6 +71,7 @@ calcString str = case str of
         left = simint l;
         right = simint r - left;
     } in EStr ((take right) $ drop left s)
+    EKey (EStr s) l     -> EChar $ head $ drop (simint l) s
 
 
 calcBool exp = case exp of
@@ -112,11 +116,16 @@ calcBool exp = case exp of
             BFalse
 
 
+calcFunc (ELen (EStr s)) = EInt (toInteger $ length s)
+calcFunc (EOrd (EChar c)) = EInt (toInteger $ ord c)
+
+
 getConverter t = case t of
     TEBool      -> calcBool
     TEInt       -> calcExpInt
     TEChar      -> calcChar
     TEString    -> calcString
+    TEFunc      -> calcFunc
 
 
 showExp (EInt i)    = show i

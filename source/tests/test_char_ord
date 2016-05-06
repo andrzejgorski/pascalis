@@ -1,0 +1,5 @@
+program ord_test;
+
+incipe
+    incribo(ord('c'));
+fini.

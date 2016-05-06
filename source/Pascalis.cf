@@ -23,10 +23,13 @@
 	BFalse.  Exp ::= "falsum" ;
 	BNot.    Exp ::= "non" Exp ;
 
-	EFSub.   Exp ::= Exp "[:]";
-	ELSub.   Exp ::= Exp "[" Exp ":]";
-	ERSub.   Exp ::= Exp "[:" Exp "]";
-	ELRSub.  Exp ::= Exp "[" Exp ":" Exp "]";
+	EFSub.   Exp ::= Exp "[:]" ;
+	ELSub.   Exp ::= Exp "[" Exp ":]" ;
+	ERSub.   Exp ::= Exp "[:" Exp "]" ;
+	ELRSub.  Exp ::= Exp "[" Exp ":" Exp "]" ;
+	EKey.    Exp ::= Exp "[" Exp "]" ;
+	ELen.    Exp ::= "longitudo" "(" Exp ")" ;
+	EOrd.    Exp ::= "ord" "(" Exp ")" ;
 
     EOr.     Exp ::= Exp "uel" Exp ;
     EAnd.    Exp ::= Exp "et" Exp ;

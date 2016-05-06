@@ -34,6 +34,9 @@ data Exp
     | ELSub Exp Exp
     | ERSub Exp Exp
     | ELRSub Exp Exp Exp
+    | EKey Exp Exp
+    | ELen Exp
+    | EOrd Exp
     | EOr Exp Exp
     | EAnd Exp Exp
     | EAss Exp Exp

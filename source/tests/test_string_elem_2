@@ -1,0 +1,5 @@
+program pr;
+
+incipe
+    incribo("janusz"[2]);
+fini.

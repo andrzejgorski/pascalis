@@ -38,6 +38,9 @@ transExp x = case x of
   ELSub exp1 exp2 -> failure x
   ERSub exp1 exp2 -> failure x
   ELRSub exp1 exp2 exp3 -> failure x
+  EKey exp1 exp2 -> failure x
+  ELen exp -> failure x
+  EOrd exp -> failure x
   EOr exp1 exp2 -> failure x
   EAnd exp1 exp2 -> failure x
   EAss exp1 exp2 -> failure x

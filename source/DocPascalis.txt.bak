@@ -44,13 +44,14 @@ The set of reserved words is the set of terminals appearing in the grammar. Thos
 The reserved words used in Pascalis are the following:
   | ``alter`` | ``donec`` | ``et`` | ``fac``
   | ``falsum`` | ``fini`` | ``incipe`` | ``incribo``
-  | ``non`` | ``persulta`` | ``program`` | ``refer``
-  | ``si`` | ``tunc`` | ``uel`` | ``variabilis``
-  | ``verum`` |  |  | 
+  | ``longitudo`` | ``non`` | ``persulta`` | ``program``
+  | ``refer`` | ``si`` | ``tunc`` | ``uel``
+  | ``variabilis`` | ``verum`` |  | 
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | ,
-  | ( | ) | [:] | =
+  | ( | ) | [:] | [
+  | :] | [: | ] | =
   | <> | < | > | =<
   | >= | + | - | *
   | / | numeri integri |  | 
@@ -86,6 +87,11 @@ All other symbols are terminals.
   |  |  **|**  | ``falsum`` 
   |  |  **|**  | ``non`` //Exp// 
   |  |  **|**  | //Exp// ``[:]`` 
+  |  |  **|**  | //Exp// ``[`` //Exp// ``:]`` 
+  |  |  **|**  | //Exp// ``[:`` //Exp// ``]`` 
+  |  |  **|**  | //Exp// ``[`` //Exp// ``:`` //Exp// ``]`` 
+  |  |  **|**  | //Exp// ``[`` //Exp// ``]`` 
+  |  |  **|**  | ``longitudo`` ``(`` //Exp// ``)`` 
   |  |  **|**  | //Exp// ``uel`` //Exp// 
   |  |  **|**  | //Exp// ``et`` //Exp// 
   |  |  **|**  | //Exp// ``=`` //Exp// 

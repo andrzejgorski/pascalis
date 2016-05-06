@@ -55,6 +55,11 @@ OUTPUTS = {
     'test_python_str_left_right': 'ut ou',
     'test_python_str_left_1': 'ut out',
     'test_python_str_right_6': 'cut ou',
+    'test_string_elem': 'j',
+    'test_string_elem_2': 'n',
+    'test_string_length_0': '0',
+    'test_string_length_6': '6',
+    'test_char_ord': '99',
 }
 
 
