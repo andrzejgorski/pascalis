@@ -1,0 +1,6 @@
+program if;
+
+incipe
+    si verum tunc
+        incribo(1);
+fini.

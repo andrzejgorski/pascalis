@@ -1,0 +1,8 @@
+program test_if_el_false;
+
+incipe
+    si 1 <> 2 tunc
+        incribo(1);
+    alter
+        incribo(0);
+fini.

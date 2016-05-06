@@ -22,15 +22,27 @@ transStm :: Stm -> Result
 transStm x = case x of
   Skip -> failure x
   SPrint exp -> failure x
+  SIf bexp stm -> failure x
+  SIfElse bexp stm1 stm2 -> failure x
   SDecl decl -> failure x
   SExp exp -> failure x
   SBlock stms -> failure x
   SWhile exp stm -> failure x
   SReturn exp -> failure x
+transBExp :: BExp -> Result
+transBExp x = case x of
+  BTrue -> failure x
+  BFalse -> failure x
+  BOr bexp1 bexp2 -> failure x
+  BAnd bexp1 bexp2 -> failure x
+  EBAss bexp1 bexp2 -> failure x
+  EBNAss bexp1 bexp2 -> failure x
+  EAss exp1 exp2 -> failure x
+  ENAss exp1 exp2 -> failure x
+  ELt exp1 exp2 -> failure x
+  EGt exp1 exp2 -> failure x
 transExp :: Exp -> Result
 transExp x = case x of
-  EAss ident exp -> failure x
-  ELt exp1 exp2 -> failure x
   EAdd exp1 exp2 -> failure x
   ESub exp1 exp2 -> failure x
   EMul exp1 exp2 -> failure x

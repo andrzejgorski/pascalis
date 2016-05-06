@@ -14,11 +14,12 @@ import ErrM
 %name pListDecl ListDecl
 %name pListIdent ListIdent
 %name pStm Stm
-%name pExp Exp
-%name pExp1 Exp1
+%name pBExp BExp
 %name pExp2 Exp2
 %name pExp3 Exp3
 %name pExp4 Exp4
+%name pExp Exp
+%name pExp1 Exp1
 %name pListExp ListExp
 %name pType Type
 -- no lexer declaration
@@ -35,18 +36,27 @@ import ErrM
   ':' { PT _ (TS _ 8) }
   ';' { PT _ (TS _ 9) }
   '<' { PT _ (TS _ 10) }
-  '=' { PT _ (TS _ 11) }
-  'donec' { PT _ (TS _ 12) }
-  'fac' { PT _ (TS _ 13) }
-  'fini' { PT _ (TS _ 14) }
-  'fini.' { PT _ (TS _ 15) }
-  'incipe' { PT _ (TS _ 16) }
-  'incribo' { PT _ (TS _ 17) }
-  'numeri integri' { PT _ (TS _ 18) }
-  'persulta' { PT _ (TS _ 19) }
-  'program' { PT _ (TS _ 20) }
-  'refer' { PT _ (TS _ 21) }
-  'variabilis' { PT _ (TS _ 22) }
+  '<>' { PT _ (TS _ 11) }
+  '=' { PT _ (TS _ 12) }
+  '>' { PT _ (TS _ 13) }
+  'alter' { PT _ (TS _ 14) }
+  'donec' { PT _ (TS _ 15) }
+  'et' { PT _ (TS _ 16) }
+  'fac' { PT _ (TS _ 17) }
+  'falsum' { PT _ (TS _ 18) }
+  'fini' { PT _ (TS _ 19) }
+  'fini.' { PT _ (TS _ 20) }
+  'incipe' { PT _ (TS _ 21) }
+  'incribo' { PT _ (TS _ 22) }
+  'numeri integri' { PT _ (TS _ 23) }
+  'persulta' { PT _ (TS _ 24) }
+  'program' { PT _ (TS _ 25) }
+  'refer' { PT _ (TS _ 26) }
+  'si' { PT _ (TS _ 27) }
+  'tunc' { PT _ (TS _ 28) }
+  'uel' { PT _ (TS _ 29) }
+  'variabilis' { PT _ (TS _ 30) }
+  'verum' { PT _ (TS _ 31) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -76,15 +86,24 @@ ListIdent : Ident { (:[]) $1 } | Ident ',' ListIdent { (:) $1 $3 }
 Stm :: { Stm }
 Stm : 'persulta' ';' { AbsPascalis.Skip }
     | 'incribo' '(' Exp ')' ';' { AbsPascalis.SPrint $3 }
+    | 'si' BExp 'tunc' Stm { AbsPascalis.SIf $2 $4 }
+    | 'si' BExp 'tunc' Stm 'alter' Stm { AbsPascalis.SIfElse $2 $4 $6 }
     | Decl ';' { AbsPascalis.SDecl $1 }
     | Exp ';' { AbsPascalis.SExp $1 }
     | 'incipe' ListStm 'fini' { AbsPascalis.SBlock (reverse $2) }
     | 'donec' Exp 'fac' Stm { AbsPascalis.SWhile $2 $4 }
     | 'refer' Exp ';' { AbsPascalis.SReturn $2 }
-Exp :: { Exp }
-Exp : Ident '=' Exp { AbsPascalis.EAss $1 $3 } | Exp1 { $1 }
-Exp1 :: { Exp }
-Exp1 : Exp2 '<' Exp2 { AbsPascalis.ELt $1 $3 } | Exp2 { $1 }
+BExp :: { BExp }
+BExp : 'verum' { AbsPascalis.BTrue }
+     | 'falsum' { AbsPascalis.BFalse }
+     | BExp 'uel' BExp { AbsPascalis.BOr $1 $3 }
+     | BExp 'et' BExp { AbsPascalis.BAnd $1 $3 }
+     | BExp '=' BExp { AbsPascalis.EBAss $1 $3 }
+     | BExp '<>' BExp { AbsPascalis.EBNAss $1 $3 }
+     | Exp '=' Exp { AbsPascalis.EAss $1 $3 }
+     | Exp '<>' Exp { AbsPascalis.ENAss $1 $3 }
+     | Exp2 '<' Exp2 { AbsPascalis.ELt $1 $3 }
+     | Exp2 '>' Exp2 { AbsPascalis.EGt $1 $3 }
 Exp2 :: { Exp }
 Exp2 : Exp2 '+' Exp3 { AbsPascalis.EAdd $1 $3 }
      | Exp2 '-' Exp3 { AbsPascalis.ESub $1 $3 }
@@ -100,6 +119,10 @@ Exp4 : Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
      | Integer { AbsPascalis.EInt $1 }
      | Double { AbsPascalis.EDouble $1 }
      | '(' Exp ')' { $2 }
+Exp :: { Exp }
+Exp : Exp1 { $1 }
+Exp1 :: { Exp }
+Exp1 : Exp2 { $1 }
 ListExp :: { [Exp] }
 ListExp : {- empty -} { [] }
         | Exp { (:[]) $1 }

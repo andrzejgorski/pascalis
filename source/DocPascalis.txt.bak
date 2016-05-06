@@ -38,14 +38,16 @@ followed by an unsigned or negative exponent.
 The set of reserved words is the set of terminals appearing in the grammar. Those reserved words that consist of non-letter characters are called symbols, and they are treated in a different way from those that are similar to identifiers. The lexer follows rules familiar from languages like Haskell, C, and Java, including longest match and spacing conventions.
 
 The reserved words used in Pascalis are the following:
-  | ``donec`` | ``fac`` | ``fini`` | ``incipe``
-  | ``incribo`` | ``persulta`` | ``program`` | ``refer``
-  | ``variabilis`` |  |  | 
+  | ``alter`` | ``donec`` | ``fac`` | ``falsum``
+  | ``fini`` | ``incipe`` | ``incribo`` | ``persulta``
+  | ``program`` | ``refer`` | ``si`` | ``tunc``
+  | ``variabilis`` | ``verum`` |  | 
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | ,
-  | ( | ) | = | <
-  | + | - | * | numeri integri
+  | ( | ) | = | <>
+  | < | > | + | -
+  | * | / | numeri integri | 
 
 ===Comments===
 Single-line comments begin with //.Multiple-line comments are  enclosed with { and }.
@@ -67,19 +69,26 @@ All other symbols are terminals.
   |  |  **|**  | //Ident// ``,`` //[Ident]// 
   | //Stm// | -> | ``persulta`` ``;`` 
   |  |  **|**  | ``incribo`` ``(`` //Exp// ``)`` ``;`` 
+  |  |  **|**  | ``si`` //BExp// ``tunc`` //Stm// 
+  |  |  **|**  | ``si`` //BExp// ``tunc`` //Stm// ``alter`` //Stm// 
   |  |  **|**  | //Decl// ``;`` 
   |  |  **|**  | //Exp// ``;`` 
   |  |  **|**  | ``incipe`` //[Stm]// ``fini`` 
   |  |  **|**  | ``donec`` //Exp// ``fac`` //Stm// 
   |  |  **|**  | ``refer`` //Exp// ``;`` 
-  | //Exp// | -> | //Ident// ``=`` //Exp// 
-  |  |  **|**  | //Exp1// 
-  | //Exp1// | -> | //Exp2// ``<`` //Exp2// 
-  |  |  **|**  | //Exp2// 
+  | //BExp// | -> | ``verum`` 
+  |  |  **|**  | ``falsum`` 
+  |  |  **|**  | //BExp// ``=`` //BExp// 
+  |  |  **|**  | //BExp// ``<>`` //BExp// 
+  |  |  **|**  | //Exp// ``=`` //Exp// 
+  |  |  **|**  | //Exp// ``<>`` //Exp// 
+  |  |  **|**  | //Exp2// ``<`` //Exp2// 
+  |  |  **|**  | //Exp2// ``>`` //Exp2// 
   | //Exp2// | -> | //Exp2// ``+`` //Exp3// 
   |  |  **|**  | //Exp2// ``-`` //Exp3// 
   |  |  **|**  | //Exp3// 
   | //Exp3// | -> | //Exp3// ``*`` //Exp4// 
+  |  |  **|**  | //Exp3// ``/`` //Exp4// 
   |  |  **|**  | //Exp4// 
   | //Exp4// | -> | //Ident// ``(`` //[Exp]// ``)`` 
   |  |  **|**  | //Ident// 
@@ -87,6 +96,8 @@ All other symbols are terminals.
   |  |  **|**  | //Integer// 
   |  |  **|**  | //Double// 
   |  |  **|**  | ``(`` //Exp// ``)`` 
+  | //Exp// | -> | //Exp1// 
+  | //Exp1// | -> | //Exp2// 
   | //[Exp]// | -> | **eps**
   |  |  **|**  | //Exp// 
   |  |  **|**  | //Exp// ``,`` //[Exp]// 

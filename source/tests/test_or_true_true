@@ -1,0 +1,8 @@
+program test_if;
+
+incipe
+    si verum uel verum tunc
+        incribo(1);
+    alter
+        incribo(0);
+fini.

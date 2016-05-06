@@ -5,13 +5,27 @@ import PrintPascalis
 import ErrM
 
 -- interpret :: Exp -> Integer
-interpretExp x = case x of
-    EAdd exp0 exp  -> interpretExp exp0 + interpretExp exp
-    ESub exp0 exp  -> interpretExp exp0 - interpretExp exp
-    EMul exp0 exp  -> interpretExp exp0 * interpretExp exp
-    EDiv exp0 exp  -> interpretExp exp0 `div` interpretExp exp
+calcInt x = case x of
+    EAdd exp0 exp  -> calcInt exp0 + calcInt exp
+    ESub exp0 exp  -> calcInt exp0 - calcInt exp
+    EMul exp0 exp  -> calcInt exp0 * calcInt exp
+    EDiv exp0 exp  -> calcInt exp0 `div` calcInt exp
     EInt n  -> n
 
+
+calcBool exp = case exp of
+    BTrue -> True
+    BFalse -> False
+    BAnd exp1 exp2 -> if calcBool exp1 then calcBool exp2 else False
+    BOr exp1 exp2 -> if calcBool exp1 then True else calcBool exp2
+    EBAss exp1 exp2 -> calcBool exp1 == calcBool exp2
+    EBNAss exp1 exp2 -> calcBool exp1 /= calcBool exp2
+    EAss exp1 exp2 -> calcInt exp1 == calcInt exp2
+    ENAss exp1 exp2 -> calcInt exp1 /= calcInt exp2
+
+    EAss exp1 exp2 -> calcInt exp1 == calcInt exp2
+    ELt exp1 exp2 -> calcInt exp1 < calcInt exp2
+    EGt exp1 exp2 -> calcInt exp1 > calcInt exp2
 
 -- interpretStmts :: [Stm] -> IO ()
 interpretStmts [] = return ()
@@ -21,7 +35,9 @@ interpretStmts (h:t) = do {
   }
   where
     iStmt Skip           = return ()
-    iStmt (SPrint value) = putStr $ show $ interpretExp value
+    iStmt (SPrint value) = putStr $ show $ calcInt value
+    iStmt (SIf bexp stm) = if calcBool bexp then iStmt stm else return ()
+    iStmt (SIfElse bexp stm1 stm2) = if calcBool bexp then iStmt stm1 else iStmt stm2
 
 interpretProg (Prog _ _ stmts) = interpretStmts stmts
 

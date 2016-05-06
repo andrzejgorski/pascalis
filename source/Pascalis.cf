@@ -10,14 +10,24 @@
 
     Skip.    Stm ::= "persulta" ";" ;
     SPrint.  Stm ::= "incribo" "(" Exp ")" ";" ;
+    SIf.     Stm ::= "si" BExp "tunc" Stm ;
+    SIfElse. Stm ::= "si" BExp "tunc" Stm "alter" Stm;
 	SDecl.   Stm ::= Decl ";"  ;
 	SExp.    Stm ::= Exp ";" ;
 	SBlock.  Stm ::= "incipe" [Stm] "fini" ;
 	SWhile.  Stm ::= "donec" Exp "fac" Stm ;
 	SReturn. Stm ::= "refer" Exp ";" ;
 
-	EAss.    Exp  ::= Ident "=" Exp ;
-	ELt.     Exp1 ::= Exp2 "<" Exp2 ;
+	BTrue.   BExp ::= "verum" ;
+	BFalse.  BExp ::= "falsum" ;
+    BOr.     BExp ::= BExp "uel" BExp ;
+    BAnd.    BExp ::= BExp "et" BExp ;
+	EBAss.   BExp ::= BExp "=" BExp ;
+	EBNAss.  BExp ::= BExp "<>" BExp ;
+	EAss.    BExp ::= Exp "=" Exp ;
+	ENAss.   BExp ::= Exp "<>" Exp ;
+	ELt.     BExp ::= Exp2 "<" Exp2 ;
+	EGt.     BExp ::= Exp2 ">" Exp2 ;
 	EAdd.    Exp2 ::= Exp2 "+" Exp3 ;
 	ESub.    Exp2 ::= Exp2 "-" Exp3 ;
 	EMul.    Exp3 ::= Exp3 "*" Exp4 ;

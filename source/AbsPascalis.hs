@@ -17,6 +17,8 @@ data Decl = DVar Ident Type
 data Stm
     = Skip
     | SPrint Exp
+    | SIf BExp Stm
+    | SIfElse BExp Stm Stm
     | SDecl Decl
     | SExp Exp
     | SBlock [Stm]
@@ -24,10 +26,21 @@ data Stm
     | SReturn Exp
   deriving (Eq, Ord, Show, Read)
 
-data Exp
-    = EAss Ident Exp
+data BExp
+    = BTrue
+    | BFalse
+    | BOr BExp BExp
+    | BAnd BExp BExp
+    | EBAss BExp BExp
+    | EBNAss BExp BExp
+    | EAss Exp Exp
+    | ENAss Exp Exp
     | ELt Exp Exp
-    | EAdd Exp Exp
+    | EGt Exp Exp
+  deriving (Eq, Ord, Show, Read)
+
+data Exp
+    = EAdd Exp Exp
     | ESub Exp Exp
     | EMul Exp Exp
     | EDiv Exp Exp

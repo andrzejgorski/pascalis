@@ -1,0 +1,6 @@
+program if_false;
+
+incipe
+    si falsum tunc
+        incribo(1);
+fini.
