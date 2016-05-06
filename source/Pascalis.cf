@@ -28,6 +28,8 @@
 	ENAss.   BExp ::= Exp "<>" Exp ;
 	ELt.     BExp ::= Exp2 "<" Exp2 ;
 	EGt.     BExp ::= Exp2 ">" Exp2 ;
+	ELEt.    BExp ::= Exp2 "=<" Exp2 ;
+	EGEt.    BExp ::= Exp2 ">=" Exp2 ;
 	EAdd.    Exp2 ::= Exp2 "+" Exp3 ;
 	ESub.    Exp2 ::= Exp2 "-" Exp3 ;
 	EMul.    Exp3 ::= Exp3 "*" Exp4 ;

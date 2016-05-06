@@ -20,12 +20,14 @@ calcBool exp = case exp of
     BOr exp1 exp2 -> if calcBool exp1 then True else calcBool exp2
     EBAss exp1 exp2 -> calcBool exp1 == calcBool exp2
     EBNAss exp1 exp2 -> calcBool exp1 /= calcBool exp2
+
+    -- int expressions
     EAss exp1 exp2 -> calcInt exp1 == calcInt exp2
     ENAss exp1 exp2 -> calcInt exp1 /= calcInt exp2
-
-    EAss exp1 exp2 -> calcInt exp1 == calcInt exp2
     ELt exp1 exp2 -> calcInt exp1 < calcInt exp2
     EGt exp1 exp2 -> calcInt exp1 > calcInt exp2
+    ELEt exp1 exp2 -> calcInt exp1 <= calcInt exp2
+    EGEt exp1 exp2 -> calcInt exp1 >= calcInt exp2
 
 -- interpretStmts :: [Stm] -> IO ()
 interpretStmts [] = return ()

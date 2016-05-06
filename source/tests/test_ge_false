@@ -1,0 +1,8 @@
+program test_if;
+
+incipe
+    si 3 =< 2 tunc
+        incribo(1);
+    alter
+        incribo(0);
+fini.

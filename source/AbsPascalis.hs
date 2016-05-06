@@ -37,6 +37,8 @@ data BExp
     | ENAss Exp Exp
     | ELt Exp Exp
     | EGt Exp Exp
+    | ELEt Exp Exp
+    | EGEt Exp Exp
   deriving (Eq, Ord, Show, Read)
 
 data Exp

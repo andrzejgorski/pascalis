@@ -29,6 +29,8 @@ data Stm
 data BExp
     = BTrue
     | BFalse
+    | BOr BExp BExp
+    | BAnd BExp BExp
     | EBAss BExp BExp
     | EBNAss BExp BExp
     | EAss Exp Exp

@@ -33,6 +33,8 @@ transBExp :: BExp -> Result
 transBExp x = case x of
   BTrue -> failure x
   BFalse -> failure x
+  BOr bexp1 bexp2 -> failure x
+  BAnd bexp1 bexp2 -> failure x
   EBAss bexp1 bexp2 -> failure x
   EBNAss bexp1 bexp2 -> failure x
   EAss exp1 exp2 -> failure x

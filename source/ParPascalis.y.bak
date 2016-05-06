@@ -41,20 +41,22 @@ import ErrM
   '>' { PT _ (TS _ 13) }
   'alter' { PT _ (TS _ 14) }
   'donec' { PT _ (TS _ 15) }
-  'fac' { PT _ (TS _ 16) }
-  'falsum' { PT _ (TS _ 17) }
-  'fini' { PT _ (TS _ 18) }
-  'fini.' { PT _ (TS _ 19) }
-  'incipe' { PT _ (TS _ 20) }
-  'incribo' { PT _ (TS _ 21) }
-  'numeri integri' { PT _ (TS _ 22) }
-  'persulta' { PT _ (TS _ 23) }
-  'program' { PT _ (TS _ 24) }
-  'refer' { PT _ (TS _ 25) }
-  'si' { PT _ (TS _ 26) }
-  'tunc' { PT _ (TS _ 27) }
-  'variabilis' { PT _ (TS _ 28) }
-  'verum' { PT _ (TS _ 29) }
+  'et' { PT _ (TS _ 16) }
+  'fac' { PT _ (TS _ 17) }
+  'falsum' { PT _ (TS _ 18) }
+  'fini' { PT _ (TS _ 19) }
+  'fini.' { PT _ (TS _ 20) }
+  'incipe' { PT _ (TS _ 21) }
+  'incribo' { PT _ (TS _ 22) }
+  'numeri integri' { PT _ (TS _ 23) }
+  'persulta' { PT _ (TS _ 24) }
+  'program' { PT _ (TS _ 25) }
+  'refer' { PT _ (TS _ 26) }
+  'si' { PT _ (TS _ 27) }
+  'tunc' { PT _ (TS _ 28) }
+  'uel' { PT _ (TS _ 29) }
+  'variabilis' { PT _ (TS _ 30) }
+  'verum' { PT _ (TS _ 31) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -94,6 +96,8 @@ Stm : 'persulta' ';' { AbsPascalis.Skip }
 BExp :: { BExp }
 BExp : 'verum' { AbsPascalis.BTrue }
      | 'falsum' { AbsPascalis.BFalse }
+     | BExp 'uel' BExp { AbsPascalis.BOr $1 $3 }
+     | BExp 'et' BExp { AbsPascalis.BAnd $1 $3 }
      | BExp '=' BExp { AbsPascalis.EBAss $1 $3 }
      | BExp '<>' BExp { AbsPascalis.EBNAss $1 $3 }
      | Exp '=' Exp { AbsPascalis.EAss $1 $3 }

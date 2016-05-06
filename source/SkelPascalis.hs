@@ -41,6 +41,8 @@ transBExp x = case x of
   ENAss exp1 exp2 -> failure x
   ELt exp1 exp2 -> failure x
   EGt exp1 exp2 -> failure x
+  ELEt exp1 exp2 -> failure x
+  EGEt exp1 exp2 -> failure x
 transExp :: Exp -> Result
 transExp x = case x of
   EAdd exp1 exp2 -> failure x

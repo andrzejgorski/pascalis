@@ -36,7 +36,10 @@ OUTPUTS = {
     'test_lt_false': "0",
     'test_gt_true': "1",
     'test_gt_false': "0",
-
+    'test_le_true': "1",
+    'test_le_false': "0",
+    'test_ge_true': "1",
+    'test_ge_false': "0",
 }
 
 

@@ -119,6 +119,8 @@ instance Print BExp where
     ENAss exp1 exp2 -> prPrec i 0 (concatD [prt 0 exp1, doc (showString "<>"), prt 0 exp2])
     ELt exp1 exp2 -> prPrec i 0 (concatD [prt 2 exp1, doc (showString "<"), prt 2 exp2])
     EGt exp1 exp2 -> prPrec i 0 (concatD [prt 2 exp1, doc (showString ">"), prt 2 exp2])
+    ELEt exp1 exp2 -> prPrec i 0 (concatD [prt 2 exp1, doc (showString "=<"), prt 2 exp2])
+    EGEt exp1 exp2 -> prPrec i 0 (concatD [prt 2 exp1, doc (showString ">="), prt 2 exp2])
 
 instance Print Exp where
   prt i e = case e of
