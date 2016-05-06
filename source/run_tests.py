@@ -48,6 +48,13 @@ OUTPUTS = {
     'test_print_true': 'verum',
     'test_print_false': 'falsum',
     'test_le_string': 'falsum',
+    'test_add_strings': 'first second',
+    'test_python_str_cut_out': 'cut out',
+    'test_python_str_cut_out_left': 'out',
+    'test_python_str_cut_out_right': 'cut',
+    'test_python_str_left_right': 'ut ou',
+    'test_python_str_left_1': 'ut out',
+    'test_python_str_right_6': 'cut ou',
 }
 
 

@@ -40,24 +40,26 @@ import ErrM
   '=<' { PT _ (TS _ 13) }
   '>' { PT _ (TS _ 14) }
   '>=' { PT _ (TS _ 15) }
-  'alter' { PT _ (TS _ 16) }
-  'donec' { PT _ (TS _ 17) }
-  'et' { PT _ (TS _ 18) }
-  'fac' { PT _ (TS _ 19) }
-  'falsum' { PT _ (TS _ 20) }
-  'fini' { PT _ (TS _ 21) }
-  'fini.' { PT _ (TS _ 22) }
-  'incipe' { PT _ (TS _ 23) }
-  'incribo' { PT _ (TS _ 24) }
-  'numeri integri' { PT _ (TS _ 25) }
-  'persulta' { PT _ (TS _ 26) }
-  'program' { PT _ (TS _ 27) }
-  'refer' { PT _ (TS _ 28) }
-  'si' { PT _ (TS _ 29) }
-  'tunc' { PT _ (TS _ 30) }
-  'uel' { PT _ (TS _ 31) }
-  'variabilis' { PT _ (TS _ 32) }
-  'verum' { PT _ (TS _ 33) }
+  '[:]' { PT _ (TS _ 16) }
+  'alter' { PT _ (TS _ 17) }
+  'donec' { PT _ (TS _ 18) }
+  'et' { PT _ (TS _ 19) }
+  'fac' { PT _ (TS _ 20) }
+  'falsum' { PT _ (TS _ 21) }
+  'fini' { PT _ (TS _ 22) }
+  'fini.' { PT _ (TS _ 23) }
+  'incipe' { PT _ (TS _ 24) }
+  'incribo' { PT _ (TS _ 25) }
+  'non' { PT _ (TS _ 26) }
+  'numeri integri' { PT _ (TS _ 27) }
+  'persulta' { PT _ (TS _ 28) }
+  'program' { PT _ (TS _ 29) }
+  'refer' { PT _ (TS _ 30) }
+  'si' { PT _ (TS _ 31) }
+  'tunc' { PT _ (TS _ 32) }
+  'uel' { PT _ (TS _ 33) }
+  'variabilis' { PT _ (TS _ 34) }
+  'verum' { PT _ (TS _ 35) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -99,6 +101,8 @@ Stm : 'persulta' ';' { AbsPascalis.Skip }
 Exp :: { Exp }
 Exp : 'verum' { AbsPascalis.BTrue }
     | 'falsum' { AbsPascalis.BFalse }
+    | 'non' Exp { AbsPascalis.BNot $2 }
+    | Exp '[:]' { AbsPascalis.ESubStr $1 }
     | Exp 'uel' Exp { AbsPascalis.EOr $1 $3 }
     | Exp 'et' Exp { AbsPascalis.EAnd $1 $3 }
     | Exp '=' Exp { AbsPascalis.EAss $1 $3 }

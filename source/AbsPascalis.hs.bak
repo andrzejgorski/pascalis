@@ -29,6 +29,8 @@ data Stm
 data Exp
     = BTrue
     | BFalse
+    | BNot Exp
+    | ESubStr Exp
     | EOr Exp Exp
     | EAnd Exp Exp
     | EAss Exp Exp

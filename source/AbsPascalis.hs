@@ -30,6 +30,10 @@ data Exp
     = BTrue
     | BFalse
     | BNot Exp
+    | EFSub Exp
+    | ELSub Exp Exp
+    | ERSub Exp Exp
+    | ELRSub Exp Exp Exp
     | EOr Exp Exp
     | EAnd Exp Exp
     | EAss Exp Exp

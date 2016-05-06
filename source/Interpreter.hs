@@ -17,10 +17,13 @@ calcInt x = case x of
 
 calcExpInt exp = EInt $ calcInt exp
 
+
 calcChar (EChar c) = (EChar c)
+
 
 data EType = TEInt | TEChar | TEString | TEBool
     deriving(Eq, Ord, Show, Read)
+
 
 getType exp = case exp of
     BTrue       -> TEBool
@@ -35,7 +38,7 @@ getType exp = case exp of
     ELEt _ _    -> TEBool
     EGEt _ _    -> TEBool
 
-    EAdd _ _    -> TEInt
+    EAdd e _    -> getType e
     ESub _ _    -> TEInt
     EMul _ _    -> TEInt
     EDiv _ _    -> TEInt
@@ -43,10 +46,29 @@ getType exp = case exp of
     EInt _      -> TEInt
     EStr _      -> TEString
     EChar _     -> TEChar
+    EFSub _     -> TEString
+    ELSub _ _   -> TEString
+    ERSub _ _   -> TEString
+    ELRSub _ _ _-> TEString
     -- TODO
     -- EVar     ->
 
-calcString (EStr s) = EStr s
+
+concatenation (EStr s1) (EStr s2) = EStr (s1 ++ s2)
+
+
+simint i = fromIntegral $ calcInt i
+calcString str = case str of
+    EStr s              -> EStr s
+    EAdd s1 s2          -> concatenation (calcString s1) (calcString s2)
+    EFSub s             -> s
+    ELSub (EStr s) l    -> EStr (drop (simint l) s)
+    ERSub (EStr s) r    -> EStr (take (simint r) s)
+    ELRSub (EStr s) l r -> let {
+        left = simint l;
+        right = simint r - left;
+    } in EStr ((take right) $ drop left s)
+
 
 calcBool exp = case exp of
 

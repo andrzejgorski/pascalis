@@ -10,6 +10,7 @@
 
     Skip.    Stm ::= "persulta" ";" ;
     SPrint.  Stm ::= "incribo" "(" Exp ")" ";" ;
+
     SIf.     Stm ::= "si" Exp "tunc" Stm ;
     SIfElse. Stm ::= "si" Exp "tunc" Stm "alter" Stm;
 	SDecl.   Stm ::= Decl ";"  ;
@@ -21,6 +22,11 @@
 	BTrue.   Exp ::= "verum" ;
 	BFalse.  Exp ::= "falsum" ;
 	BNot.    Exp ::= "non" Exp ;
+
+	EFSub.   Exp ::= Exp "[:]";
+	ELSub.   Exp ::= Exp "[" Exp ":]";
+	ERSub.   Exp ::= Exp "[:" Exp "]";
+	ELRSub.  Exp ::= Exp "[" Exp ":" Exp "]";
 
     EOr.     Exp ::= Exp "uel" Exp ;
     EAnd.    Exp ::= Exp "et" Exp ;

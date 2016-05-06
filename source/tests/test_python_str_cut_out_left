@@ -1,0 +1,5 @@
+program basic;
+
+incipe
+    incribo("cut out"[4:]);
+fini.
