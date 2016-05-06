@@ -1,0 +1,5 @@
+program le_string;
+
+incipe
+    incribo("string" >= "string2");
+fini.

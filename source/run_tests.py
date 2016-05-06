@@ -47,6 +47,7 @@ OUTPUTS = {
     'test_print_char': 'c',
     'test_print_true': 'verum',
     'test_print_false': 'falsum',
+    'test_le_string': 'falsum',
 }
 
 

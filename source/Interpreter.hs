@@ -96,6 +96,7 @@ getConverter t = case t of
     TEChar      -> calcChar
     TEString    -> calcString
 
+
 showExp (EInt i)    = show i
 showExp (EStr s)    = s
 showExp (EChar s)   = [s]
