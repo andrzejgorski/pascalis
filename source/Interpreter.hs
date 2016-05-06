@@ -7,14 +7,14 @@ import Data.Char
 
 import qualified Data.Map as M
 import Control.Monad.Reader
-import Data.Maybe(fromMaybe)
+import Data.Maybe(fromMaybe, fromJust)
 import Control.Monad.State
 
 
 type Var = String
 type Loc = Int
 type Env = M.Map Var Loc
-type Store = M.Map Loc Exp
+type Store = M.Map Loc (Type, Exp)
 type MRSIO a = ReaderT Env (StateT Store IO) a
 
 
@@ -27,8 +27,39 @@ putStr_IO s = lift $ lift $ putStr s
 askEnv :: MRSIO Env
 askEnv = ask
 
+localEnv :: (Env -> Env) -> (MRSIO () -> MRSIO ())
+localEnv f s = local f s
+
+getExpFromStore :: Loc -> MRSIO Exp
+getExpFromStore l = do {
+    store <- getStore;
+    return $ snd $ fromJust $ M.lookup l store;
+  }
+
+getTypeFromStore :: Loc -> MRSIO Type
+getTypeFromStore l = do {
+    store <- getStore;
+    return $ fst $ fromJust $ M.lookup l store;
+  }
+
 getStore :: MRSIO Store
 getStore = lift $ get
+
+alloc :: Type -> MRSIO Loc
+alloc t = do {
+    state <- getStore;
+    let size = M.size state
+     in do lift $ put (M.insert size (t, Null) state);
+            return size
+  }
+
+putStore :: Loc -> Exp -> MRSIO ()
+putStore loc v = do {
+    state <- getStore;
+    let t = fst $ fromJust $ M.lookup loc state;
+      in lift $ put (M.insert loc (t, Null) state);
+    return ()
+  }
 
 
 calcInt x = case x of
@@ -156,6 +187,10 @@ showExp BFalse      = "falsum"
 
 iDecl :: Decl -> MRSIO ()
 iDecl (DVar ind t) = return_IO
+--do {
+--        store <- getStore;
+--    }
+
 
 iStmt :: Stm -> MRSIO ()
 iStmt Skip           = return_IO

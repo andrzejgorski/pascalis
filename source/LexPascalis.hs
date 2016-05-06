@@ -104,7 +104,7 @@ eitherResIdent tv s = treeFind resWords
                               | s == a = t
 
 resWords :: BTree
-resWords = b "et" 23 (b "<>" 12 (b "-" 6 (b "*" 3 (b ")" 2 (b "(" 1 N N) N) (b "," 5 (b "+" 4 N N) N)) (b ":]" 9 (b ":" 8 (b "/" 7 N N) N) (b "<" 11 (b ";" 10 N N) N))) (b "[:" 18 (b ">" 15 (b "=<" 14 (b "=" 13 N N) N) (b "[" 17 (b ">=" 16 N N) N)) (b "alter" 21 (b "]" 20 (b "[:]" 19 N N) N) (b "donec" 22 N N)))) (b "numeri integri" 35 (b "incipe" 29 (b "fini" 26 (b "falsum" 25 (b "fac" 24 N N) N) (b "functio" 28 (b "fini." 27 N N) N)) (b "logica booleana" 32 (b "litera" 31 (b "incribo" 30 N N) N) (b "non" 34 (b "longitudo" 33 N N) N))) (b "titulus" 41 (b "program" 38 (b "persulta" 37 (b "ord" 36 N N) N) (b "si" 40 (b "refer" 39 N N) N)) (b "variabilis" 44 (b "uel" 43 (b "tunc" 42 N N) N) (b "verum" 45 N N))))
+resWords = b "fac" 24 (b "<>" 12 (b "-" 6 (b "*" 3 (b ")" 2 (b "(" 1 N N) N) (b "," 5 (b "+" 4 N N) N)) (b ":]" 9 (b ":" 8 (b "/" 7 N N) N) (b "<" 11 (b ";" 10 N N) N))) (b "[:" 18 (b ">" 15 (b "=<" 14 (b "=" 13 N N) N) (b "[" 17 (b ">=" 16 N N) N)) (b "alter" 21 (b "]" 20 (b "[:]" 19 N N) N) (b "et" 23 (b "donec" 22 N N) N)))) (b "numeri integri" 36 (b "incribo" 30 (b "fini." 27 (b "fini" 26 (b "falsum" 25 N N) N) (b "incipe" 29 (b "functio" 28 N N) N)) (b "longitudo" 33 (b "logica booleana" 32 (b "litera" 31 N N) N) (b "nullum" 35 (b "non" 34 N N) N))) (b "titulus" 42 (b "program" 39 (b "persulta" 38 (b "ord" 37 N N) N) (b "si" 41 (b "refer" 40 N N) N)) (b "variabilis" 45 (b "uel" 44 (b "tunc" 43 N N) N) (b "verum" 46 N N))))
    where b s n = let bs = id s
                   in B bs (TS bs n)
 

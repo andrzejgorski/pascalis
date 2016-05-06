@@ -59,17 +59,18 @@ import ErrM
   'logica booleana' { PT _ (TS _ 32) }
   'longitudo' { PT _ (TS _ 33) }
   'non' { PT _ (TS _ 34) }
-  'numeri integri' { PT _ (TS _ 35) }
-  'ord' { PT _ (TS _ 36) }
-  'persulta' { PT _ (TS _ 37) }
-  'program' { PT _ (TS _ 38) }
-  'refer' { PT _ (TS _ 39) }
-  'si' { PT _ (TS _ 40) }
-  'titulus' { PT _ (TS _ 41) }
-  'tunc' { PT _ (TS _ 42) }
-  'uel' { PT _ (TS _ 43) }
-  'variabilis' { PT _ (TS _ 44) }
-  'verum' { PT _ (TS _ 45) }
+  'nullum' { PT _ (TS _ 35) }
+  'numeri integri' { PT _ (TS _ 36) }
+  'ord' { PT _ (TS _ 37) }
+  'persulta' { PT _ (TS _ 38) }
+  'program' { PT _ (TS _ 39) }
+  'refer' { PT _ (TS _ 40) }
+  'si' { PT _ (TS _ 41) }
+  'titulus' { PT _ (TS _ 42) }
+  'tunc' { PT _ (TS _ 43) }
+  'uel' { PT _ (TS _ 44) }
+  'variabilis' { PT _ (TS _ 45) }
+  'verum' { PT _ (TS _ 46) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -111,6 +112,7 @@ Stm : 'persulta' ';' { AbsPascalis.Skip }
 Exp :: { Exp }
 Exp : 'verum' { AbsPascalis.BTrue }
     | 'falsum' { AbsPascalis.BFalse }
+    | 'nullum' { AbsPascalis.Null }
     | 'non' Exp { AbsPascalis.BNot $2 }
     | Exp '[:]' { AbsPascalis.EFSub $1 }
     | Exp '[' Exp ':]' { AbsPascalis.ELSub $1 $3 }

@@ -20,7 +20,7 @@ $i = [$l $d _ ']          -- identifier character
 $u = [\0-\255]          -- universal: any character
 
 @rsyms =    -- symbols and non-identifier-like reserved words
-   \; | "fini" \. | \: | \, | \( | \) | \[ \: \] | \[ | \: \] | \[ \: | \] | \= | \< \> | \< | \> | \= \< | \> \= | \+ | \- | \* | \/ | "numeri" \  "integri"
+   \; | "fini" \. | \: | \, | \( | \) | \[ \: \] | \[ | \: \] | \[ \: | \] | \= | \< \> | \< | \> | \= \< | \> \= | \+ | \- | \* | \/ | "numeri" \  "integri" | "logica" \  "booleana"
 
 :-
 "//" [.]* ; -- Toss single line comments
@@ -96,7 +96,7 @@ eitherResIdent tv s = treeFind resWords
                               | s == a = t
 
 resWords :: BTree
-resWords = b "alter" 21 (b "<" 11 (b "-" 6 (b "*" 3 (b ")" 2 (b "(" 1 N N) N) (b "," 5 (b "+" 4 N N) N)) (b ":]" 9 (b ":" 8 (b "/" 7 N N) N) (b ";" 10 N N))) (b ">=" 16 (b "=<" 14 (b "=" 13 (b "<>" 12 N N) N) (b ">" 15 N N)) (b "[:]" 19 (b "[:" 18 (b "[" 17 N N) N) (b "]" 20 N N)))) (b "numeri integri" 32 (b "fini." 27 (b "fac" 24 (b "et" 23 (b "donec" 22 N N) N) (b "fini" 26 (b "falsum" 25 N N) N)) (b "longitudo" 30 (b "incribo" 29 (b "incipe" 28 N N) N) (b "non" 31 N N))) (b "si" 37 (b "program" 35 (b "persulta" 34 (b "ord" 33 N N) N) (b "refer" 36 N N)) (b "variabilis" 40 (b "uel" 39 (b "tunc" 38 N N) N) (b "verum" 41 N N))))
+resWords = b "et" 23 (b "<>" 12 (b "-" 6 (b "*" 3 (b ")" 2 (b "(" 1 N N) N) (b "," 5 (b "+" 4 N N) N)) (b ":]" 9 (b ":" 8 (b "/" 7 N N) N) (b "<" 11 (b ";" 10 N N) N))) (b "[:" 18 (b ">" 15 (b "=<" 14 (b "=" 13 N N) N) (b "[" 17 (b ">=" 16 N N) N)) (b "alter" 21 (b "]" 20 (b "[:]" 19 N N) N) (b "donec" 22 N N)))) (b "numeri integri" 35 (b "incipe" 29 (b "fini" 26 (b "falsum" 25 (b "fac" 24 N N) N) (b "functio" 28 (b "fini." 27 N N) N)) (b "logica booleana" 32 (b "litera" 31 (b "incribo" 30 N N) N) (b "non" 34 (b "longitudo" 33 N N) N))) (b "titulus" 41 (b "program" 38 (b "persulta" 37 (b "ord" 36 N N) N) (b "si" 40 (b "refer" 39 N N) N)) (b "variabilis" 44 (b "uel" 43 (b "tunc" 42 N N) N) (b "verum" 45 N N))))
    where b s n = let bs = id s
                   in B bs (TS bs n)
 

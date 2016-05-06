@@ -143,5 +143,9 @@ instance Print Exp where
 instance Print Type where
   prt i e = case e of
     TInt -> prPrec i 0 (concatD [doc (showString "numeri integri")])
+    TBool -> prPrec i 0 (concatD [doc (showString "logica booleana")])
+    TStr -> prPrec i 0 (concatD [doc (showString "titulus")])
+    TChar -> prPrec i 0 (concatD [doc (showString "litera")])
+    TFunc -> prPrec i 0 (concatD [doc (showString "functio")])
 
 

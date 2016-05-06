@@ -33,6 +33,7 @@ transExp :: Exp -> Result
 transExp x = case x of
   BTrue -> failure x
   BFalse -> failure x
+  Null -> failure x
   BNot exp -> failure x
   EFSub exp -> failure x
   ELSub exp1 exp2 -> failure x

@@ -43,10 +43,11 @@ The set of reserved words is the set of terminals appearing in the grammar. Thos
 
 The reserved words used in Pascalis are the following:
   | ``alter`` | ``donec`` | ``et`` | ``fac``
-  | ``falsum`` | ``fini`` | ``incipe`` | ``incribo``
-  | ``longitudo`` | ``non`` | ``ord`` | ``persulta``
-  | ``program`` | ``refer`` | ``si`` | ``tunc``
-  | ``uel`` | ``variabilis`` | ``verum`` | 
+  | ``falsum`` | ``fini`` | ``functio`` | ``incipe``
+  | ``incribo`` | ``litera`` | ``longitudo`` | ``non``
+  | ``ord`` | ``persulta`` | ``program`` | ``refer``
+  | ``si`` | ``titulus`` | ``tunc`` | ``uel``
+  | ``variabilis`` | ``verum`` |  | 
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | ,
@@ -54,7 +55,7 @@ The symbols used in Pascalis are the following:
   | :] | [: | ] | =
   | <> | < | > | =<
   | >= | + | - | *
-  | / | numeri integri |  | 
+  | / | numeri integri | logica booleana | 
 
 ===Comments===
 Single-line comments begin with //.Multiple-line comments are  enclosed with { and }.
@@ -120,5 +121,9 @@ All other symbols are terminals.
   |  |  **|**  | //Exp// 
   |  |  **|**  | //Exp// ``,`` //[Exp]// 
   | //Type// | -> | ``numeri integri`` 
+  |  |  **|**  | ``logica booleana`` 
+  |  |  **|**  | ``titulus`` 
+  |  |  **|**  | ``litera`` 
+  |  |  **|**  | ``functio`` 
 
 

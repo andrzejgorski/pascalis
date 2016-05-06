@@ -21,6 +21,7 @@
 
 	BTrue.   Exp ::= "verum" ;
 	BFalse.  Exp ::= "falsum" ;
+	Null.    Exp ::= "nullum" ;
 	BNot.    Exp ::= "non" Exp ;
 
 	EFSub.   Exp ::= Exp "[:]" ;

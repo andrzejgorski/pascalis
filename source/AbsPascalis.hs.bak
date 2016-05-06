@@ -57,6 +57,6 @@ data Exp
     | EDouble Double
   deriving (Eq, Ord, Show, Read)
 
-data Type = TInt
+data Type = TInt | TBool | TStr | TChar | TFunc
   deriving (Eq, Ord, Show, Read)
 

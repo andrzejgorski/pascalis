@@ -111,6 +111,7 @@ instance Print Exp where
   prt i e = case e of
     BTrue -> prPrec i 0 (concatD [doc (showString "verum")])
     BFalse -> prPrec i 0 (concatD [doc (showString "falsum")])
+    Null -> prPrec i 0 (concatD [doc (showString "nullum")])
     BNot exp -> prPrec i 0 (concatD [doc (showString "non"), prt 0 exp])
     EFSub exp -> prPrec i 0 (concatD [prt 0 exp, doc (showString "[:]")])
     ELSub exp1 exp2 -> prPrec i 0 (concatD [prt 0 exp1, doc (showString "["), prt 0 exp2, doc (showString ":]")])
