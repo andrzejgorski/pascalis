@@ -51,11 +51,11 @@ The reserved words used in Pascalis are the following:
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | ,
-  | ( | ) | [:] | [
-  | :] | [: | ] | =
-  | <> | < | > | =<
-  | >= | + | - | *
-  | / | numeri integri | logica booleana | 
+  | ( | ) | := | [:]
+  | [ | :] | [: | ]
+  | = | <> | < | >
+  | =< | >= | + | -
+  | * | / | numeri integri | logica booleana
 
 ===Comments===
 Single-line comments begin with //.Multiple-line comments are  enclosed with { and }.
@@ -84,6 +84,14 @@ All other symbols are terminals.
   |  |  **|**  | ``incipe`` //[Stm]// ``fini`` 
   |  |  **|**  | ``donec`` //Exp// ``fac`` //Stm// 
   |  |  **|**  | ``refer`` //Exp// ``;`` 
+  | //Exp4// | -> | //Ident// ``:=`` //Exp// ``;`` 
+  |  |  **|**  | //Ident// ``(`` //[Exp]// ``)`` 
+  |  |  **|**  | //String// 
+  |  |  **|**  | //Char// 
+  |  |  **|**  | //Ident// 
+  |  |  **|**  | //Integer// 
+  |  |  **|**  | //Double// 
+  |  |  **|**  | ``(`` //Exp// ``)`` 
   | //Exp// | -> | ``verum`` 
   |  |  **|**  | ``falsum`` 
   |  |  **|**  | ``nullum`` 
@@ -110,13 +118,6 @@ All other symbols are terminals.
   | //Exp3// | -> | //Exp3// ``*`` //Exp4// 
   |  |  **|**  | //Exp3// ``/`` //Exp4// 
   |  |  **|**  | //Exp4// 
-  | //Exp4// | -> | //Ident// ``(`` //[Exp]// ``)`` 
-  |  |  **|**  | //String// 
-  |  |  **|**  | //Char// 
-  |  |  **|**  | //Ident// 
-  |  |  **|**  | //Integer// 
-  |  |  **|**  | //Double// 
-  |  |  **|**  | ``(`` //Exp// ``)`` 
   | //Exp1// | -> | //Exp2// 
   | //[Exp]// | -> | **eps**
   |  |  **|**  | //Exp// 

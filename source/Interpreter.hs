@@ -27,6 +27,9 @@ putStr_IO s = lift $ lift $ putStr s
 askEnv :: MRSIO Env
 askEnv = ask
 
+printEnv = do env <- askEnv
+              putStr_IO $ show env
+
 getLoc :: Ident -> MRSIO Loc
 getLoc v = do env <- askEnv
               return $ fromJust $ M.lookup v env
@@ -40,14 +43,25 @@ getExpFromStore l = do {
     return $ snd $ fromJust $ M.lookup l store;
   }
 
+askExp :: Ident -> MRSIO Exp
+askExp ident = do loc <- getLoc ident
+                  getExpFromStore loc
+
 getTypeFromStore :: Loc -> MRSIO Type
 getTypeFromStore l = do {
     store <- getStore;
     return $ fst $ fromJust $ M.lookup l store;
   }
 
+askType :: Ident -> MRSIO Type
+askType ident = do loc <- getLoc ident
+                   getTypeFromStore loc
+
 getStore :: MRSIO Store
 getStore = lift $ get
+
+printStore = do store <- getStore
+                putStr_IO $ show store
 
 alloc :: Type -> MRSIO Loc
 alloc t = do {
@@ -61,21 +75,33 @@ putStore :: Loc -> Exp -> MRSIO ()
 putStore loc v = do {
     state <- getStore;
     let t = fst $ fromJust $ M.lookup loc state;
-      in lift $ put (M.insert loc (t, Null) state);
+      in lift $ put (M.insert loc (t, v) state);
     return ()
   }
 
 
+calcInt :: Exp -> MRSIO Integer
 calcInt x = case x of
-    EAdd exp0 exp  -> calcInt exp0 + calcInt exp
-    ESub exp0 exp  -> calcInt exp0 - calcInt exp
-    EMul exp0 exp  -> calcInt exp0 * calcInt exp
-    EDiv exp0 exp  -> calcInt exp0 `div` calcInt exp
-    EInt n  -> n
+    EVar ident     -> do v <- askExp ident
+                         calcInt v
+    EAdd exp1 exp2 -> do n1 <- calcInt exp1
+                         n2 <- calcInt exp2
+                         return $ n2 + n1
+    ESub exp1 exp2 -> do n1 <- calcInt exp1
+                         n2 <- calcInt exp2
+                         return $ n2 - n1
+    EMul exp1 exp2 -> do n1 <- calcInt exp1
+                         n2 <- calcInt exp2
+                         return $ n2 * n1
+    EDiv exp1 exp2 -> do n1 <- calcInt exp1
+                         n2 <- calcInt exp2
+                         return $ n2 `div` n1
+    EInt n         -> return n
 
 
 calcExpInt :: Exp -> MRSIO Exp
-calcExpInt exp = return $ EInt $ calcInt exp
+calcExpInt exp = do int <- calcInt exp
+                    return $ EInt $ toInteger int
 
 calcChar :: Exp -> MRSIO Exp
 calcChar (EChar c) = return $ EChar c
@@ -120,7 +146,8 @@ concatenation (EStr s1) (EStr s2) = EStr (s1 ++ s2)
 
 
 simint :: Exp -> MRSIO Int
-simint i = return $ fromIntegral $ calcInt i
+simint i = do int <- calcInt i
+              return $ fromIntegral $ int
 
 calcString :: Exp -> MRSIO Exp
 calcString str = case str of
@@ -220,6 +247,10 @@ iDecl ((DVar ind ty):tail) stm = do {
 
 iDecl [] stm = interpretStmts stm
 
+calcExp :: Exp -> MRSIO Exp
+calcExp e = do t <- getType e
+               getConverter t e
+
 iStmt :: Stm -> MRSIO ()
 iStmt Skip           = return_IO
 iStmt (SPrint value) = do {
@@ -249,6 +280,17 @@ iStmt (SIfElse exp stm1 stm2) = do {
     else
         iStmt stm2;
   }
+iStmt (SSet ident value) = do t1 <- askType ident
+                              t2 <- getType value
+                              if t1 == t2 then
+                               do loc <- getLoc ident
+                                  exp <- calcExp value
+                                  putStore loc exp
+                              else
+                                return_IO
+
+
+
 
 
 -- interpretStmts :: [Stm] -> IO ()

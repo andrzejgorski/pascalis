@@ -31,6 +31,7 @@ transStm x = case x of
   SReturn exp -> failure x
 transExp :: Exp -> Result
 transExp x = case x of
+  SSet ident exp -> failure x
   BTrue -> failure x
   BFalse -> failure x
   Null -> failure x
