@@ -45,9 +45,9 @@ The reserved words used in Pascalis are the following:
   | ``alter`` | ``donec`` | ``et`` | ``fac``
   | ``falsum`` | ``fini`` | ``functio`` | ``incipe``
   | ``incribo`` | ``litera`` | ``longitudo`` | ``non``
-  | ``ord`` | ``persulta`` | ``program`` | ``refer``
-  | ``si`` | ``titulus`` | ``tunc`` | ``uel``
-  | ``variabilis`` | ``verum`` |  | 
+  | ``nullum`` | ``ord`` | ``persulta`` | ``program``
+  | ``refer`` | ``si`` | ``titulus`` | ``tunc``
+  | ``uel`` | ``variabilis`` | ``verum`` | 
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | ,
@@ -67,7 +67,7 @@ and **eps** (empty rule) belong to the BNF notation.
 All other symbols are terminals.
 
   | //Program// | -> | ``program`` //Ident// ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini.`` 
-  | //Decl// | -> | ``variabilis`` //Ident// ``:`` //Type// 
+  | //Decl// | -> | ``variabilis`` //Ident// ``:`` //Type// ``;`` 
   | //[Stm]// | -> | **eps**
   |  |  **|**  | //Stm// //[Stm]// 
   | //[Decl]// | -> | **eps**
@@ -86,6 +86,7 @@ All other symbols are terminals.
   |  |  **|**  | ``refer`` //Exp// ``;`` 
   | //Exp// | -> | ``verum`` 
   |  |  **|**  | ``falsum`` 
+  |  |  **|**  | ``nullum`` 
   |  |  **|**  | ``non`` //Exp// 
   |  |  **|**  | //Exp// ``[:]`` 
   |  |  **|**  | //Exp// ``[`` //Exp// ``:]`` 

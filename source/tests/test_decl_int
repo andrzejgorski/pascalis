@@ -1,0 +1,8 @@
+program prograaaa;
+
+variabilis sss: numeri integri;
+
+incipe
+    sss := 1;
+    incribo(sss);
+fini.

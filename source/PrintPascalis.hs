@@ -90,7 +90,7 @@ instance Print Program where
 
 instance Print Decl where
   prt i e = case e of
-    DVar id type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), prt 0 type_])
+    DVar id type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), prt 0 type_, doc (showString ";")])
   prtList _ [] = (concatD [])
   prtList _ [x] = (concatD [prt 0 x])
   prtList _ (x:xs) = (concatD [prt 0 x, doc (showString ","), prt 0 xs])
@@ -109,6 +109,7 @@ instance Print Stm where
   prtList _ (x:xs) = (concatD [prt 0 x, prt 0 xs])
 instance Print Exp where
   prt i e = case e of
+    SSet id exp -> prPrec i 4 (concatD [prt 0 id, doc (showString ":="), prt 0 exp, doc (showString ";")])
     BTrue -> prPrec i 0 (concatD [doc (showString "verum")])
     BFalse -> prPrec i 0 (concatD [doc (showString "falsum")])
     Null -> prPrec i 0 (concatD [doc (showString "nullum")])

@@ -14,10 +14,10 @@ import ErrM
 %name pListDecl ListDecl
 %name pListIdent ListIdent
 %name pStm Stm
+%name pExp4 Exp4
 %name pExp Exp
 %name pExp2 Exp2
 %name pExp3 Exp3
-%name pExp4 Exp4
 %name pExp1 Exp1
 %name pListExp ListExp
 %name pType Type
@@ -33,44 +33,45 @@ import ErrM
   '-' { PT _ (TS _ 6) }
   '/' { PT _ (TS _ 7) }
   ':' { PT _ (TS _ 8) }
-  ':]' { PT _ (TS _ 9) }
-  ';' { PT _ (TS _ 10) }
-  '<' { PT _ (TS _ 11) }
-  '<>' { PT _ (TS _ 12) }
-  '=' { PT _ (TS _ 13) }
-  '=<' { PT _ (TS _ 14) }
-  '>' { PT _ (TS _ 15) }
-  '>=' { PT _ (TS _ 16) }
-  '[' { PT _ (TS _ 17) }
-  '[:' { PT _ (TS _ 18) }
-  '[:]' { PT _ (TS _ 19) }
-  ']' { PT _ (TS _ 20) }
-  'alter' { PT _ (TS _ 21) }
-  'donec' { PT _ (TS _ 22) }
-  'et' { PT _ (TS _ 23) }
-  'fac' { PT _ (TS _ 24) }
-  'falsum' { PT _ (TS _ 25) }
-  'fini' { PT _ (TS _ 26) }
-  'fini.' { PT _ (TS _ 27) }
-  'functio' { PT _ (TS _ 28) }
-  'incipe' { PT _ (TS _ 29) }
-  'incribo' { PT _ (TS _ 30) }
-  'litera' { PT _ (TS _ 31) }
-  'logica booleana' { PT _ (TS _ 32) }
-  'longitudo' { PT _ (TS _ 33) }
-  'non' { PT _ (TS _ 34) }
-  'nullum' { PT _ (TS _ 35) }
-  'numeri integri' { PT _ (TS _ 36) }
-  'ord' { PT _ (TS _ 37) }
-  'persulta' { PT _ (TS _ 38) }
-  'program' { PT _ (TS _ 39) }
-  'refer' { PT _ (TS _ 40) }
-  'si' { PT _ (TS _ 41) }
-  'titulus' { PT _ (TS _ 42) }
-  'tunc' { PT _ (TS _ 43) }
-  'uel' { PT _ (TS _ 44) }
-  'variabilis' { PT _ (TS _ 45) }
-  'verum' { PT _ (TS _ 46) }
+  ':=' { PT _ (TS _ 9) }
+  ':]' { PT _ (TS _ 10) }
+  ';' { PT _ (TS _ 11) }
+  '<' { PT _ (TS _ 12) }
+  '<>' { PT _ (TS _ 13) }
+  '=' { PT _ (TS _ 14) }
+  '=<' { PT _ (TS _ 15) }
+  '>' { PT _ (TS _ 16) }
+  '>=' { PT _ (TS _ 17) }
+  '[' { PT _ (TS _ 18) }
+  '[:' { PT _ (TS _ 19) }
+  '[:]' { PT _ (TS _ 20) }
+  ']' { PT _ (TS _ 21) }
+  'alter' { PT _ (TS _ 22) }
+  'donec' { PT _ (TS _ 23) }
+  'et' { PT _ (TS _ 24) }
+  'fac' { PT _ (TS _ 25) }
+  'falsum' { PT _ (TS _ 26) }
+  'fini' { PT _ (TS _ 27) }
+  'fini.' { PT _ (TS _ 28) }
+  'functio' { PT _ (TS _ 29) }
+  'incipe' { PT _ (TS _ 30) }
+  'incribo' { PT _ (TS _ 31) }
+  'litera' { PT _ (TS _ 32) }
+  'logica booleana' { PT _ (TS _ 33) }
+  'longitudo' { PT _ (TS _ 34) }
+  'non' { PT _ (TS _ 35) }
+  'nullum' { PT _ (TS _ 36) }
+  'numeri integri' { PT _ (TS _ 37) }
+  'ord' { PT _ (TS _ 38) }
+  'persulta' { PT _ (TS _ 39) }
+  'program' { PT _ (TS _ 40) }
+  'refer' { PT _ (TS _ 41) }
+  'si' { PT _ (TS _ 42) }
+  'titulus' { PT _ (TS _ 43) }
+  'tunc' { PT _ (TS _ 44) }
+  'uel' { PT _ (TS _ 45) }
+  'variabilis' { PT _ (TS _ 46) }
+  'verum' { PT _ (TS _ 47) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -90,7 +91,7 @@ Double  :: { Double }  : L_doubl  { (read ( $1)) :: Double }
 Program :: { Program }
 Program : 'program' Ident ';' ListDecl 'incipe' ListStm 'fini.' { AbsPascalis.Prog $2 $4 (reverse $6) }
 Decl :: { Decl }
-Decl : 'variabilis' Ident ':' Type { AbsPascalis.DVar $2 $4 }
+Decl : 'variabilis' Ident ':' Type ';' { AbsPascalis.DVar $2 $4 }
 ListStm :: { [Stm] }
 ListStm : {- empty -} { [] } | ListStm Stm { flip (:) $1 $2 }
 ListDecl :: { [Decl] }
@@ -109,6 +110,15 @@ Stm : 'persulta' ';' { AbsPascalis.Skip }
     | 'incipe' ListStm 'fini' { AbsPascalis.SBlock (reverse $2) }
     | 'donec' Exp 'fac' Stm { AbsPascalis.SWhile $2 $4 }
     | 'refer' Exp ';' { AbsPascalis.SReturn $2 }
+Exp4 :: { Exp }
+Exp4 : Ident ':=' Exp ';' { AbsPascalis.SSet $1 $3 }
+     | Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
+     | String { AbsPascalis.EStr $1 }
+     | Char { AbsPascalis.EChar $1 }
+     | Ident { AbsPascalis.EVar $1 }
+     | Integer { AbsPascalis.EInt $1 }
+     | Double { AbsPascalis.EDouble $1 }
+     | '(' Exp ')' { $2 }
 Exp :: { Exp }
 Exp : 'verum' { AbsPascalis.BTrue }
     | 'falsum' { AbsPascalis.BFalse }
@@ -138,14 +148,6 @@ Exp3 :: { Exp }
 Exp3 : Exp3 '*' Exp4 { AbsPascalis.EMul $1 $3 }
      | Exp3 '/' Exp4 { AbsPascalis.EDiv $1 $3 }
      | Exp4 { $1 }
-Exp4 :: { Exp }
-Exp4 : Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
-     | String { AbsPascalis.EStr $1 }
-     | Char { AbsPascalis.EChar $1 }
-     | Ident { AbsPascalis.EVar $1 }
-     | Integer { AbsPascalis.EInt $1 }
-     | Double { AbsPascalis.EDouble $1 }
-     | '(' Exp ')' { $2 }
 Exp1 :: { Exp }
 Exp1 : Exp2 { $1 }
 ListExp :: { [Exp] }

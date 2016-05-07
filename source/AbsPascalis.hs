@@ -27,7 +27,8 @@ data Stm
   deriving (Eq, Ord, Show, Read)
 
 data Exp
-    = BTrue
+    = SSet Ident Exp
+    | BTrue
     | BFalse
     | Null
     | BNot Exp

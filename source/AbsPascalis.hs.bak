@@ -29,6 +29,7 @@ data Stm
 data Exp
     = BTrue
     | BFalse
+    | Null
     | BNot Exp
     | EFSub Exp
     | ELSub Exp Exp

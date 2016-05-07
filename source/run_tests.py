@@ -60,6 +60,7 @@ OUTPUTS = {
     'test_string_length_0': '0',
     'test_string_length_6': '6',
     'test_char_ord': '99',
+    'test_decl_int': '1',
 }
 
 
