@@ -65,6 +65,8 @@ OUTPUTS = {
     'test_decl_str': 'michal ma nowy strych',
     'test_decl_char': 'x',
     'test_eq_var_int': 'falsum',
+    'test_change_string_content': 'mleko',
+    'test_change_one_letter_string': 'jajka',
 }
 
 

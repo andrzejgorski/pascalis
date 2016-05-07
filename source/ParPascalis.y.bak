@@ -14,10 +14,10 @@ import ErrM
 %name pListDecl ListDecl
 %name pListIdent ListIdent
 %name pStm Stm
-%name pExp4 Exp4
 %name pExp Exp
 %name pExp2 Exp2
 %name pExp3 Exp3
+%name pExp4 Exp4
 %name pExp1 Exp1
 %name pListExp ListExp
 %name pType Type
@@ -110,15 +110,7 @@ Stm : 'persulta' ';' { AbsPascalis.Skip }
     | 'incipe' ListStm 'fini' { AbsPascalis.SBlock (reverse $2) }
     | 'donec' Exp 'fac' Stm { AbsPascalis.SWhile $2 $4 }
     | 'refer' Exp ';' { AbsPascalis.SReturn $2 }
-Exp4 :: { Exp }
-Exp4 : Ident ':=' Exp ';' { AbsPascalis.SSet $1 $3 }
-     | Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
-     | String { AbsPascalis.EStr $1 }
-     | Char { AbsPascalis.EChar $1 }
-     | Ident { AbsPascalis.EVar $1 }
-     | Integer { AbsPascalis.EInt $1 }
-     | Double { AbsPascalis.EDouble $1 }
-     | '(' Exp ')' { $2 }
+    | Ident ':=' Exp ';' { AbsPascalis.SSet $1 $3 }
 Exp :: { Exp }
 Exp : 'verum' { AbsPascalis.BTrue }
     | 'falsum' { AbsPascalis.BFalse }
@@ -148,6 +140,14 @@ Exp3 :: { Exp }
 Exp3 : Exp3 '*' Exp4 { AbsPascalis.EMul $1 $3 }
      | Exp3 '/' Exp4 { AbsPascalis.EDiv $1 $3 }
      | Exp4 { $1 }
+Exp4 :: { Exp }
+Exp4 : Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
+     | String { AbsPascalis.EStr $1 }
+     | Char { AbsPascalis.EChar $1 }
+     | Ident { AbsPascalis.EVar $1 }
+     | Integer { AbsPascalis.EInt $1 }
+     | Double { AbsPascalis.EDouble $1 }
+     | '(' Exp ')' { $2 }
 Exp1 :: { Exp }
 Exp1 : Exp2 { $1 }
 ListExp :: { [Exp] }

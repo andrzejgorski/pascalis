@@ -24,6 +24,7 @@ data Stm
     | SBlock [Stm]
     | SWhile Exp Stm
     | SReturn Exp
+    | STSet Ident Exp Exp
     | SSet Ident Exp
   deriving (Eq, Ord, Show, Read)
 

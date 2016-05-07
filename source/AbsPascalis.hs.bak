@@ -24,11 +24,11 @@ data Stm
     | SBlock [Stm]
     | SWhile Exp Stm
     | SReturn Exp
+    | SSet Ident Exp
   deriving (Eq, Ord, Show, Read)
 
 data Exp
-    = SSet Ident Exp
-    | BTrue
+    = BTrue
     | BFalse
     | Null
     | BNot Exp

@@ -110,6 +110,7 @@ Stm : 'persulta' ';' { AbsPascalis.Skip }
     | 'incipe' ListStm 'fini' { AbsPascalis.SBlock (reverse $2) }
     | 'donec' Exp 'fac' Stm { AbsPascalis.SWhile $2 $4 }
     | 'refer' Exp ';' { AbsPascalis.SReturn $2 }
+    | Ident '[' Exp ']' ':=' Exp ';' { AbsPascalis.STSet $1 $3 $6 }
     | Ident ':=' Exp ';' { AbsPascalis.SSet $1 $3 }
 Exp :: { Exp }
 Exp : 'verum' { AbsPascalis.BTrue }

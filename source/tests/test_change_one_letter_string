@@ -1,0 +1,9 @@
+program one_letter;
+
+variabilis str: titulus;
+
+incipe
+    str := "jajko";
+    str[4] := 'a';
+    incribe(str);
+fini.

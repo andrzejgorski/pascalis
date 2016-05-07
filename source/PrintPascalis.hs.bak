@@ -105,11 +105,11 @@ instance Print Stm where
     SBlock stms -> prPrec i 0 (concatD [doc (showString "incipe"), prt 0 stms, doc (showString "fini")])
     SWhile exp stm -> prPrec i 0 (concatD [doc (showString "donec"), prt 0 exp, doc (showString "fac"), prt 0 stm])
     SReturn exp -> prPrec i 0 (concatD [doc (showString "refer"), prt 0 exp, doc (showString ";")])
+    SSet id exp -> prPrec i 0 (concatD [prt 0 id, doc (showString ":="), prt 0 exp, doc (showString ";")])
   prtList _ [] = (concatD [])
   prtList _ (x:xs) = (concatD [prt 0 x, prt 0 xs])
 instance Print Exp where
   prt i e = case e of
-    SSet id exp -> prPrec i 4 (concatD [prt 0 id, doc (showString ":="), prt 0 exp, doc (showString ";")])
     BTrue -> prPrec i 0 (concatD [doc (showString "verum")])
     BFalse -> prPrec i 0 (concatD [doc (showString "falsum")])
     Null -> prPrec i 0 (concatD [doc (showString "nullum")])

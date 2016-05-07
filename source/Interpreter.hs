@@ -110,6 +110,10 @@ calcChar (EChar c) = return $ EChar c
 calcChar (EVar i)  = convertVar calcChar i
 
 
+getContainerKeyType TStr   = TInt
+getContainerValueType TStr = TChar
+
+
 getType :: Exp -> MRSIO Type
 getType exp = case exp of
     BTrue       -> return TBool
@@ -256,6 +260,13 @@ calcExp :: Exp -> MRSIO Exp
 calcExp e = do t <- getType e
                getConverter t e
 
+update_container :: Exp -> Exp -> Exp -> Exp
+update_container (EStr s) (EInt i) (EChar c) = EStr (upd_con s i c)
+  where
+    upd_con (_:t) 0 c = (c:t)
+    upd_con (h:t) i c = (h:upd_con t (i - 1) c)
+
+
 iStmt :: Stm -> MRSIO ()
 iStmt Skip           = return_IO
 iStmt (SPrint value) = do {
@@ -263,6 +274,7 @@ iStmt (SPrint value) = do {
     result <- getConverter typ value;
     putStr_IO $ showExp result;
   }
+
 iStmt (SExp value)   = interSExp value
   where
     interSExp (Call (Ident "incribe") list) = printParams list
@@ -285,6 +297,7 @@ iStmt (SIfElse exp stm1 stm2) = do {
     else
         iStmt stm2;
   }
+
 iStmt (SSet ident value) = do t1 <- askType ident
                               t2 <- getType value
                               if t1 == t2 then
@@ -292,12 +305,23 @@ iStmt (SSet ident value) = do t1 <- askType ident
                                   exp <- calcExp value
                                   putStore loc exp
                               else
-                                return_IO
+                                  -- TODO err
+                                  return_IO
 
-
-
-
-
+iStmt (STSet ident key value) = do {
+    cont_t <- askType ident;
+    value_t <- getType value;
+    key_t <- getType key;
+    if value_t == getContainerValueType cont_t && key_t == getContainerKeyType cont_t then
+      do loc <- getLoc ident
+         cont <- askExp ident
+         value_exp <- calcExp value
+         key_exp <- calcExp key
+         putStore loc (update_container cont key_exp value_exp)
+    else
+        -- TODO err
+        return_IO
+  }
 -- interpretStmts :: [Stm] -> IO ()
 interpretStmts :: [Stm] -> MRSIO ()
 interpretStmts [] = return_IO

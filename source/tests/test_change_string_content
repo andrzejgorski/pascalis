@@ -1,0 +1,9 @@
+program straa;
+
+variabilis sss: titulus;
+
+incipe
+    sss := "hahaha";
+    sss := "mleko";
+    incribo(sss);
+fini.

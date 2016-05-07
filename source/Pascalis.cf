@@ -18,6 +18,7 @@
 	SBlock.  Stm ::= "incipe" [Stm] "fini" ;
 	SWhile.  Stm ::= "donec" Exp "fac" Stm ;
 	SReturn. Stm ::= "refer" Exp ";" ;
+	STSet.   Stm ::= Ident "[" Exp "]" ":=" Exp ";" ;
 	SSet.    Stm ::= Ident ":=" Exp ";" ;
 
 	BTrue.   Exp ::= "verum" ;

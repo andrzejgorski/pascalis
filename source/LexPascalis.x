@@ -20,7 +20,7 @@ $i = [$l $d _ ']          -- identifier character
 $u = [\0-\255]          -- universal: any character
 
 @rsyms =    -- symbols and non-identifier-like reserved words
-   \; | "fini" \. | \: | \, | \( | \) | \: \= | \[ \: \] | \[ | \: \] | \[ \: | \] | \= | \< \> | \< | \> | \= \< | \> \= | \+ | \- | \* | \/ | "numeri" \  "integri" | "logica" \  "booleana"
+   \; | "fini" \. | \: | \, | \( | \) | \[ | \] | \: \= | \[ \: \] | \: \] | \[ \: | \= | \< \> | \< | \> | \= \< | \> \= | \+ | \- | \* | \/ | "numeri" \  "integri" | "logica" \  "booleana"
 
 :-
 "//" [.]* ; -- Toss single line comments
