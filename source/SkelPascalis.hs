@@ -18,13 +18,13 @@ transProgram x = case x of
 transDecl :: Decl -> Result
 transDecl x = case x of
   DVar ident type_ -> failure x
+  DAVar ident exp1 exp2 type_ -> failure x
 transStm :: Stm -> Result
 transStm x = case x of
   Skip -> failure x
   SPrint exp -> failure x
   SIf exp stm -> failure x
   SIfElse exp stm1 stm2 -> failure x
-  SDecl decl -> failure x
   SExp exp -> failure x
   SBlock stms -> failure x
   SWhile exp stm -> failure x
@@ -69,4 +69,6 @@ transType x = case x of
   TStr -> failure x
   TChar -> failure x
   TFunc -> failure x
+  TArr type_1 type_2 -> failure x
+  TDict type_1 type_2 -> failure x
 

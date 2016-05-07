@@ -9,12 +9,15 @@ import qualified Data.Map as M
 import Control.Monad.Reader
 import Data.Maybe(fromMaybe, fromJust)
 import Control.Monad.State
+import Data.Array
 
+
+type EExp = Exp
 
 type Var = String
 type Loc = Int
 type Env = M.Map Ident Loc
-type Store = M.Map Loc (Type, Exp)
+type Store = M.Map Loc (Type, EExp)
 type MRSIO a = ReaderT Env (StateT Store IO) a
 
 
@@ -37,13 +40,13 @@ getLoc v = do env <- askEnv
 localEnv :: (Env -> Env) -> (MRSIO () -> MRSIO ())
 localEnv f s = local f s
 
-getExpFromStore :: Loc -> MRSIO Exp
+getExpFromStore :: Loc -> MRSIO EExp
 getExpFromStore l = do {
     store <- getStore;
     return $ snd $ fromJust $ M.lookup l store;
   }
 
-askExp :: Ident -> MRSIO Exp
+askExp :: Ident -> MRSIO EExp
 askExp ident = do loc <- getLoc ident
                   getExpFromStore loc
 
@@ -71,7 +74,7 @@ alloc t = do {
             return size
   }
 
-putStore :: Loc -> Exp -> MRSIO ()
+putStore :: Loc -> EExp -> MRSIO ()
 putStore loc v = do {
     state <- getStore;
     let t = fst $ fromJust $ M.lookup loc state;
@@ -83,7 +86,7 @@ putStore loc v = do {
 convertVar converter ident = do v <- askExp ident
                                 converter v
 
-calcInt :: Exp -> MRSIO Integer
+calcInt :: EExp -> MRSIO Integer
 calcInt x = case x of
     EVar ident     -> convertVar calcInt ident
     EAdd exp1 exp2 -> do n1 <- calcInt exp1
@@ -99,22 +102,42 @@ calcInt x = case x of
                          n2 <- calcInt exp2
                          return $ n2 `div` n1
     EInt n         -> return n
+    EKey cont k    -> getFromCont cont k
+      where
+        getFromCont (EArrII a) (EInt i1) = do i <- simint (EInt i1)
+                                              return $ toInteger $ a ! i
+
+        getFromCont (EVar ident) key     = do a <- askExp ident
+                                              getFromCont a key
+
+                                              --return $ toInteger $ a ! i
 
 
-calcExpInt :: Exp -> MRSIO Exp
+calcExpInt :: EExp -> MRSIO EExp
 calcExpInt exp = do int <- calcInt exp
                     return $ EInt $ toInteger int
 
-calcChar :: Exp -> MRSIO Exp
+
+calcChar :: EExp -> MRSIO EExp
 calcChar (EChar c) = return $ EChar c
 calcChar (EVar i)  = convertVar calcChar i
+calcChar (EKey container k) = getFromCont container k
+  where
+    getFromCont (EStr s) k       = do i <- simint k
+                                      return $ EChar $ head $ drop i s
+    getFromCont (EVar ident) key = do a <- askExp ident
+                                      getFromCont a key
+
+getContainerKeyType :: Type -> Type
+getContainerKeyType TStr     = TInt
+getContainerKeyType (TArr t1 t2)  = t1
+
+getContainerValueType :: Type -> Type
+getContainerValueType TStr   = TChar
+getContainerValueType (TArr t1 t2)= t2
 
 
-getContainerKeyType TStr   = TInt
-getContainerValueType TStr = TChar
-
-
-getType :: Exp -> MRSIO Type
+getType :: EExp -> MRSIO Type
 getType exp = case exp of
     BTrue       -> return TBool
     BFalse      -> return TBool
@@ -140,9 +163,12 @@ getType exp = case exp of
     ELSub _ _   -> return TStr
     ERSub _ _   -> return TStr
     ELRSub _ _ _-> return TStr
-    EKey _ _    -> return TStr
+    -- TODO consider it
+    EKey e _    -> do con_t <- getType e
+                      return $ getContainerValueType con_t
     ELen _      -> return TFunc
     EOrd _      -> return TFunc
+    EArrII _    -> return (TArr TInt TInt)
     -- TODO
     EVar v      -> do {
         l <- getLoc v;
@@ -152,11 +178,11 @@ getType exp = case exp of
 concatenation (EStr s1) (EStr s2) = EStr (s1 ++ s2)
 
 
-simint :: Exp -> MRSIO Int
+simint :: EExp -> MRSIO Int
 simint i = do int <- calcInt i
               return $ fromIntegral $ int
 
-calcString :: Exp -> MRSIO Exp
+calcString :: EExp -> MRSIO EExp
 calcString str = case str of
     EStr s              -> return $ EStr s
     EAdd s1 s2          -> do
@@ -175,12 +201,10 @@ calcString str = case str of
         right <- simint r;
         return $ EStr ((take (right - left)) $ drop left s)
       }
-    EKey (EStr s) k     -> do i <- simint k
-                              return $ EChar $ head $ drop i s
     EVar i              -> convertVar calcString i
 
 
-calcBool :: Exp -> MRSIO Exp
+calcBool :: EExp -> MRSIO EExp
 calcBool exp = case exp of
 
     -- bool expressions
@@ -228,18 +252,22 @@ calcBool exp = case exp of
           return BFalse
       }
 
-calcFunc :: Exp -> MRSIO Exp
+calcFunc :: EExp -> MRSIO EExp
 calcFunc (ELen (EStr s)) = return $ EInt (toInteger $ length s)
 calcFunc (EOrd (EChar c)) = return $ EInt (toInteger $ ord c)
 
 
-getConverter :: Type -> (Exp -> MRSIO Exp)
+calcArr :: EExp -> MRSIO EExp
+calcArr = (\x -> return x)
+
+getConverter :: Type -> (EExp -> MRSIO EExp)
 getConverter t = case t of
     TBool      -> calcBool
     TInt       -> calcExpInt
     TChar      -> calcChar
     TStr       -> calcString
     TFunc      -> calcFunc
+    TArr _ _   -> calcArr
 
 
 showExp (EInt i)    = show i
@@ -248,23 +276,48 @@ showExp (EChar s)   = [s]
 showExp BTrue       = "verum"
 showExp BFalse      = "falsum"
 
+
+createArray :: EExp -> EExp -> Type -> EExp
+createArray (EInt i1) (EInt i2) TInt = EArrII (array (fromInteger i1, fromInteger i2) [])
+
 iDecl :: [Decl] -> [Stm] -> MRSIO ()
 iDecl ((DVar ind ty):tail) stm = do {
     loc <- alloc ty;
     localEnv (M.insert ind loc) (iDecl tail stm);
   }
 
+
+iDecl ((DAVar i e1 e2 t):tail) stm = do {
+    t1 <- getType e1;
+    t2 <- getType e2;
+    if t1 == t2 then
+      do
+        loc <- alloc (TArr t1 t);
+        exp1 <- calcExp e1;
+        exp2 <- calcExp e2;
+        putStore loc (createArray e1 e2 t);
+        localEnv (M.insert i loc) (iDecl tail stm);
+    else
+        -- TODO handle error here
+        return_IO
+  }
+
+
 iDecl [] stm = interpretStmts stm
 
-calcExp :: Exp -> MRSIO Exp
+
+calcExp :: EExp -> MRSIO EExp
 calcExp e = do t <- getType e
                getConverter t e
 
-update_container :: Exp -> Exp -> Exp -> Exp
+
+update_container :: EExp -> EExp -> EExp -> EExp
 update_container (EStr s) (EInt i) (EChar c) = EStr (upd_con s i c)
   where
     upd_con (_:t) 0 c = (c:t)
     upd_con (h:t) i c = (h:upd_con t (i - 1) c)
+
+update_container (EArrII a) (EInt i1) (EInt i2) = EArrII (a // [(fromInteger i1, fromInteger i2)])
 
 
 iStmt :: Stm -> MRSIO ()

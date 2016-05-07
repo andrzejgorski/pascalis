@@ -2,10 +2,11 @@
     comment "{" "}" ;
 
     Prog. Program   ::= "program" Ident ";" [Decl] "incipe" [Stm] "fini." ;
-    DVar.  Decl     ::= "variabilis" Ident ":" Type ";" ;
+    DVar.  Decl     ::= "variabilis" Ident ":" Type ;
+    DAVar. Decl     ::= "variabilis" Ident ":" "matrix" "[" Exp ".." Exp"]" "autem" Type ;
 
 	terminator Stm "" ;
-	separator  Decl "," ;
+	separator  Decl ";" ;
 	separator  nonempty Ident "," ;
 
     Skip.    Stm ::= "persulta" ";" ;
@@ -13,7 +14,6 @@
 
     SIf.     Stm ::= "si" Exp "tunc" Stm ;
     SIfElse. Stm ::= "si" Exp "tunc" Stm "alter" Stm;
-	SDecl.   Stm ::= Decl ";"  ;
 	SExp.    Stm ::= Exp ";" ;
 	SBlock.  Stm ::= "incipe" [Stm] "fini" ;
 	SWhile.  Stm ::= "donec" Exp "fac" Stm ;
@@ -65,3 +65,5 @@
     TStr.   Type ::= "titulus" ;
     TChar.  Type ::= "litera" ;
     TFunc.  Type ::= "functio" ;
+    TArr.   Type ::= "matrix" "{" Type "}" "autem" Type ;
+    TDict.  Type ::= "dictionarum" "{" Type "}" "autem" Type ;

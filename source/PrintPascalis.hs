@@ -90,17 +90,17 @@ instance Print Program where
 
 instance Print Decl where
   prt i e = case e of
-    DVar id type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), prt 0 type_, doc (showString ";")])
+    DVar id type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), prt 0 type_])
+    DAVar id exp1 exp2 type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), doc (showString "matrix"), doc (showString "["), prt 0 exp1, doc (showString ".."), prt 0 exp2, doc (showString "]"), doc (showString "autem"), prt 0 type_])
   prtList _ [] = (concatD [])
   prtList _ [x] = (concatD [prt 0 x])
-  prtList _ (x:xs) = (concatD [prt 0 x, doc (showString ","), prt 0 xs])
+  prtList _ (x:xs) = (concatD [prt 0 x, doc (showString ";"), prt 0 xs])
 instance Print Stm where
   prt i e = case e of
     Skip -> prPrec i 0 (concatD [doc (showString "persulta"), doc (showString ";")])
     SPrint exp -> prPrec i 0 (concatD [doc (showString "incribo"), doc (showString "("), prt 0 exp, doc (showString ")"), doc (showString ";")])
     SIf exp stm -> prPrec i 0 (concatD [doc (showString "si"), prt 0 exp, doc (showString "tunc"), prt 0 stm])
     SIfElse exp stm1 stm2 -> prPrec i 0 (concatD [doc (showString "si"), prt 0 exp, doc (showString "tunc"), prt 0 stm1, doc (showString "alter"), prt 0 stm2])
-    SDecl decl -> prPrec i 0 (concatD [prt 0 decl, doc (showString ";")])
     SExp exp -> prPrec i 0 (concatD [prt 0 exp, doc (showString ";")])
     SBlock stms -> prPrec i 0 (concatD [doc (showString "incipe"), prt 0 stms, doc (showString "fini")])
     SWhile exp stm -> prPrec i 0 (concatD [doc (showString "donec"), prt 0 exp, doc (showString "fac"), prt 0 stm])
@@ -150,5 +150,7 @@ instance Print Type where
     TStr -> prPrec i 0 (concatD [doc (showString "titulus")])
     TChar -> prPrec i 0 (concatD [doc (showString "litera")])
     TFunc -> prPrec i 0 (concatD [doc (showString "functio")])
+    TArr type_1 type_2 -> prPrec i 0 (concatD [doc (showString "matrix"), doc (showString "{"), prt 0 type_1, doc (showString "}"), doc (showString "autem"), prt 0 type_2])
+    TDict type_1 type_2 -> prPrec i 0 (concatD [doc (showString "dictionarum"), doc (showString "{"), prt 0 type_1, doc (showString "}"), doc (showString "autem"), prt 0 type_2])
 
 

@@ -31,47 +31,53 @@ import ErrM
   '+' { PT _ (TS _ 4) }
   ',' { PT _ (TS _ 5) }
   '-' { PT _ (TS _ 6) }
-  '/' { PT _ (TS _ 7) }
-  ':' { PT _ (TS _ 8) }
-  ':=' { PT _ (TS _ 9) }
-  ':]' { PT _ (TS _ 10) }
-  ';' { PT _ (TS _ 11) }
-  '<' { PT _ (TS _ 12) }
-  '<>' { PT _ (TS _ 13) }
-  '=' { PT _ (TS _ 14) }
-  '=<' { PT _ (TS _ 15) }
-  '>' { PT _ (TS _ 16) }
-  '>=' { PT _ (TS _ 17) }
-  '[' { PT _ (TS _ 18) }
-  '[:' { PT _ (TS _ 19) }
-  '[:]' { PT _ (TS _ 20) }
-  ']' { PT _ (TS _ 21) }
-  'alter' { PT _ (TS _ 22) }
-  'donec' { PT _ (TS _ 23) }
-  'et' { PT _ (TS _ 24) }
-  'fac' { PT _ (TS _ 25) }
-  'falsum' { PT _ (TS _ 26) }
-  'fini' { PT _ (TS _ 27) }
-  'fini.' { PT _ (TS _ 28) }
-  'functio' { PT _ (TS _ 29) }
-  'incipe' { PT _ (TS _ 30) }
-  'incribo' { PT _ (TS _ 31) }
-  'litera' { PT _ (TS _ 32) }
-  'logica booleana' { PT _ (TS _ 33) }
-  'longitudo' { PT _ (TS _ 34) }
-  'non' { PT _ (TS _ 35) }
-  'nullum' { PT _ (TS _ 36) }
-  'numeri integri' { PT _ (TS _ 37) }
-  'ord' { PT _ (TS _ 38) }
-  'persulta' { PT _ (TS _ 39) }
-  'program' { PT _ (TS _ 40) }
-  'refer' { PT _ (TS _ 41) }
-  'si' { PT _ (TS _ 42) }
-  'titulus' { PT _ (TS _ 43) }
-  'tunc' { PT _ (TS _ 44) }
-  'uel' { PT _ (TS _ 45) }
-  'variabilis' { PT _ (TS _ 46) }
-  'verum' { PT _ (TS _ 47) }
+  '..' { PT _ (TS _ 7) }
+  '/' { PT _ (TS _ 8) }
+  ':' { PT _ (TS _ 9) }
+  ':=' { PT _ (TS _ 10) }
+  ':]' { PT _ (TS _ 11) }
+  ';' { PT _ (TS _ 12) }
+  '<' { PT _ (TS _ 13) }
+  '<>' { PT _ (TS _ 14) }
+  '=' { PT _ (TS _ 15) }
+  '=<' { PT _ (TS _ 16) }
+  '>' { PT _ (TS _ 17) }
+  '>=' { PT _ (TS _ 18) }
+  '[' { PT _ (TS _ 19) }
+  '[:' { PT _ (TS _ 20) }
+  '[:]' { PT _ (TS _ 21) }
+  ']' { PT _ (TS _ 22) }
+  'alter' { PT _ (TS _ 23) }
+  'autem' { PT _ (TS _ 24) }
+  'dictionarum' { PT _ (TS _ 25) }
+  'donec' { PT _ (TS _ 26) }
+  'et' { PT _ (TS _ 27) }
+  'fac' { PT _ (TS _ 28) }
+  'falsum' { PT _ (TS _ 29) }
+  'fini' { PT _ (TS _ 30) }
+  'fini.' { PT _ (TS _ 31) }
+  'functio' { PT _ (TS _ 32) }
+  'incipe' { PT _ (TS _ 33) }
+  'incribo' { PT _ (TS _ 34) }
+  'litera' { PT _ (TS _ 35) }
+  'logica booleana' { PT _ (TS _ 36) }
+  'longitudo' { PT _ (TS _ 37) }
+  'matrix' { PT _ (TS _ 38) }
+  'non' { PT _ (TS _ 39) }
+  'nullum' { PT _ (TS _ 40) }
+  'numeri integri' { PT _ (TS _ 41) }
+  'ord' { PT _ (TS _ 42) }
+  'persulta' { PT _ (TS _ 43) }
+  'program' { PT _ (TS _ 44) }
+  'refer' { PT _ (TS _ 45) }
+  'si' { PT _ (TS _ 46) }
+  'titulus' { PT _ (TS _ 47) }
+  'tunc' { PT _ (TS _ 48) }
+  'uel' { PT _ (TS _ 49) }
+  'variabilis' { PT _ (TS _ 50) }
+  'verum' { PT _ (TS _ 51) }
+  '{' { PT _ (TS _ 52) }
+  '}' { PT _ (TS _ 53) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -91,13 +97,14 @@ Double  :: { Double }  : L_doubl  { (read ( $1)) :: Double }
 Program :: { Program }
 Program : 'program' Ident ';' ListDecl 'incipe' ListStm 'fini.' { AbsPascalis.Prog $2 $4 (reverse $6) }
 Decl :: { Decl }
-Decl : 'variabilis' Ident ':' Type ';' { AbsPascalis.DVar $2 $4 }
+Decl : 'variabilis' Ident ':' Type { AbsPascalis.DVar $2 $4 }
+     | 'variabilis' Ident ':' 'matrix' '[' Exp '..' Exp ']' 'autem' Type { AbsPascalis.DAVar $2 $6 $8 $11 }
 ListStm :: { [Stm] }
 ListStm : {- empty -} { [] } | ListStm Stm { flip (:) $1 $2 }
 ListDecl :: { [Decl] }
 ListDecl : {- empty -} { [] }
          | Decl { (:[]) $1 }
-         | Decl ',' ListDecl { (:) $1 $3 }
+         | Decl ';' ListDecl { (:) $1 $3 }
 ListIdent :: { [Ident] }
 ListIdent : Ident { (:[]) $1 } | Ident ',' ListIdent { (:) $1 $3 }
 Stm :: { Stm }
@@ -105,7 +112,6 @@ Stm : 'persulta' ';' { AbsPascalis.Skip }
     | 'incribo' '(' Exp ')' ';' { AbsPascalis.SPrint $3 }
     | 'si' Exp 'tunc' Stm { AbsPascalis.SIf $2 $4 }
     | 'si' Exp 'tunc' Stm 'alter' Stm { AbsPascalis.SIfElse $2 $4 $6 }
-    | Decl ';' { AbsPascalis.SDecl $1 }
     | Exp ';' { AbsPascalis.SExp $1 }
     | 'incipe' ListStm 'fini' { AbsPascalis.SBlock (reverse $2) }
     | 'donec' Exp 'fac' Stm { AbsPascalis.SWhile $2 $4 }
@@ -161,6 +167,8 @@ Type : 'numeri integri' { AbsPascalis.TInt }
      | 'titulus' { AbsPascalis.TStr }
      | 'litera' { AbsPascalis.TChar }
      | 'functio' { AbsPascalis.TFunc }
+     | 'matrix' '{' Type '}' 'autem' Type { AbsPascalis.TArr $3 $6 }
+     | 'dictionarum' '{' Type '}' 'autem' Type { AbsPascalis.TDict $3 $6 }
 {
 
 returnM :: a -> Err a

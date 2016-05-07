@@ -1,0 +1,10 @@
+program array;
+
+variabilis mm: matrix [10 .. 12] autem numeri integri;
+
+incipe
+    mm[10] := 1;
+    mm[12] := 3;
+    incribo(mm[10]);
+    incribo(mm[12]);
+fini.

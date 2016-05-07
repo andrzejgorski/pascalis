@@ -42,20 +42,22 @@ followed by an unsigned or negative exponent.
 The set of reserved words is the set of terminals appearing in the grammar. Those reserved words that consist of non-letter characters are called symbols, and they are treated in a different way from those that are similar to identifiers. The lexer follows rules familiar from languages like Haskell, C, and Java, including longest match and spacing conventions.
 
 The reserved words used in Pascalis are the following:
-  | ``alter`` | ``donec`` | ``et`` | ``fac``
-  | ``falsum`` | ``fini`` | ``functio`` | ``incipe``
-  | ``incribo`` | ``litera`` | ``longitudo`` | ``non``
-  | ``nullum`` | ``ord`` | ``persulta`` | ``program``
-  | ``refer`` | ``si`` | ``titulus`` | ``tunc``
-  | ``uel`` | ``variabilis`` | ``verum`` | 
+  | ``alter`` | ``autem`` | ``dictionarum`` | ``donec``
+  | ``et`` | ``fac`` | ``falsum`` | ``fini``
+  | ``functio`` | ``incipe`` | ``incribo`` | ``litera``
+  | ``longitudo`` | ``matrix`` | ``non`` | ``nullum``
+  | ``ord`` | ``persulta`` | ``program`` | ``refer``
+  | ``si`` | ``titulus`` | ``tunc`` | ``uel``
+  | ``variabilis`` | ``verum`` |  | 
 
 The symbols used in Pascalis are the following:
-  | ; | fini. | : | ,
-  | ( | ) | [ | ]
-  | := | [:] | :] | [:
-  | = | <> | < | >
-  | =< | >= | + | -
-  | * | / | numeri integri | logica booleana
+  | ; | fini. | : | [
+  | .. | ] | , | (
+  | ) | := | [:] | :]
+  | [: | = | <> | <
+  | > | =< | >= | +
+  | - | * | / | numeri integri
+  | logica booleana | { | } | 
 
 ===Comments===
 Single-line comments begin with //.Multiple-line comments are  enclosed with { and }.
@@ -67,19 +69,19 @@ and **eps** (empty rule) belong to the BNF notation.
 All other symbols are terminals.
 
   | //Program// | -> | ``program`` //Ident// ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini.`` 
-  | //Decl// | -> | ``variabilis`` //Ident// ``:`` //Type// ``;`` 
+  | //Decl// | -> | ``variabilis`` //Ident// ``:`` //Type// 
+  |  |  **|**  | ``variabilis`` //Ident// ``:`` ``matrix`` ``[`` //Exp// ``..`` //Exp// ``]`` ``autem`` //Type// 
   | //[Stm]// | -> | **eps**
   |  |  **|**  | //Stm// //[Stm]// 
   | //[Decl]// | -> | **eps**
   |  |  **|**  | //Decl// 
-  |  |  **|**  | //Decl// ``,`` //[Decl]// 
+  |  |  **|**  | //Decl// ``;`` //[Decl]// 
   | //[Ident]// | -> | //Ident// 
   |  |  **|**  | //Ident// ``,`` //[Ident]// 
   | //Stm// | -> | ``persulta`` ``;`` 
   |  |  **|**  | ``incribo`` ``(`` //Exp// ``)`` ``;`` 
   |  |  **|**  | ``si`` //Exp// ``tunc`` //Stm// 
   |  |  **|**  | ``si`` //Exp// ``tunc`` //Stm// ``alter`` //Stm// 
-  |  |  **|**  | //Decl// ``;`` 
   |  |  **|**  | //Exp// ``;`` 
   |  |  **|**  | ``incipe`` //[Stm]// ``fini`` 
   |  |  **|**  | ``donec`` //Exp// ``fac`` //Stm// 
@@ -128,5 +130,7 @@ All other symbols are terminals.
   |  |  **|**  | ``titulus`` 
   |  |  **|**  | ``litera`` 
   |  |  **|**  | ``functio`` 
+  |  |  **|**  | ``matrix`` ``{`` //Type// ``}`` ``autem`` //Type// 
+  |  |  **|**  | ``dictionarum`` ``{`` //Type// ``}`` ``autem`` //Type// 
 
 

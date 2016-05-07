@@ -24,11 +24,11 @@ transStm x = case x of
   SPrint exp -> failure x
   SIf exp stm -> failure x
   SIfElse exp stm1 stm2 -> failure x
-  SDecl decl -> failure x
   SExp exp -> failure x
   SBlock stms -> failure x
   SWhile exp stm -> failure x
   SReturn exp -> failure x
+  STSet ident exp1 exp2 -> failure x
   SSet ident exp -> failure x
 transExp :: Exp -> Result
 transExp x = case x of
@@ -68,4 +68,6 @@ transType x = case x of
   TStr -> failure x
   TChar -> failure x
   TFunc -> failure x
+  TArr type_1 type_2 -> failure x
+  TDict type_1 type_2 -> failure x
 

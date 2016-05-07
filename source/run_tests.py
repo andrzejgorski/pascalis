@@ -67,6 +67,8 @@ OUTPUTS = {
     'test_eq_var_int': 'falsum',
     'test_change_string_content': 'mleko',
     'test_change_one_letter_string': 'jajka',
+    'test_array_construct': '13',
+    'test_sub_str_var': 't',
 }
 
 
