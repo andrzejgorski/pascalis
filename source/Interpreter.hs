@@ -80,10 +80,12 @@ putStore loc v = do {
   }
 
 
+convertVar converter ident = do v <- askExp ident
+                                converter v
+
 calcInt :: Exp -> MRSIO Integer
 calcInt x = case x of
-    EVar ident     -> do v <- askExp ident
-                         calcInt v
+    EVar ident     -> convertVar calcInt ident
     EAdd exp1 exp2 -> do n1 <- calcInt exp1
                          n2 <- calcInt exp2
                          return $ n2 + n1
@@ -105,6 +107,7 @@ calcExpInt exp = do int <- calcInt exp
 
 calcChar :: Exp -> MRSIO Exp
 calcChar (EChar c) = return $ EChar c
+calcChar (EVar i)  = convertVar calcChar i
 
 
 getType :: Exp -> MRSIO Type
@@ -170,6 +173,7 @@ calcString str = case str of
       }
     EKey (EStr s) k     -> do i <- simint k
                               return $ EChar $ head $ drop i s
+    EVar i              -> convertVar calcString i
 
 
 calcBool :: Exp -> MRSIO Exp
@@ -202,6 +206,7 @@ calcBool exp = case exp of
     EGt exp1 exp2   -> calcConvered (>)  exp1 exp2
     ELEt exp1 exp2  -> calcConvered (<=) exp1 exp2
     EGEt exp1 exp2  -> calcConvered (>=) exp1 exp2
+    EVar i          -> convertVar calcBool i
   where
     calcConvered func exp1 exp2 = do {
         t1 <- getType exp1;

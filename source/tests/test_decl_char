@@ -1,0 +1,8 @@
+program char;
+
+variabilis character: litera;
+
+incipe
+    character := 'x';
+    incribo(character);
+fini.

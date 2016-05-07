@@ -1,0 +1,8 @@
+program str;
+
+variabilis str: titulus;
+
+incipe
+    str := "michal ma nowy strych";
+    incribo(str);
+fini.

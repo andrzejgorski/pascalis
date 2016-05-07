@@ -61,6 +61,9 @@ OUTPUTS = {
     'test_string_length_6': '6',
     'test_char_ord': '99',
     'test_decl_int': '1',
+    'test_decl_bool': 'verum',
+    'test_decl_str': 'michal ma nowy strych',
+    'test_decl_char': 'x',
 }
 
 

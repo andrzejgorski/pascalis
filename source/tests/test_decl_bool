@@ -1,0 +1,8 @@
+program bool;
+
+variabilis boo: logica booleana;
+
+incipe
+    boo := verum;
+    incribo(boo);
+fini.
