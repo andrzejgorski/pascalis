@@ -1,0 +1,8 @@
+program eq_var_int;
+
+variabilis num: numeri integri;
+
+incipe
+    num := 1;
+    incribo(num = 2);
+fini.

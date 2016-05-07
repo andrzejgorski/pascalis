@@ -64,6 +64,7 @@ OUTPUTS = {
     'test_decl_bool': 'verum',
     'test_decl_str': 'michal ma nowy strych',
     'test_decl_char': 'x',
+    'test_eq_var_int': 'falsum',
 }
 
 
