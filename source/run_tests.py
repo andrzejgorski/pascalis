@@ -81,6 +81,7 @@ OUTPUTS = {
     'test_procedure': 'Maslo z orzechamiLubie placki',
     'test_global_variable': 'teraz ty!raz dwa trzy',
     'test_procedure_with_param': '1110',
+    'test_procedure_with_two_params': 'ala ma kota',
 }
 
 

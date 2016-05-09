@@ -1,0 +1,12 @@
+program procedure_two_params;
+
+processus pp(param x1: titulus; param x2: titulus);
+variabilis x: titulus;
+incipe
+    x := x1 + x2;
+    incribo(x);
+fini;
+
+incipe
+    pp("ala ", "ma kota");
+fini.
