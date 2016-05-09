@@ -22,6 +22,10 @@ runBlock :: Env -> ([Stm] -> MRSIO ()) -> [Stm] -> MRSIO ()
 runBlock env interpretFunc stms= do lift $ runReaderT (interpretFunc stms) env;
                                           return_IO
 
+runNewEnv :: Env -> ([Decl] -> MRSIO Env) -> [Decl] -> MRSIO Env
+runNewEnv env func decls = lift $ runReaderT (func decls) env;
+
+
 -- StateT monad
 getStore :: MRSIO Store
 getStore = lift $ get
@@ -33,7 +37,7 @@ putStore s = lift $ put s
 askEnv :: MRSIO Env
 askEnv = ask
 
-localEnv :: (Env -> Env) -> (MRSIO () -> MRSIO ())
+localEnv :: (Env -> Env) -> (MRSIO Env -> MRSIO Env)
 localEnv f s = local f s
 
 

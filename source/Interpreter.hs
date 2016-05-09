@@ -40,9 +40,12 @@ update_container (EArrII a) (EInt i1) (EInt i2) = EArrII (a // [(fromInteger i1,
 createProcedure :: [Decl] -> [Stm] -> Env -> Exp
 createProcedure params stmts env = (EProc params stmts env)
 
+
 -- interpret declarations
 
-iDecl :: [Decl] -> [Stm] -> MRSIO ()
+iDecl :: [Decl] -> [Stm] -> MRSIO Env
+iDecl ((DParam ind ty):tail) stm = iDecl ((DVar ind ty):tail) stm
+
 iDecl ((DVar ind ty):tail) stm = do {
     loc <- alloc ty;
     localEnv (M.insert ind loc) (iDecl tail stm);
@@ -60,29 +63,25 @@ iDecl ((DAVar i e1 e2 t):tail) stm = do {
         localEnv (M.insert i loc) (iDecl tail stm);
     else
         -- TODO handle error here
-        return_IO
+        askEnv
   }
 
 iDecl ((DProc ident params decl stmts):tail) stm = do {
     env <- askEnv;
-    envParams <- addParamsToEnv params env;
-    envParamsDecls <- addDeclsToEnv decl env;
+    envParams <- runNewEnv env addParamsToEnv params ;
+    envParamsDecls <- runNewEnv envParams addDeclsToEnv decl;
     loc <- alloc TFunc;
     putToStore loc (createProcedure params stmts envParamsDecls);
     localEnv (M.insert ident loc) (iDecl tail stm);
   }
   where
-    addParamsToEnv [] env    = return env
     -- TODO fix id
-    addParamsToEnv (h:t) env = return env
-
-    -- TODO rewrite it to iDecl
-    addDeclsToEnv [] env     = return env
-    -- TODO fix id
-    addDeclsToEnv (h:t) env  = return env
+    addParamsToEnv decl = iDecl decl []
+    addDeclsToEnv decl = iDecl decl []
 
 
-iDecl [] stm = interpretStmts stm
+iDecl [] stm = do interpretStmts stm
+                  askEnv
 
 
 printParams [] = return ()
@@ -100,15 +99,22 @@ iStmt (SPrint value) = do {
 
 iStmt (SExp value)   = interSExp value
   where
-    interSExp (Call (Ident "incribo") list) = printParams list
-    interSExp (Call ident list) = do exp <- askExp ident
-                                     handleFunc exp list
+    interSExp (Call (Ident "incribo") calls) = printParams calls
+    interSExp (Call ident calls) = do exp <- askExp ident
+                                      handleFunc exp calls
       where
-        handleFunc (EProc decls stmts env) list = do {
-            func_env <- handleParams decls list env;
-            runBlock func_env interpretStmts stmts;
+        handleFunc (EProc decls stmts env) calls = do {
+            handleParams decls calls env;
+            runBlock env interpretStmts stmts;
           }
-          where handleParams [] [] env = return env
+          where
+            handleParams [] [] env = return ()
+            handleParams (DParam id ty:tc) (exp:te) env = do {
+                caled <- calcExp exp;
+                loc <- return $ fromJust $ M.lookup id env;
+                putToStore loc caled;
+                handleParams tc te env;
+            }
 
 
 iStmt (SIf exp stm)  = do {
@@ -180,7 +186,8 @@ iStmt (SFor ident exp1 exp2 stm) = do iStmt (SSet ident exp1)
 
 interpretStmts :: [Stm] -> MRSIO ()
 interpretStmts [] = return_IO
-interpretStmts ((SDecl decls):restStms) = iDecl decls restStms
+interpretStmts ((SDecl decls):restStms) = do iDecl decls restStms
+                                             return_IO
 interpretStmts (h:t) = do iStmt h
                           interpretStmts t
 
@@ -188,4 +195,5 @@ interpretStmts (h:t) = do iStmt h
 interpretProg prog = runStateT (runReaderT (interpret_ prog) M.empty) M.empty
   where
     interpret_ :: Program -> MRSIO ()
-    interpret_ (Prog _ d i) = iDecl d i
+    interpret_ (Prog _ d i) = do env <- iDecl d i
+                                 return_IO
