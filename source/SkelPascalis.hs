@@ -28,10 +28,11 @@ transStm x = case x of
   SExp exp -> failure x
   SDecl decls -> failure x
   SBlock stms -> failure x
-  SWhile exp stm -> failure x
   SReturn exp -> failure x
   STSet ident exp1 exp2 -> failure x
   SSet ident exp -> failure x
+  SWhile exp stm -> failure x
+  SFor ident exp1 exp2 stm -> failure x
 transExp :: Exp -> Result
 transExp x = case x of
   BTrue -> failure x

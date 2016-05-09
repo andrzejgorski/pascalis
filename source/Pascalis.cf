@@ -17,10 +17,11 @@
 	SExp.    Stm ::= Exp ";" ;
     SDecl.   Stm ::= [Decl] ;
 	SBlock.  Stm ::= "incipe" [Stm] "fini" ";" ;
-	SWhile.  Stm ::= "donec" Exp "fac" Stm ;
 	SReturn. Stm ::= "refer" Exp ";" ;
 	STSet.   Stm ::= Ident "[" Exp "]" ":=" Exp ";" ;
 	SSet.    Stm ::= Ident ":=" Exp ";" ;
+	SWhile.  Stm ::= "donec" Exp "fac" Stm ;
+	SFor.    Stm ::= "pro" Ident "=" Exp "ut" Exp "fac" Stm ;
 
 	BTrue.   Exp ::= "verum" ;
 	BFalse.  Exp ::= "falsum" ;

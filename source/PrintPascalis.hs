@@ -104,10 +104,11 @@ instance Print Stm where
     SExp exp -> prPrec i 0 (concatD [prt 0 exp, doc (showString ";")])
     SDecl decls -> prPrec i 0 (concatD [prt 0 decls])
     SBlock stms -> prPrec i 0 (concatD [doc (showString "incipe"), prt 0 stms, doc (showString "fini"), doc (showString ";")])
-    SWhile exp stm -> prPrec i 0 (concatD [doc (showString "donec"), prt 0 exp, doc (showString "fac"), prt 0 stm])
     SReturn exp -> prPrec i 0 (concatD [doc (showString "refer"), prt 0 exp, doc (showString ";")])
     STSet id exp1 exp2 -> prPrec i 0 (concatD [prt 0 id, doc (showString "["), prt 0 exp1, doc (showString "]"), doc (showString ":="), prt 0 exp2, doc (showString ";")])
     SSet id exp -> prPrec i 0 (concatD [prt 0 id, doc (showString ":="), prt 0 exp, doc (showString ";")])
+    SWhile exp stm -> prPrec i 0 (concatD [doc (showString "donec"), prt 0 exp, doc (showString "fac"), prt 0 stm])
+    SFor id exp1 exp2 stm -> prPrec i 0 (concatD [doc (showString "pro"), prt 0 id, doc (showString "="), prt 0 exp1, doc (showString "ut"), prt 0 exp2, doc (showString "fac"), prt 0 stm])
   prtList _ [] = (concatD [])
   prtList _ (x:xs) = (concatD [prt 0 x, prt 0 xs])
 instance Print Exp where

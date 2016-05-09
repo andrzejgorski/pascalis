@@ -20,7 +20,7 @@ $i = [$l $d _ ']          -- identifier character
 $u = [\0-\255]          -- universal: any character
 
 @rsyms =    -- symbols and non-identifier-like reserved words
-   \; | "fini" \. | \: | \, | \( | \) | \[ | \] | \: \= | \[ \: \] | \: \] | \[ \: | \= | \< \> | \< | \> | \= \< | \> \= | \+ | \- | \* | \/ | "numeri" \  "integri" | "logica" \  "booleana" | \{ | \}
+   \; | "fini" \. | \: | \[ | \. \. | \] | \, | \( | \) | \: \= | \[ \: \] | \: \] | \[ \: | \= | \< \> | \< | \> | \= \< | \> \= | \+ | \- | \* | \/ | "numeri" \  "integri" | "logica" \  "booleana" | \{ | \}
 
 :-
 "//" [.]* ; -- Toss single line comments
@@ -96,7 +96,7 @@ eitherResIdent tv s = treeFind resWords
                               | s == a = t
 
 resWords :: BTree
-resWords = b "fac" 27 (b "=" 14 (b "/" 7 (b "+" 4 (b ")" 2 (b "(" 1 N N) (b "*" 3 N N)) (b "-" 6 (b "," 5 N N) N)) (b ";" 11 (b ":=" 9 (b ":" 8 N N) (b ":]" 10 N N)) (b "<>" 13 (b "<" 12 N N) N))) (b "]" 21 (b "[" 18 (b ">" 16 (b "=<" 15 N N) (b ">=" 17 N N)) (b "[:]" 20 (b "[:" 19 N N) N)) (b "dictionarum" 24 (b "autem" 23 (b "alter" 22 N N) N) (b "et" 26 (b "donec" 25 N N) N)))) (b "numeri integri" 40 (b "litera" 34 (b "functio" 31 (b "fini" 29 (b "falsum" 28 N N) (b "fini." 30 N N)) (b "incribo" 33 (b "incipe" 32 N N) N)) (b "matrix" 37 (b "longitudo" 36 (b "logica booleana" 35 N N) N) (b "nullum" 39 (b "non" 38 N N) N))) (b "tunc" 47 (b "refer" 44 (b "persulta" 42 (b "ord" 41 N N) (b "program" 43 N N)) (b "titulus" 46 (b "si" 45 N N) N)) (b "verum" 50 (b "variabilis" 49 (b "uel" 48 N N) N) (b "}" 52 (b "{" 51 N N) N))))
+resWords = b "fac" 28 (b "<>" 14 (b ".." 7 (b "+" 4 (b ")" 2 (b "(" 1 N N) (b "*" 3 N N)) (b "-" 6 (b "," 5 N N) N)) (b ":]" 11 (b ":" 9 (b "/" 8 N N) (b ":=" 10 N N)) (b "<" 13 (b ";" 12 N N) N))) (b "[:]" 21 (b ">=" 18 (b "=<" 16 (b "=" 15 N N) (b ">" 17 N N)) (b "[:" 20 (b "[" 19 N N) N)) (b "dictionarum" 25 (b "alter" 23 (b "]" 22 N N) (b "autem" 24 N N)) (b "et" 27 (b "donec" 26 N N) N)))) (b "ord" 42 (b "litera" 35 (b "functio" 32 (b "fini" 30 (b "falsum" 29 N N) (b "fini." 31 N N)) (b "incribo" 34 (b "incipe" 33 N N) N)) (b "non" 39 (b "longitudo" 37 (b "logica booleana" 36 N N) (b "matrix" 38 N N)) (b "numeri integri" 41 (b "nullum" 40 N N) N))) (b "tunc" 49 (b "refer" 46 (b "pro" 44 (b "persulta" 43 N N) (b "program" 45 N N)) (b "titulus" 48 (b "si" 47 N N) N)) (b "verum" 53 (b "ut" 51 (b "uel" 50 N N) (b "variabilis" 52 N N)) (b "}" 55 (b "{" 54 N N) N))))
    where b s n = let bs = id s
                   in B bs (TS bs n)
 

@@ -46,15 +46,15 @@ The reserved words used in Pascalis are the following:
   | ``et`` | ``fac`` | ``falsum`` | ``fini``
   | ``functio`` | ``incipe`` | ``incribo`` | ``litera``
   | ``longitudo`` | ``matrix`` | ``non`` | ``nullum``
-  | ``ord`` | ``persulta`` | ``program`` | ``refer``
-  | ``si`` | ``titulus`` | ``tunc`` | ``uel``
-  | ``variabilis`` | ``verum`` |  | 
+  | ``ord`` | ``persulta`` | ``pro`` | ``program``
+  | ``refer`` | ``si`` | ``titulus`` | ``tunc``
+  | ``uel`` | ``ut`` | ``variabilis`` | ``verum``
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | [
   | .. | ] | , | (
-  | ) | := | [:] | :]
-  | [: | = | <> | <
+  | ) | := | = | [:]
+  | :] | [: | <> | <
   | > | =< | >= | +
   | - | * | / | numeri integri
   | logica booleana | { | } | 
@@ -85,10 +85,11 @@ All other symbols are terminals.
   |  |  **|**  | //Exp// ``;`` 
   |  |  **|**  | //[Decl]// 
   |  |  **|**  | ``incipe`` //[Stm]// ``fini`` ``;`` 
-  |  |  **|**  | ``donec`` //Exp// ``fac`` //Stm// 
   |  |  **|**  | ``refer`` //Exp// ``;`` 
   |  |  **|**  | //Ident// ``[`` //Exp// ``]`` ``:=`` //Exp// ``;`` 
   |  |  **|**  | //Ident// ``:=`` //Exp// ``;`` 
+  |  |  **|**  | ``donec`` //Exp// ``fac`` //Stm// 
+  |  |  **|**  | ``pro`` //Ident// ``=`` //Exp// ``ut`` //Exp// ``fac`` //Stm// 
   | //Exp// | -> | ``verum`` 
   |  |  **|**  | ``falsum`` 
   |  |  **|**  | ``nullum`` 

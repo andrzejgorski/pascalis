@@ -68,16 +68,18 @@ import ErrM
   'numeri integri' { PT _ (TS _ 41) }
   'ord' { PT _ (TS _ 42) }
   'persulta' { PT _ (TS _ 43) }
-  'program' { PT _ (TS _ 44) }
-  'refer' { PT _ (TS _ 45) }
-  'si' { PT _ (TS _ 46) }
-  'titulus' { PT _ (TS _ 47) }
-  'tunc' { PT _ (TS _ 48) }
-  'uel' { PT _ (TS _ 49) }
-  'variabilis' { PT _ (TS _ 50) }
-  'verum' { PT _ (TS _ 51) }
-  '{' { PT _ (TS _ 52) }
-  '}' { PT _ (TS _ 53) }
+  'pro' { PT _ (TS _ 44) }
+  'program' { PT _ (TS _ 45) }
+  'refer' { PT _ (TS _ 46) }
+  'si' { PT _ (TS _ 47) }
+  'titulus' { PT _ (TS _ 48) }
+  'tunc' { PT _ (TS _ 49) }
+  'uel' { PT _ (TS _ 50) }
+  'ut' { PT _ (TS _ 51) }
+  'variabilis' { PT _ (TS _ 52) }
+  'verum' { PT _ (TS _ 53) }
+  '{' { PT _ (TS _ 54) }
+  '}' { PT _ (TS _ 55) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -115,10 +117,11 @@ Stm : 'persulta' ';' { AbsPascalis.Skip }
     | Exp ';' { AbsPascalis.SExp $1 }
     | ListDecl { AbsPascalis.SDecl $1 }
     | 'incipe' ListStm 'fini' ';' { AbsPascalis.SBlock (reverse $2) }
-    | 'donec' Exp 'fac' Stm { AbsPascalis.SWhile $2 $4 }
     | 'refer' Exp ';' { AbsPascalis.SReturn $2 }
     | Ident '[' Exp ']' ':=' Exp ';' { AbsPascalis.STSet $1 $3 $6 }
     | Ident ':=' Exp ';' { AbsPascalis.SSet $1 $3 }
+    | 'donec' Exp 'fac' Stm { AbsPascalis.SWhile $2 $4 }
+    | 'pro' Ident '=' Exp 'ut' Exp 'fac' Stm { AbsPascalis.SFor $2 $4 $6 $8 }
 Exp :: { Exp }
 Exp : 'verum' { AbsPascalis.BTrue }
     | 'falsum' { AbsPascalis.BFalse }

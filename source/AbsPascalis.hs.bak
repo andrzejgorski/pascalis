@@ -25,10 +25,11 @@ data Stm
     | SExp Exp
     | SDecl [Decl]
     | SBlock [Stm]
-    | SWhile Exp Stm
     | SReturn Exp
     | STSet Ident Exp Exp
     | SSet Ident Exp
+    | SWhile Exp Stm
+    | SFor Stm Exp Stm
   deriving (Eq, Ord, Show, Read)
 
 data Exp
