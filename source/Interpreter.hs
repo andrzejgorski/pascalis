@@ -37,6 +37,9 @@ update_container (EStr s) (EInt i) (EChar c) = EStr (upd_con s i c)
 update_container (EArrII a) (EInt i1) (EInt i2) = EArrII (a // [(fromInteger i1, fromInteger i2)])
 
 
+createProcedure :: [Decl] -> [Stm] -> Env -> Exp
+createProcedure params stmts env = (EProc params stmts env)
+
 -- interpret declarations
 iDecl :: [Decl] -> [Stm] -> MRSIO ()
 iDecl ((DVar ind ty):tail) stm = do {
@@ -59,6 +62,25 @@ iDecl ((DAVar i e1 e2 t):tail) stm = do {
         return_IO
   }
 
+iDecl ((DProc ident params decl stmts):tail) stm = do {
+    env <- askEnv;
+    envParams <- addParamsToEnv params env;
+    envParamsDecls <- addDeclsToEnv decl env;
+    loc <- alloc TFunc;
+    putToStore loc (createProcedure params stmts envParamsDecls);
+    localEnv (M.insert ident loc) (iDecl tail stm);
+  }
+  where
+    addParamsToEnv [] env    = return env
+    -- TODO fix id
+    addParamsToEnv (h:t) env = return env
+
+    -- TODO rewrite it to iDecl
+    addDeclsToEnv [] env     = return env
+    -- TODO fix id
+    addDeclsToEnv (h:t) env  = return env
+
+
 iDecl [] stm = interpretStmts stm
 
 
@@ -78,6 +100,14 @@ iStmt (SPrint value) = do {
 iStmt (SExp value)   = interSExp value
   where
     interSExp (Call (Ident "incribo") list) = printParams list
+    interSExp (Call ident list) = do exp <- askExp ident
+                                     handleFunc exp list
+      where
+        handleFunc (EProc decls stmts env) list = do {
+            func_env <- handleParams decls list env;
+            runBlock func_env interpretStmts stmts;
+          }
+          where handleParams [] [] env = return env
 
 
 iStmt (SIf exp stm)  = do {

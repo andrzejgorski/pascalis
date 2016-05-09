@@ -92,6 +92,7 @@ instance Print Decl where
   prt i e = case e of
     DVar id type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), prt 0 type_])
     DAVar id exp1 exp2 type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), doc (showString "matrix"), doc (showString "["), prt 0 exp1, doc (showString ".."), prt 0 exp2, doc (showString "]"), doc (showString "autem"), prt 0 type_])
+    DProc id decls1 decls2 stms -> prPrec i 0 (concatD [doc (showString "processus"), prt 0 id, doc (showString "("), prt 0 decls1, doc (showString ")"), doc (showString ";"), prt 0 decls2, doc (showString "incipe"), prt 0 stms, doc (showString "fini")])
   prtList _ [] = (concatD [])
   prtList _ [x] = (concatD [prt 0 x])
   prtList _ (x:xs) = (concatD [prt 0 x, doc (showString ";"), prt 0 xs])
@@ -108,7 +109,7 @@ instance Print Stm where
     STSet id exp1 exp2 -> prPrec i 0 (concatD [prt 0 id, doc (showString "["), prt 0 exp1, doc (showString "]"), doc (showString ":="), prt 0 exp2, doc (showString ";")])
     SSet id exp -> prPrec i 0 (concatD [prt 0 id, doc (showString ":="), prt 0 exp, doc (showString ";")])
     SWhile exp stm -> prPrec i 0 (concatD [doc (showString "donec"), prt 0 exp, doc (showString "fac"), prt 0 stm])
-    SFor stm1 exp stm2 -> prPrec i 0 (concatD [doc (showString "pro"), prt 0 stm1, doc (showString "ut"), prt 0 exp, doc (showString "fac"), prt 0 stm2])
+    SFor id exp1 exp2 stm -> prPrec i 0 (concatD [doc (showString "pro"), prt 0 id, doc (showString "="), prt 0 exp1, doc (showString "ut"), prt 0 exp2, doc (showString "fac"), prt 0 stm])
   prtList _ [] = (concatD [])
   prtList _ (x:xs) = (concatD [prt 0 x, prt 0 xs])
 instance Print Exp where

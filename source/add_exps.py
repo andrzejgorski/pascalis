@@ -2,12 +2,18 @@
 import re
 
 Exps = '''    | EArrII ArrII
+    | EProc [Decl] [Stm] Env
 '''
 
 imports = '''import Data.Array
+import qualified Data.Map as M
 type ArrII = Array Int Int
+type EExp = Exp
+type Var = String
+type Loc = Int
+type Env = M.Map Ident Loc
+type Store = M.Map Loc (Type, EExp)
 '''
-
 patternExp = '    | EInt Integer'
 patternImports = 'module AbsPascalis where'
 

@@ -19,6 +19,7 @@ transDecl :: Decl -> Result
 transDecl x = case x of
   DVar ident type_ -> failure x
   DAVar ident exp1 exp2 type_ -> failure x
+  DProc ident decls1 decls2 stms -> failure x
 transStm :: Stm -> Result
 transStm x = case x of
   Skip -> failure x
@@ -32,7 +33,7 @@ transStm x = case x of
   STSet ident exp1 exp2 -> failure x
   SSet ident exp -> failure x
   SWhile exp stm -> failure x
-  SFor stm1 exp stm2 -> failure x
+  SFor ident exp1 exp2 stm -> failure x
 transExp :: Exp -> Result
 transExp x = case x of
   BTrue -> failure x

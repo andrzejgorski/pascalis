@@ -4,6 +4,7 @@
     Prog. Program   ::= "program" Ident ";" [Decl] "incipe" [Stm] "fini." ;
     DVar.  Decl     ::= "variabilis" Ident ":" Type ;
     DAVar. Decl     ::= "variabilis" Ident ":" "matrix" "[" Exp ".." Exp"]" "autem" Type ;
+    DProc. Decl     ::= "processus" Ident "(" [Decl] ")" ";" [Decl] "incipe" [Stm] "fini" ;
 
 	terminator Stm "" ;
 	separator  Decl ";" ;
@@ -67,5 +68,6 @@
     TStr.   Type ::= "titulus" ;
     TChar.  Type ::= "litera" ;
     TFunc.  Type ::= "functio" ;
+    TProc.  Type ::= "procedure" ;
     TArr.   Type ::= "matrix" "{" Type "}" "autem" Type ;
     TDict.  Type ::= "dictionarum" "{" Type "}" "autem" Type ;

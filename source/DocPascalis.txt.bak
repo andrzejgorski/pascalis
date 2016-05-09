@@ -46,15 +46,16 @@ The reserved words used in Pascalis are the following:
   | ``et`` | ``fac`` | ``falsum`` | ``fini``
   | ``functio`` | ``incipe`` | ``incribo`` | ``litera``
   | ``longitudo`` | ``matrix`` | ``non`` | ``nullum``
-  | ``ord`` | ``persulta`` | ``pro`` | ``program``
-  | ``refer`` | ``si`` | ``titulus`` | ``tunc``
-  | ``uel`` | ``ut`` | ``variabilis`` | ``verum``
+  | ``ord`` | ``persulta`` | ``pro`` | ``processus``
+  | ``program`` | ``refer`` | ``si`` | ``titulus``
+  | ``tunc`` | ``uel`` | ``ut`` | ``variabilis``
+  | ``verum`` |  |  | 
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | [
-  | .. | ] | , | (
-  | ) | := | [:] | :]
-  | [: | = | <> | <
+  | .. | ] | ( | )
+  | , | := | = | [:]
+  | :] | [: | <> | <
   | > | =< | >= | +
   | - | * | / | numeri integri
   | logica booleana | { | } | 
@@ -71,6 +72,7 @@ All other symbols are terminals.
   | //Program// | -> | ``program`` //Ident// ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini.`` 
   | //Decl// | -> | ``variabilis`` //Ident// ``:`` //Type// 
   |  |  **|**  | ``variabilis`` //Ident// ``:`` ``matrix`` ``[`` //Exp// ``..`` //Exp// ``]`` ``autem`` //Type// 
+  |  |  **|**  | ``processus`` //Ident// ``(`` //[Decl]// ``)`` ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini`` 
   | //[Stm]// | -> | **eps**
   |  |  **|**  | //Stm// //[Stm]// 
   | //[Decl]// | -> | **eps**
@@ -89,7 +91,7 @@ All other symbols are terminals.
   |  |  **|**  | //Ident// ``[`` //Exp// ``]`` ``:=`` //Exp// ``;`` 
   |  |  **|**  | //Ident// ``:=`` //Exp// ``;`` 
   |  |  **|**  | ``donec`` //Exp// ``fac`` //Stm// 
-  |  |  **|**  | ``pro`` //Stm// ``ut`` //Exp// ``fac`` //Stm// 
+  |  |  **|**  | ``pro`` //Ident// ``=`` //Exp// ``ut`` //Exp// ``fac`` //Stm// 
   | //Exp// | -> | ``verum`` 
   |  |  **|**  | ``falsum`` 
   |  |  **|**  | ``nullum`` 

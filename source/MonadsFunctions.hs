@@ -8,11 +8,6 @@ import Control.Monad.State
 import Data.Array
 
 -- types
-type EExp = Exp
-type Var = String
-type Loc = Int
-type Env = M.Map Ident Loc
-type Store = M.Map Loc (Type, EExp)
 type MRSIO a = ReaderT Env (StateT Store IO) a
 
 

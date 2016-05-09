@@ -19,6 +19,7 @@ transDecl :: Decl -> Result
 transDecl x = case x of
   DVar ident type_ -> failure x
   DAVar ident exp1 exp2 type_ -> failure x
+  DProc ident decls1 decls2 stms -> failure x
 transStm :: Stm -> Result
 transStm x = case x of
   Skip -> failure x
@@ -71,6 +72,7 @@ transType x = case x of
   TStr -> failure x
   TChar -> failure x
   TFunc -> failure x
+  TProc -> failure x
   TArr type_1 type_2 -> failure x
   TDict type_1 type_2 -> failure x
 

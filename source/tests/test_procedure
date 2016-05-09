@@ -1,0 +1,16 @@
+program procedure_example;
+
+processus example_processus();
+
+incipe
+    variabilis x: titulus;
+    x := "Maslo z orzechami";
+    incribo(x);
+fini;
+
+incipe
+    variabilis x: titulus;
+    x := "Lubie placki";
+    example_processus();
+    incribo(x);
+fini.

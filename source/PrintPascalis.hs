@@ -92,6 +92,7 @@ instance Print Decl where
   prt i e = case e of
     DVar id type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), prt 0 type_])
     DAVar id exp1 exp2 type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), doc (showString "matrix"), doc (showString "["), prt 0 exp1, doc (showString ".."), prt 0 exp2, doc (showString "]"), doc (showString "autem"), prt 0 type_])
+    DProc id decls1 decls2 stms -> prPrec i 0 (concatD [doc (showString "processus"), prt 0 id, doc (showString "("), prt 0 decls1, doc (showString ")"), doc (showString ";"), prt 0 decls2, doc (showString "incipe"), prt 0 stms, doc (showString "fini")])
   prtList _ [] = (concatD [])
   prtList _ [x] = (concatD [prt 0 x])
   prtList _ (x:xs) = (concatD [prt 0 x, doc (showString ";"), prt 0 xs])
@@ -152,6 +153,7 @@ instance Print Type where
     TStr -> prPrec i 0 (concatD [doc (showString "titulus")])
     TChar -> prPrec i 0 (concatD [doc (showString "litera")])
     TFunc -> prPrec i 0 (concatD [doc (showString "functio")])
+    TProc -> prPrec i 0 (concatD [doc (showString "procedure")])
     TArr type_1 type_2 -> prPrec i 0 (concatD [doc (showString "matrix"), doc (showString "{"), prt 0 type_1, doc (showString "}"), doc (showString "autem"), prt 0 type_2])
     TDict type_1 type_2 -> prPrec i 0 (concatD [doc (showString "dictionarum"), doc (showString "{"), prt 0 type_1, doc (showString "}"), doc (showString "autem"), prt 0 type_2])
 
