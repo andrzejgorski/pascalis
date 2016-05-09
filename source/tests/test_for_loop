@@ -1,0 +1,7 @@
+program loop_for;
+
+incipe
+    variabilis i: numeri integri;
+    pro i := 1 ut 10 fac
+        incribo(i);
+fini.

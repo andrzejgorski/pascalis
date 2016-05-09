@@ -202,3 +202,9 @@ calcArr = (\x -> return x)
 calcExp :: EExp -> MRSIO EExp
 calcExp e = do t <- getType e
                getConverter t e
+
+rangeExp :: EExp -> EExp -> Int
+rangeExp (EInt i1) (EInt i2) = fromInteger $ i2 - i1 + 1
+
+nextExp :: EExp -> MRSIO EExp
+nextExp (EInt i) = return (EInt (i + 1))

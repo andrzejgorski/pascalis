@@ -134,6 +134,18 @@ iStmt (SWhile exp stm) = do calced <- calcBool exp
                             else
                               return_IO
 
+iStmt (SFor ident exp1 exp2 stm) = do iStmt (SSet ident exp1)
+                                      cexp1 <- calcExp exp1
+                                      cexp2 <- calcExp exp2
+                                      doNTimes stm cexp1 (rangeExp cexp1 cexp2)
+                                        where
+                                          doNTimes stmt old 0 = return_IO
+                                          doNTimes stmt old times = do {
+    next <- nextExp old;
+    iStmt stmt;
+    iStmt (SSet ident next);
+    doNTimes stmt next (times - 1)
+}
 
 interpretStmts :: [Stm] -> MRSIO ()
 interpretStmts [] = return_IO
