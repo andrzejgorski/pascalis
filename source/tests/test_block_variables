@@ -1,0 +1,12 @@
+program variables;
+
+incipe
+    variabilis x: titulus;
+    x := "titulus 1";
+    incipe
+        variabilis x: titulus;
+        x := "titulus 2";
+        incribo(x);
+    fini;
+    incribo(x);
+fini.

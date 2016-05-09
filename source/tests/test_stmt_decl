@@ -1,0 +1,7 @@
+program stms_decl;
+
+incipe
+    variabilis x: titulus;
+    x := "titulus";
+    incribo(x);
+fini.

@@ -23,6 +23,7 @@ data Stm
     | SIf Exp Stm
     | SIfElse Exp Stm Stm
     | SExp Exp
+    | SDecl [Decl]
     | SBlock [Stm]
     | SWhile Exp Stm
     | SReturn Exp

@@ -113,7 +113,8 @@ Stm : 'persulta' ';' { AbsPascalis.Skip }
     | 'si' Exp 'tunc' Stm { AbsPascalis.SIf $2 $4 }
     | 'si' Exp 'tunc' Stm 'alter' Stm { AbsPascalis.SIfElse $2 $4 $6 }
     | Exp ';' { AbsPascalis.SExp $1 }
-    | 'incipe' ListStm 'fini' { AbsPascalis.SBlock (reverse $2) }
+    | ListDecl { AbsPascalis.SDecl $1 }
+    | 'incipe' ListStm 'fini' ';' { AbsPascalis.SBlock (reverse $2) }
     | 'donec' Exp 'fac' Stm { AbsPascalis.SWhile $2 $4 }
     | 'refer' Exp ';' { AbsPascalis.SReturn $2 }
     | Ident '[' Exp ']' ':=' Exp ';' { AbsPascalis.STSet $1 $3 $6 }

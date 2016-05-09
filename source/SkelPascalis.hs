@@ -26,6 +26,7 @@ transStm x = case x of
   SIf exp stm -> failure x
   SIfElse exp stm1 stm2 -> failure x
   SExp exp -> failure x
+  SDecl decls -> failure x
   SBlock stms -> failure x
   SWhile exp stm -> failure x
   SReturn exp -> failure x

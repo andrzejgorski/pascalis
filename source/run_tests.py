@@ -69,6 +69,8 @@ OUTPUTS = {
     'test_change_one_letter_string': 'jajka',
     'test_array_construct': '13',
     'test_sub_str_var': 't',
+    'test_block_variables': 'titulus 2titulus 1',
+    'test_stmt_decl': 'titulus',
 }
 
 

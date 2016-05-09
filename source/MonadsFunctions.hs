@@ -23,6 +23,10 @@ return_IO = lift $ lift $ return ()
 putStr_IO :: String -> MRSIO ()
 putStr_IO s = lift $ lift $ putStr s
 
+runBlock :: Env -> Store -> ([Stm] -> MRSIO ()) -> [Stm] -> MRSIO ()
+runBlock env store interpretFunc stms= do lift $ lift $ runStateT (runReaderT (interpretFunc stms) env) store;
+                                          return_IO
+
 -- StateT monad
 getStore :: MRSIO Store
 getStore = lift $ get

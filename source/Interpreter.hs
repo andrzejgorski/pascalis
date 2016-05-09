@@ -37,7 +37,7 @@ update_container (EStr s) (EInt i) (EChar c) = EStr (upd_con s i c)
 update_container (EArrII a) (EInt i1) (EInt i2) = EArrII (a // [(fromInteger i1, fromInteger i2)])
 
 
--- declarations
+-- interpret declarations
 iDecl :: [Decl] -> [Stm] -> MRSIO ()
 iDecl ((DVar ind ty):tail) stm = do {
     loc <- alloc ty;
@@ -62,7 +62,7 @@ iDecl ((DAVar i e1 e2 t):tail) stm = do {
 iDecl [] stm = interpretStmts stm
 
 
-
+-- interpret stmts ...
 iStmt :: Stm -> MRSIO ()
 iStmt Skip           = return_IO
 iStmt (SPrint value) = do {
@@ -118,9 +118,16 @@ iStmt (STSet ident key value) = do {
         -- TODO err
         return_IO
   }
--- interpretStmts :: [Stm] -> IO ()
+
+iStmt (SBlock stms) = do {
+    env <- askEnv;
+    store <- getStore;
+    runBlock env store interpretStmts stms;
+  }
+
 interpretStmts :: [Stm] -> MRSIO ()
 interpretStmts [] = return_IO
+interpretStmts ((SDecl decls):restStms) = iDecl decls restStms
 interpretStmts (h:t) = do iStmt h
                           interpretStmts t
 

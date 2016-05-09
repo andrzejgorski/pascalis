@@ -51,13 +51,13 @@ The reserved words used in Pascalis are the following:
   | ``variabilis`` | ``verum`` |  | 
 
 The symbols used in Pascalis are the following:
-  | ; | fini. | : | ,
-  | ( | ) | [ | ]
-  | := | [:] | :] | [:
-  | = | <> | < | >
-  | =< | >= | + | -
-  | * | / | numeri integri | logica booleana
-  | { | } |  | 
+  | ; | fini. | : | [
+  | .. | ] | , | (
+  | ) | := | [:] | :]
+  | [: | = | <> | <
+  | > | =< | >= | +
+  | - | * | / | numeri integri
+  | logica booleana | { | } | 
 
 ===Comments===
 Single-line comments begin with //.Multiple-line comments are  enclosed with { and }.
@@ -70,6 +70,7 @@ All other symbols are terminals.
 
   | //Program// | -> | ``program`` //Ident// ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini.`` 
   | //Decl// | -> | ``variabilis`` //Ident// ``:`` //Type// 
+  |  |  **|**  | ``variabilis`` //Ident// ``:`` ``matrix`` ``[`` //Exp// ``..`` //Exp// ``]`` ``autem`` //Type// 
   | //[Stm]// | -> | **eps**
   |  |  **|**  | //Stm// //[Stm]// 
   | //[Decl]// | -> | **eps**
@@ -82,6 +83,7 @@ All other symbols are terminals.
   |  |  **|**  | ``si`` //Exp// ``tunc`` //Stm// 
   |  |  **|**  | ``si`` //Exp// ``tunc`` //Stm// ``alter`` //Stm// 
   |  |  **|**  | //Exp// ``;`` 
+  |  |  **|**  | //[Decl]// 
   |  |  **|**  | ``incipe`` //[Stm]// ``fini`` 
   |  |  **|**  | ``donec`` //Exp// ``fac`` //Stm// 
   |  |  **|**  | ``refer`` //Exp// ``;`` 

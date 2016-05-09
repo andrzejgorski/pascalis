@@ -15,7 +15,8 @@
     SIf.     Stm ::= "si" Exp "tunc" Stm ;
     SIfElse. Stm ::= "si" Exp "tunc" Stm "alter" Stm;
 	SExp.    Stm ::= Exp ";" ;
-	SBlock.  Stm ::= "incipe" [Stm] "fini" ;
+    SDecl.   Stm ::= [Decl] ;
+	SBlock.  Stm ::= "incipe" [Stm] "fini" ";" ;
 	SWhile.  Stm ::= "donec" Exp "fac" Stm ;
 	SReturn. Stm ::= "refer" Exp ";" ;
 	STSet.   Stm ::= Ident "[" Exp "]" ":=" Exp ";" ;
