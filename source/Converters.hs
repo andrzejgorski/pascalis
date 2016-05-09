@@ -17,6 +17,7 @@ getType :: EExp -> MRSIO Type
 getType exp = case exp of
     BTrue       -> return TBool
     BFalse      -> return TBool
+    BNot _      -> return TBool
 
     EOr _ _     -> return TBool
     EAnd _ _    -> return TBool

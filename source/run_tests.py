@@ -76,6 +76,7 @@ OUTPUTS = {
     'test_while': '1112',
     'test_10_minus_1': '9',
     'test_for_loop': '12345678910',
+    'test_bool_not': 'falsum',
 }
 
 
