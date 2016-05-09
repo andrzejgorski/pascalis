@@ -77,6 +77,7 @@ OUTPUTS = {
     'test_10_minus_1': '9',
     'test_for_loop': '12345678910',
     'test_bool_not': 'falsum',
+    'test_array_write': '10\n20\n30\n40\n50\n60\n70\n80\n90\n100\n',
 }
 
 

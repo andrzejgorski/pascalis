@@ -1,0 +1,14 @@
+program array_write;
+
+
+incipe
+    variabilis arr: matrix[1..10] autem numeri integri;
+    variabilis i: numeri integri;
+    pro i = 1 ut 10 fac
+        arr[i] := i * 10;
+    pro i = 1 ut 10 fac
+    incipe
+        incribo(arr[i]);
+        incribo("\n");
+    fini;
+fini.

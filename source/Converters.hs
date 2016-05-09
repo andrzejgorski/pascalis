@@ -152,6 +152,9 @@ calcInt x = case x of
         getFromCont (EVar ident) key     = do a <- askExp ident
                                               getFromCont a key
 
+        getFromCont (EArrII a) key       = do cexp <- calcExp key
+                                              getFromCont (EArrII a) cexp
+
 
 calcExpInt :: EExp -> MRSIO EExp
 calcExpInt exp = do int <- calcInt exp
