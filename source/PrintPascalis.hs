@@ -91,6 +91,7 @@ instance Print Program where
 instance Print Decl where
   prt i e = case e of
     DVar id type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), prt 0 type_])
+    DParam id type_ -> prPrec i 0 (concatD [doc (showString "param"), prt 0 id, doc (showString ":"), prt 0 type_])
     DAVar id exp1 exp2 type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), doc (showString "matrix"), doc (showString "["), prt 0 exp1, doc (showString ".."), prt 0 exp2, doc (showString "]"), doc (showString "autem"), prt 0 type_])
     DProc id decls1 decls2 stms -> prPrec i 0 (concatD [doc (showString "processus"), prt 0 id, doc (showString "("), prt 0 decls1, doc (showString ")"), doc (showString ";"), prt 0 decls2, doc (showString "incipe"), prt 0 stms, doc (showString "fini")])
   prtList _ [] = (concatD [])

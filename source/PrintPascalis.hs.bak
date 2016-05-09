@@ -153,6 +153,7 @@ instance Print Type where
     TStr -> prPrec i 0 (concatD [doc (showString "titulus")])
     TChar -> prPrec i 0 (concatD [doc (showString "litera")])
     TFunc -> prPrec i 0 (concatD [doc (showString "functio")])
+    TProc -> prPrec i 0 (concatD [doc (showString "procedure")])
     TArr type_1 type_2 -> prPrec i 0 (concatD [doc (showString "matrix"), doc (showString "{"), prt 0 type_1, doc (showString "}"), doc (showString "autem"), prt 0 type_2])
     TDict type_1 type_2 -> prPrec i 0 (concatD [doc (showString "dictionarum"), doc (showString "{"), prt 0 type_1, doc (showString "}"), doc (showString "autem"), prt 0 type_2])
 

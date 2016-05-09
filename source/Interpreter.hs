@@ -41,6 +41,7 @@ createProcedure :: [Decl] -> [Stm] -> Env -> Exp
 createProcedure params stmts env = (EProc params stmts env)
 
 -- interpret declarations
+
 iDecl :: [Decl] -> [Stm] -> MRSIO ()
 iDecl ((DVar ind ty):tail) stm = do {
     loc <- alloc ty;

@@ -22,6 +22,7 @@ data Program = Prog Ident [Decl] [Stm]
 
 data Decl
     = DVar Ident Type
+    | DParam Ident Type
     | DAVar Ident Exp Exp Type
     | DProc Ident [Decl] [Decl] [Stm]
   deriving (Eq, Ord, Show, Read)

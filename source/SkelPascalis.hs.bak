@@ -72,6 +72,7 @@ transType x = case x of
   TStr -> failure x
   TChar -> failure x
   TFunc -> failure x
+  TProc -> failure x
   TArr type_1 type_2 -> failure x
   TDict type_1 type_2 -> failure x
 

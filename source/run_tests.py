@@ -80,6 +80,7 @@ OUTPUTS = {
     'test_array_write': '10\n20\n30\n40\n50\n60\n70\n80\n90\n100\n',
     'test_procedure': 'Maslo z orzechamiLubie placki',
     'test_global_variable': 'teraz ty!raz dwa trzy',
+    'test_procedure_with_param': '1110',
 }
 
 

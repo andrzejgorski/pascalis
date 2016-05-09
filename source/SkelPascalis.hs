@@ -18,6 +18,7 @@ transProgram x = case x of
 transDecl :: Decl -> Result
 transDecl x = case x of
   DVar ident type_ -> failure x
+  DParam ident type_ -> failure x
   DAVar ident exp1 exp2 type_ -> failure x
   DProc ident decls1 decls2 stms -> failure x
 transStm :: Stm -> Result

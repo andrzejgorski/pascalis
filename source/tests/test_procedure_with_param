@@ -1,0 +1,14 @@
+program paramProc;
+
+variabilis x2: numeri integri;
+processus write_plus1(param x: numeri integri);
+incipe
+    x := x + 1;
+    incribo(x);
+fini;
+
+incipe
+    x2 := 10;
+    write_plus1(x2);
+    incribo(x2);
+fini.

@@ -67,21 +67,22 @@ import ErrM
   'nullum' { PT _ (TS _ 40) }
   'numeri integri' { PT _ (TS _ 41) }
   'ord' { PT _ (TS _ 42) }
-  'persulta' { PT _ (TS _ 43) }
-  'pro' { PT _ (TS _ 44) }
-  'procedure' { PT _ (TS _ 45) }
-  'processus' { PT _ (TS _ 46) }
-  'program' { PT _ (TS _ 47) }
-  'refer' { PT _ (TS _ 48) }
-  'si' { PT _ (TS _ 49) }
-  'titulus' { PT _ (TS _ 50) }
-  'tunc' { PT _ (TS _ 51) }
-  'uel' { PT _ (TS _ 52) }
-  'ut' { PT _ (TS _ 53) }
-  'variabilis' { PT _ (TS _ 54) }
-  'verum' { PT _ (TS _ 55) }
-  '{' { PT _ (TS _ 56) }
-  '}' { PT _ (TS _ 57) }
+  'param' { PT _ (TS _ 43) }
+  'persulta' { PT _ (TS _ 44) }
+  'pro' { PT _ (TS _ 45) }
+  'procedure' { PT _ (TS _ 46) }
+  'processus' { PT _ (TS _ 47) }
+  'program' { PT _ (TS _ 48) }
+  'refer' { PT _ (TS _ 49) }
+  'si' { PT _ (TS _ 50) }
+  'titulus' { PT _ (TS _ 51) }
+  'tunc' { PT _ (TS _ 52) }
+  'uel' { PT _ (TS _ 53) }
+  'ut' { PT _ (TS _ 54) }
+  'variabilis' { PT _ (TS _ 55) }
+  'verum' { PT _ (TS _ 56) }
+  '{' { PT _ (TS _ 57) }
+  '}' { PT _ (TS _ 58) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -102,6 +103,7 @@ Program :: { Program }
 Program : 'program' Ident ';' ListDecl 'incipe' ListStm 'fini.' { AbsPascalis.Prog $2 $4 (reverse $6) }
 Decl :: { Decl }
 Decl : 'variabilis' Ident ':' Type { AbsPascalis.DVar $2 $4 }
+     | 'param' Ident ':' Type { AbsPascalis.DParam $2 $4 }
      | 'variabilis' Ident ':' 'matrix' '[' Exp '..' Exp ']' 'autem' Type { AbsPascalis.DAVar $2 $6 $8 $11 }
      | 'processus' Ident '(' ListDecl ')' ';' ListDecl 'incipe' ListStm 'fini' { AbsPascalis.DProc $2 $4 $7 (reverse $9) }
 ListStm :: { [Stm] }

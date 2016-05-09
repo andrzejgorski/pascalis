@@ -46,10 +46,10 @@ The reserved words used in Pascalis are the following:
   | ``et`` | ``fac`` | ``falsum`` | ``fini``
   | ``functio`` | ``incipe`` | ``incribo`` | ``litera``
   | ``longitudo`` | ``matrix`` | ``non`` | ``nullum``
-  | ``ord`` | ``persulta`` | ``pro`` | ``procedure``
-  | ``processus`` | ``program`` | ``refer`` | ``si``
-  | ``titulus`` | ``tunc`` | ``uel`` | ``ut``
-  | ``variabilis`` | ``verum`` |  | 
+  | ``ord`` | ``param`` | ``persulta`` | ``pro``
+  | ``procedure`` | ``processus`` | ``program`` | ``refer``
+  | ``si`` | ``titulus`` | ``tunc`` | ``uel``
+  | ``ut`` | ``variabilis`` | ``verum`` | 
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | [
@@ -71,6 +71,7 @@ All other symbols are terminals.
 
   | //Program// | -> | ``program`` //Ident// ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini.`` 
   | //Decl// | -> | ``variabilis`` //Ident// ``:`` //Type// 
+  |  |  **|**  | ``param`` //Ident// ``:`` //Type// 
   |  |  **|**  | ``variabilis`` //Ident// ``:`` ``matrix`` ``[`` //Exp// ``..`` //Exp// ``]`` ``autem`` //Type// 
   |  |  **|**  | ``processus`` //Ident// ``(`` //[Decl]// ``)`` ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini`` 
   | //[Stm]// | -> | **eps**

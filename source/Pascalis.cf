@@ -3,6 +3,7 @@
 
     Prog. Program   ::= "program" Ident ";" [Decl] "incipe" [Stm] "fini." ;
     DVar.  Decl     ::= "variabilis" Ident ":" Type ;
+    DParam. Decl    ::= "param" Ident ":" Type ;
     DAVar. Decl     ::= "variabilis" Ident ":" "matrix" "[" Exp ".." Exp"]" "autem" Type ;
     DProc. Decl     ::= "processus" Ident "(" [Decl] ")" ";" [Decl] "incipe" [Stm] "fini" ;
 
