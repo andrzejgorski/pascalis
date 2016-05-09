@@ -9,6 +9,9 @@ import MonadsFunctions
 import ErrM
 
 
+printDebug [] = return ()
+printDebug (h:t) = do{putStr_IO h; printDebug t}
+
 -- Type functions
 getType :: EExp -> MRSIO Type
 getType exp = case exp of
@@ -129,16 +132,16 @@ calcInt x = case x of
     EVar ident     -> convertVar calcInt ident
     EAdd exp1 exp2 -> do n1 <- calcInt exp1
                          n2 <- calcInt exp2
-                         return $ n2 + n1
+                         return $ n1 + n2
     ESub exp1 exp2 -> do n1 <- calcInt exp1
                          n2 <- calcInt exp2
-                         return $ n2 - n1
+                         return $ n1 - n2
     EMul exp1 exp2 -> do n1 <- calcInt exp1
                          n2 <- calcInt exp2
-                         return $ n2 * n1
+                         return $ n1 * n2
     EDiv exp1 exp2 -> do n1 <- calcInt exp1
                          n2 <- calcInt exp2
-                         return $ n2 `div` n1
+                         return $ n1 `div` n2
     EInt n         -> return n
     EKey cont k    -> getFromCont cont k
       where

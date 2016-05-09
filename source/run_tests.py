@@ -71,6 +71,10 @@ OUTPUTS = {
     'test_sub_str_var': 't',
     'test_block_variables': 'titulus 2titulus 1',
     'test_stmt_decl': 'titulus',
+    'test_x_plus_1': '11',
+    'test_x_minus_1': '9',
+    'test_while': '1112',
+    'test_10_minus_1': '9',
 }
 
 

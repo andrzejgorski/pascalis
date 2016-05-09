@@ -1,5 +1,5 @@
 program add_strings;
 
 incipe
-    incribe("first" + " " + "second");
+    incribo("first" + " " + "second");
 fini.

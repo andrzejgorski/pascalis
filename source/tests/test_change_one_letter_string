@@ -5,5 +5,5 @@ variabilis str: titulus;
 incipe
     str := "jajko";
     str[4] := 'a';
-    incribe(str);
+    incribo(str);
 fini.

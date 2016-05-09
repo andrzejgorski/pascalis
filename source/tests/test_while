@@ -1,0 +1,11 @@
+program while;
+
+incipe
+    variabilis x: numeri integri;
+    x := 10;
+    donec x < 12 fac
+    incipe
+        x := x + 1;
+        incribo(x);
+    fini;
+fini.

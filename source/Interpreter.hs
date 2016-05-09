@@ -62,6 +62,10 @@ iDecl ((DAVar i e1 e2 t):tail) stm = do {
 iDecl [] stm = interpretStmts stm
 
 
+printParams [] = return ()
+printParams (h:t) = do{iStmt (SPrint h); printParams t}
+
+
 -- interpret stmts ...
 iStmt :: Stm -> MRSIO ()
 iStmt Skip           = return_IO
@@ -73,10 +77,8 @@ iStmt (SPrint value) = do {
 
 iStmt (SExp value)   = interSExp value
   where
-    interSExp (Call (Ident "incribe") list) = printParams list
-      where
-        printParams [] = return ()
-        printParams (h:t) = do{iStmt (SPrint h); printParams t}
+    interSExp (Call (Ident "incribo") list) = printParams list
+
 
 iStmt (SIf exp stm)  = do {
     bexp <- calcBool exp;
@@ -122,8 +124,16 @@ iStmt (STSet ident key value) = do {
 iStmt (SBlock stms) = do {
     env <- askEnv;
     store <- getStore;
-    runBlock env store interpretStmts stms;
+    runBlock env interpretStmts stms;
   }
+
+iStmt (SWhile exp stm) = do calced <- calcBool exp
+                            if calced == BTrue then
+                              do iStmt stm
+                                 iStmt (SWhile exp stm)
+                            else
+                              return_IO
+
 
 interpretStmts :: [Stm] -> MRSIO ()
 interpretStmts [] = return_IO
