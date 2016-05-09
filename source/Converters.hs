@@ -152,8 +152,8 @@ calcInt x = case x of
         getFromCont (EVar ident) key     = do a <- askExp ident
                                               getFromCont a key
 
-        getFromCont (EArrII a) key       = do cexp <- calcExp key
-                                              getFromCont (EArrII a) cexp
+        getFromCont arr key              = do cexp <- calcExp key
+                                              getFromCont arr cexp
 
 
 calcExpInt :: EExp -> MRSIO EExp
@@ -168,6 +168,7 @@ calcChar (EKey container k) = getFromCont container k
   where
     getFromCont (EStr s) k       = do i <- intFromEInt k
                                       return $ EChar $ head $ drop i s
+
     getFromCont (EVar ident) key = do a <- askExp ident
                                       getFromCont a key
 
