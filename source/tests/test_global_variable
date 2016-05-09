@@ -1,0 +1,14 @@
+program global_variable_test;
+
+variabilis x: titulus;
+processus proo();
+incipe
+    x := "raz dwa trzy";
+fini;
+
+incipe
+    x := "teraz ty!";
+    incribo(x);
+    proo();
+    incribo(x);
+fini.
