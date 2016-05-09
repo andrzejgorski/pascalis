@@ -2,6 +2,8 @@ module Interpreter where
 
 import AbsPascalis
 import PrintPascalis
+import MonadsFunctions
+
 import ErrM
 import Data.Char
 
@@ -11,76 +13,6 @@ import Data.Maybe(fromMaybe, fromJust)
 import Control.Monad.State
 import Data.Array
 
-
-type EExp = Exp
-
-type Var = String
-type Loc = Int
-type Env = M.Map Ident Loc
-type Store = M.Map Loc (Type, EExp)
-type MRSIO a = ReaderT Env (StateT Store IO) a
-
-
-return_IO :: MRSIO ()
-return_IO = lift $ lift $ return ()
-
-putStr_IO :: String -> MRSIO ()
-putStr_IO s = lift $ lift $ putStr s
-
-askEnv :: MRSIO Env
-askEnv = ask
-
-printEnv = do env <- askEnv
-              putStr_IO $ show env
-
-getLoc :: Ident -> MRSIO Loc
-getLoc v = do env <- askEnv
-              return $ fromJust $ M.lookup v env
-
-localEnv :: (Env -> Env) -> (MRSIO () -> MRSIO ())
-localEnv f s = local f s
-
-getExpFromStore :: Loc -> MRSIO EExp
-getExpFromStore l = do {
-    store <- getStore;
-    return $ snd $ fromJust $ M.lookup l store;
-  }
-
-askExp :: Ident -> MRSIO EExp
-askExp ident = do loc <- getLoc ident
-                  getExpFromStore loc
-
-getTypeFromStore :: Loc -> MRSIO Type
-getTypeFromStore l = do {
-    store <- getStore;
-    return $ fst $ fromJust $ M.lookup l store;
-  }
-
-askType :: Ident -> MRSIO Type
-askType ident = do loc <- getLoc ident
-                   getTypeFromStore loc
-
-getStore :: MRSIO Store
-getStore = lift $ get
-
-printStore = do store <- getStore
-                putStr_IO $ show store
-
-alloc :: Type -> MRSIO Loc
-alloc t = do {
-    state <- getStore;
-    let size = M.size state
-      in do lift $ put (M.insert size (t, Null) state);
-            return size
-  }
-
-putStore :: Loc -> EExp -> MRSIO ()
-putStore loc v = do {
-    state <- getStore;
-    let t = fst $ fromJust $ M.lookup loc state;
-      in lift $ put (M.insert loc (t, v) state);
-    return ()
-  }
 
 
 convertVar converter ident = do v <- askExp ident
@@ -295,7 +227,7 @@ iDecl ((DAVar i e1 e2 t):tail) stm = do {
         loc <- alloc (TArr t1 t);
         exp1 <- calcExp e1;
         exp2 <- calcExp e2;
-        putStore loc (createArray e1 e2 t);
+        putToStore loc (createArray e1 e2 t);
         localEnv (M.insert i loc) (iDecl tail stm);
     else
         -- TODO handle error here
@@ -356,7 +288,7 @@ iStmt (SSet ident value) = do t1 <- askType ident
                               if t1 == t2 then
                                do loc <- getLoc ident
                                   exp <- calcExp value
-                                  putStore loc exp
+                                  putToStore loc exp
                               else
                                   -- TODO err
                                   return_IO
@@ -370,7 +302,7 @@ iStmt (STSet ident key value) = do {
          cont <- askExp ident
          value_exp <- calcExp value
          key_exp <- calcExp key
-         putStore loc (update_container cont key_exp value_exp)
+         putToStore loc (update_container cont key_exp value_exp)
     else
         -- TODO err
         return_IO
