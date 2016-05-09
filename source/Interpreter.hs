@@ -102,10 +102,7 @@ getType exp = case exp of
     EOrd _      -> return TFunc
     EArrII _    -> return (TArr TInt TInt)
     -- TODO
-    EVar v      -> do {
-        l <- getLoc v;
-        getTypeFromStore l;
-      }
+    EVar v      -> askType v
 
 concatenation (EStr s1) (EStr s2) = EStr (s1 ++ s2)
 
@@ -299,10 +296,10 @@ iStmt (STSet ident key value) = do {
     key_t <- getType key;
     if value_t == getContainerValueType cont_t && key_t == getContainerKeyType cont_t then
       do loc <- getLoc ident
-         cont <- askExp ident
+         container <- askExp ident
          value_exp <- calcExp value
          key_exp <- calcExp key
-         putToStore loc (update_container cont key_exp value_exp)
+         putToStore loc (update_container container key_exp value_exp)
     else
         -- TODO err
         return_IO
