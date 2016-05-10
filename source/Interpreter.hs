@@ -104,16 +104,21 @@ iStmt (SExp value)   = interSExp value
                                       handleFunc exp calls
       where
         handleFunc (EProc decls stmts env) calls = do {
-            handleParams decls calls env;
-            runBlock env interpretStmts stmts;
+            new_env <- handleParams decls calls env;
+            runBlock new_env interpretStmts stmts;
           }
           where
-            handleParams [] [] env = return ()
+            handleParams [] [] env = return env
             handleParams (DParam id ty:tc) (exp:te) env = do {
                 caled <- calcExp exp;
                 loc <- return $ fromJust $ M.lookup id env;
                 putToStore loc caled;
                 handleParams tc te env;
+            }
+            handleParams (DVar id1 ty:tc) (EVar id2:te) env = do {
+                loc <- getLoc id2;
+                new_env <- return $ M.insert id1 loc env;
+                handleParams tc te new_env;
             }
 
 

@@ -1,0 +1,12 @@
+program var_param;
+
+processus proc(variabilis x: logica booleana);
+incipe
+    x := verum;
+fini;
+
+incipe
+    variabilis x1: logica booleana;
+    proc(x1);
+    incribo(x1);
+fini.
