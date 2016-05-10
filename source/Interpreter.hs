@@ -217,8 +217,13 @@ handleParams (DVar id1 ty:tc) (EVar id2:te) env = do {
 handleFunc :: Exp -> [Exp] -> MRSIO Exp
 handleFunc (EProc decls stmts env) params = do {
     new_env <- handleParams decls params env;
-    runBlock new_env interpretStmts stmts;
+    exp <- runBlock new_env interpretStmts stmts;
     return Null;
+  }
+
+handleFunc (EFunc decls tType stmts env) params = do {
+    new_env <- handleParams decls params env;
+    runBlock new_env interpretStmts stmts;
   }
 
 
@@ -274,7 +279,7 @@ createFunction params tType stmts env = (EFunc params tType stmts env)
 
 -- interpret declarations
 
-iDecl :: [Decl] -> [Stm] -> MRSIO Env
+iDecl :: [Decl] -> [Stm] -> MRSIO (Env, Exp)
 iDecl ((DParam ind ty):tail) stm = iDecl ((DVar ind ty):tail) stm
 
 iDecl ((DVar ind ty):tail) stm = do {
@@ -293,8 +298,9 @@ iDecl ((DAVar i e1 e2 t):tail) stm = do {
         putToStore loc (createArray e1 e2 t);
         localEnv (M.insert i loc) (iDecl tail stm);
     else
-        -- TODO handle error here
-        askEnv
+      do  -- TODO handle error here
+        env <- askEnv;
+        return (env, Null);
   }
 
 iDecl ((DProc ident params decl stmts):tail) stm = do {
@@ -326,8 +332,9 @@ iDecl ((DFunc ident params tType decl stmts):tail) stm = do {
     addDeclsToEnv decl = iDecl decl []
 
 
-iDecl [] stm = do interpretStmts stm
-                  askEnv
+iDecl [] stm = do exp <- interpretStmts stm
+                  env <- askEnv
+                  return (env, exp)
 
 
 printParams [] = return ()
@@ -339,15 +346,16 @@ printParams (h:t) = do {
 
 
 -- interpret stmts ...
-iStmt :: Stm -> MRSIO ()
-iStmt Skip           = return_IO
+iStmt :: Stm -> MRSIO Exp
+iStmt Skip           = return Null
+iStmt (SReturn exp)  = return exp
 iStmt (SExp value)   = interSExp value
   where
-    interSExp (Call (Ident "incribo") params) = printParams params
+    interSExp (Call (Ident "incribo") params) = do printParams params
+                                                   return Null
     interSExp (Call ident params) = do exp <- askExp ident
                                        result <- handleFunc exp params
-                                       return_IO
-      where
+                                       return Null
 
 
 iStmt (SIf exp stm)  = do {
@@ -355,7 +363,7 @@ iStmt (SIf exp stm)  = do {
     if bexp ==  BTrue then
         iStmt stm;
     else
-        return_IO;
+        return Null;
   }
 
 iStmt (SIfElse exp stm1 stm2) = do {
@@ -372,9 +380,10 @@ iStmt (SSet ident value) = do t1 <- askType ident
                                do loc <- getLoc ident
                                   exp <- calcExp value
                                   putToStore loc exp
+                                  return Null
                               else
                                   -- TODO err
-                                  return_IO
+                                  return Null
 
 iStmt (STSet ident key value) = do {
     cont_t <- askType ident;
@@ -386,9 +395,10 @@ iStmt (STSet ident key value) = do {
          value_exp <- calcExp value
          key_exp <- calcExp key
          putToStore loc (update_container container key_exp value_exp)
+         return Null
     else
         -- TODO err
-        return_IO
+        return Null
   }
 
 iStmt (SBlock stms) = do {
@@ -402,14 +412,14 @@ iStmt (SWhile exp stm) = do calced <- calcBool exp
                               do iStmt stm
                                  iStmt (SWhile exp stm)
                             else
-                              return_IO
+                              return Null
 
 iStmt (SFor ident exp1 exp2 stm) = do iStmt (SSet ident exp1)
                                       cexp1 <- calcExp exp1
                                       cexp2 <- calcExp exp2
                                       doNTimes stm cexp1 (rangeExp cexp1 cexp2)
                                         where
-                                          doNTimes stmt old 0 = return_IO
+                                          doNTimes stmt old 0 = return Null
                                           doNTimes stmt old times = do {
     next <- nextExp old;
     iStmt stmt;
@@ -418,12 +428,14 @@ iStmt (SFor ident exp1 exp2 stm) = do iStmt (SSet ident exp1)
 }
 
 
-interpretStmts :: [Stm] -> MRSIO ()
-interpretStmts [] = return_IO
-interpretStmts ((SDecl decls):restStms) = do iDecl decls restStms
-                                             return_IO
-interpretStmts (h:t) = do iStmt h
-                          interpretStmts t
+interpretStmts :: [Stm] -> MRSIO Exp
+interpretStmts [] = return Null
+interpretStmts ((SDecl decls):restStms) = do env_exp <- iDecl decls restStms
+                                             return $ snd env_exp
+interpretStmts (h:t) = do exp <- iStmt h
+                          case exp of
+                            Null -> interpretStmts t;
+                            otherwise -> return exp;
 
 
 interpretProg prog = runStateT (runReaderT (interpret_ prog) M.empty) M.empty
