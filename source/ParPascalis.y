@@ -15,9 +15,9 @@ import ErrM
 %name pListIdent ListIdent
 %name pStm Stm
 %name pExp Exp
+%name pExp4 Exp4
 %name pExp2 Exp2
 %name pExp3 Exp3
-%name pExp4 Exp4
 %name pExp1 Exp1
 %name pListExp ListExp
 %name pType Type
@@ -130,20 +130,28 @@ Exp : 'verum' { AbsPascalis.BTrue }
     | 'falsum' { AbsPascalis.BFalse }
     | 'nullum' { AbsPascalis.Null }
     | 'non' Exp { AbsPascalis.BNot $2 }
-    | Exp '[:]' { AbsPascalis.EFSub $1 }
-    | Exp '[' Exp ':]' { AbsPascalis.ELSub $1 $3 }
-    | Exp '[:' Exp ']' { AbsPascalis.ERSub $1 $3 }
-    | Exp '[' Exp ':' Exp ']' { AbsPascalis.ELRSub $1 $3 $5 }
-    | Exp '[' Exp ']' { AbsPascalis.EKey $1 $3 }
     | Exp 'uel' Exp { AbsPascalis.EOr $1 $3 }
     | Exp 'et' Exp { AbsPascalis.EAnd $1 $3 }
     | Exp '=' Exp { AbsPascalis.EAss $1 $3 }
     | Exp '<>' Exp { AbsPascalis.ENAss $1 $3 }
-    | Exp2 '<' Exp2 { AbsPascalis.ELt $1 $3 }
-    | Exp2 '>' Exp2 { AbsPascalis.EGt $1 $3 }
-    | Exp2 '=<' Exp2 { AbsPascalis.ELEt $1 $3 }
-    | Exp2 '>=' Exp2 { AbsPascalis.EGEt $1 $3 }
+    | Exp2 '<' Exp3 { AbsPascalis.ELt $1 $3 }
+    | Exp2 '>' Exp3 { AbsPascalis.EGt $1 $3 }
+    | Exp2 '=<' Exp3 { AbsPascalis.ELEt $1 $3 }
+    | Exp2 '>=' Exp3 { AbsPascalis.EGEt $1 $3 }
     | Exp1 { $1 }
+Exp4 :: { Exp }
+Exp4 : Exp4 '[:]' { AbsPascalis.EFSub $1 }
+     | Exp4 '[' Exp ':]' { AbsPascalis.ELSub $1 $3 }
+     | Exp4 '[:' Exp ']' { AbsPascalis.ERSub $1 $3 }
+     | Exp4 '[' Exp ':' Exp ']' { AbsPascalis.ELRSub $1 $3 $5 }
+     | Exp4 '[' Exp ']' { AbsPascalis.EKey $1 $3 }
+     | Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
+     | String { AbsPascalis.EStr $1 }
+     | Char { AbsPascalis.EChar $1 }
+     | Ident { AbsPascalis.EVar $1 }
+     | Integer { AbsPascalis.EInt $1 }
+     | Double { AbsPascalis.EDouble $1 }
+     | '(' Exp ')' { $2 }
 Exp2 :: { Exp }
 Exp2 : Exp2 '+' Exp3 { AbsPascalis.EAdd $1 $3 }
      | Exp2 '-' Exp3 { AbsPascalis.ESub $1 $3 }
@@ -152,14 +160,6 @@ Exp3 :: { Exp }
 Exp3 : Exp3 '*' Exp4 { AbsPascalis.EMul $1 $3 }
      | Exp3 '/' Exp4 { AbsPascalis.EDiv $1 $3 }
      | Exp4 { $1 }
-Exp4 :: { Exp }
-Exp4 : Ident '(' ListExp ')' { AbsPascalis.Call $1 $3 }
-     | String { AbsPascalis.EStr $1 }
-     | Char { AbsPascalis.EChar $1 }
-     | Ident { AbsPascalis.EVar $1 }
-     | Integer { AbsPascalis.EInt $1 }
-     | Double { AbsPascalis.EDouble $1 }
-     | '(' Exp ')' { $2 }
 Exp1 :: { Exp }
 Exp1 : Exp2 { $1 }
 ListExp :: { [Exp] }

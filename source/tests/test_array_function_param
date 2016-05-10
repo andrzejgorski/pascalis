@@ -9,7 +9,7 @@ incipe
     last := x[0];
     length := longitudo(x) - 1;
     pro i = 1 ut longitudo(x) - 1 fac
-        si last =< (x[i]) tunc
+        si last =< x[i] tunc
         incipe
             last := x[i];
         fini;

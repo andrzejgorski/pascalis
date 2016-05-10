@@ -31,22 +31,20 @@
 	Null.    Exp ::= "nullum" ;
 	BNot.    Exp ::= "non" Exp ;
 
-	EFSub.   Exp ::= Exp "[:]" ;
-	ELSub.   Exp ::= Exp "[" Exp ":]" ;
-	ERSub.   Exp ::= Exp "[:" Exp "]" ;
-	ELRSub.  Exp ::= Exp "[" Exp ":" Exp "]" ;
-	EKey.    Exp ::= Exp "[" Exp "]" ;
-	-- ELen.    Exp ::= "longitudo" "(" Exp ")" ;
-	-- EOrd.    Exp ::= "ord" "(" Exp ")" ;
+	EFSub.   Exp4 ::= Exp4 "[:]" ;
+	ELSub.   Exp4 ::= Exp4 "[" Exp ":]" ;
+	ERSub.   Exp4 ::= Exp4 "[:" Exp "]" ;
+	ELRSub.  Exp4 ::= Exp4 "[" Exp ":" Exp "]" ;
+	EKey.    Exp4 ::= Exp4 "[" Exp "]" ;
 
     EOr.     Exp ::= Exp "uel" Exp ;
     EAnd.    Exp ::= Exp "et" Exp ;
 	EAss.    Exp ::= Exp "=" Exp ;
 	ENAss.   Exp ::= Exp "<>" Exp ;
-	ELt.     Exp ::= Exp2 "<" Exp2 ;
-	EGt.     Exp ::= Exp2 ">" Exp2 ;
-	ELEt.    Exp ::= Exp2 "=<" Exp2 ;
-	EGEt.    Exp ::= Exp2 ">=" Exp2 ;
+	ELt.     Exp ::= Exp2 "<" Exp3 ;
+	EGt.     Exp ::= Exp2 ">" Exp3 ;
+	ELEt.    Exp ::= Exp2 "=<" Exp3 ;
+	EGEt.    Exp ::= Exp2 ">=" Exp3 ;
 
 	EAdd.    Exp2 ::= Exp2 "+" Exp3 ;
 	ESub.    Exp2 ::= Exp2 "-" Exp3 ;
