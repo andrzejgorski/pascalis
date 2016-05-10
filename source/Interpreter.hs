@@ -371,6 +371,38 @@ printParams (h:t) = do {
   }
 
 
+readVariable :: Type -> MRSIO Exp
+readVariable TInt = get_ 0 1
+  where
+    get_ :: Int -> Int -> MRSIO Exp
+    get_ 0 n = do c <- getChar_IO
+                  if isSpace c then
+                    get_ 0 n
+                  else
+                   if c == '-' then
+                     get_ 0 (n * (- 1))
+                   else
+                    if isDigit c then
+                      get_ (ord c - 48) n
+                    else
+                      do putStr_Err $
+                           "Read function error. Cannot read type: "
+                           ++ show TInt ++ "  " ++ show c ++ " on input";
+                         return Null
+
+    get_ i n = do c <- getChar_IO
+                  if isDigit c then
+                    get_ ((i * 10) + (ord c - 48)) n
+                  else
+                   if isSpace c then
+                     return $ EInt $ toInteger i
+                   else
+                    do putStr_Err $
+                           "Read function error. Cannot read type: "
+                           ++ show TInt ++ "  " ++ show c ++ " on input";
+                       return Null
+
+
 -- interpret stmts ...
 iStmt :: Stm -> MRSIO Exp
 iStmt Skip           = return Null
@@ -400,6 +432,10 @@ iStmt (SIfElse exp stm1 stm2) = do {
     else
         iStmt stm2;
   }
+iStmt (SSet ident (Call (Ident "lege") params)) = do printParams params
+                                                     t <- askType ident
+                                                     exp <- readVariable t
+                                                     iStmt (SSet ident exp)
 
 iStmt (SSet ident value) = do t1 <- askType ident
                               t2 <- getType value

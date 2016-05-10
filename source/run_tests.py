@@ -95,6 +95,11 @@ OUTPUTS = {
     'test_array_function_param': 'verum falsum',
     'test_array_length': '10',
     'test_function_return_array': '1: 0\n2: 2\n3: 3\n4: 12\n5: 21\n6: 52\n7: 111\n8: 123\n9: 432\n10: 23423\n',
+    'test_lege_int_simple': '123',
+}
+
+INPUTS = {
+    'test_lege_int_simple': 'cat_123',
 }
 
 
@@ -113,7 +118,11 @@ def decorate_yellow(value):
 correct = 0
 for numb, test in enumerate(tests, 1):
     try:
-        output = subprocess.check_output(["./TestPascalis", "-s", "tests/{}".format(test)])
+        if test in INPUTS:
+            command = ["./TestPascalis -s tests/{} < inputs/{}".format(test, INPUTS[test])]
+            output = subprocess.check_output(command, shell=True)
+        else:
+            output = subprocess.check_output(["./TestPascalis", "-s", "tests/{}".format(test)])
     except subprocess.CalledProcessError as exc:
         print '{}. program {} {}'.format(numb, test, decorate_red('cannot be excecuted'))
         print exc

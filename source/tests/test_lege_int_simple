@@ -1,0 +1,7 @@
+program lege;
+
+incipe
+    variabilis x: numeri integri;
+    x := lege();
+    incribo(x);
+fini.
