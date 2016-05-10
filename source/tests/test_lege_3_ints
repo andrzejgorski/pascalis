@@ -1,0 +1,12 @@
+program lege_3_ints;
+
+incipe
+    variabilis x: numeri integri;
+    variabilis sum: numeri integri;
+    sum := lege();
+    x := lege();
+    sum := x + sum;
+    x := lege();
+    sum := x + sum;
+    incribo(sum);
+fini.
