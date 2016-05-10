@@ -1,0 +1,26 @@
+program mleko;
+
+variabilis a: litera;
+variabilis b: litera;
+variabilis c: litera;
+variabilis d: litera;
+variabilis e: litera;
+variabilis f: litera;
+variabilis g: litera;
+variabilis h: litera;
+variabilis i: litera;
+variabilis j: litera;
+
+incipe
+    a := lege();
+    b := lege();
+    c := lege();
+    d := lege();
+    e := lege();
+    f := lege();
+    g := lege();
+    h := lege();
+    i := lege();
+    j := lege();
+    incribo(a, b, c, d, e, f, g, h, i, j);
+fini.

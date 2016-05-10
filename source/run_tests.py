@@ -101,6 +101,7 @@ OUTPUTS = {
     'test_lege_int_white_spaces2': '-12',
     'test_lege_3_ints': '1251',
     'test_lege_char': 'c',
+    'test_lege_10_char': 'abc\n10\nyhb',
 }
 
 INPUTS = {
@@ -110,6 +111,7 @@ INPUTS = {
     'test_lege_int_white_spaces2': 'white_spaces2',
     'test_lege_3_ints': '3_ints',
     'test_lege_char': 'c',
+    'test_lege_10_char': '10_chars',
 }
 
 
