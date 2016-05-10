@@ -98,12 +98,14 @@ OUTPUTS = {
     'test_lege_int_simple': '123',
     'test_lege_minus_int': '-10',
     'test_lege_int_white_spaces': '80',
+    'test_lege_int_white_spaces2': '-12',
 }
 
 INPUTS = {
     'test_lege_int_simple': 'cat_123',
     'test_lege_minus_int': 'cat_minus_10',
     'test_lege_int_white_spaces': 'int_with_white_space',
+    'test_lege_int_white_spaces2': 'white_spaces2',
 }
 
 
