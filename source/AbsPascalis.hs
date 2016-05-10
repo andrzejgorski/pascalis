@@ -24,6 +24,7 @@ data Decl
     = DVar Ident Type
     | DParam Ident Type
     | DAVar Ident Exp Exp Type
+    | DAPVar Ident Type Type
     | DProc Ident [Decl] [Decl] [Stm]
     | DFunc Ident [Decl] Type [Decl] [Stm]
   deriving (Eq, Ord, Show, Read)
@@ -52,8 +53,6 @@ data Exp
     | ERSub Exp Exp
     | ELRSub Exp Exp Exp
     | EKey Exp Exp
-    | ELen Exp
-    | EOrd Exp
     | EOr Exp Exp
     | EAnd Exp Exp
     | EAss Exp Exp
@@ -72,6 +71,8 @@ data Exp
     | EVar Ident
     | EInt Integer
     | EArrII ArrII
+    | EOrd Exp
+    | ELen Exp
     | EProc [Decl] [Stm] Env
     | EFunc [Decl] Type [Stm] Env
 

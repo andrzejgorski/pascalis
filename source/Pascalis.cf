@@ -5,6 +5,7 @@
     DVar.  Decl     ::= "variabilis" Ident ":" Type ;
     DParam. Decl    ::= "param" Ident ":" Type ;
     DAVar. Decl     ::= "variabilis" Ident ":" "matrix" "[" Exp ".." Exp"]" "autem" Type ;
+    DAPVar. Decl    ::= "variabilis" Ident ":" "matrix" "{" Type "}" "autem" Type ;
     DProc. Decl     ::= "processus" Ident "(" [Decl] ")" ";" [Decl] "incipe" [Stm] "fini" ;
     DFunc. Decl     ::= "functio" Ident "(" [Decl] ")" ":" Type ";" [Decl] "incipe" [Stm] "fini" ;
 
@@ -30,22 +31,22 @@
 	Null.    Exp ::= "nullum" ;
 	BNot.    Exp ::= "non" Exp ;
 
-	EFSub.   Exp ::= Exp "[:]" ;
-	ELSub.   Exp ::= Exp "[" Exp ":]" ;
-	ERSub.   Exp ::= Exp "[:" Exp "]" ;
-	ELRSub.  Exp ::= Exp "[" Exp ":" Exp "]" ;
-	EKey.    Exp ::= Exp "[" Exp "]" ;
-	ELen.    Exp ::= "longitudo" "(" Exp ")" ;
-	EOrd.    Exp ::= "ord" "(" Exp ")" ;
+	EFSub.   Exp ::= Exp4 "[:]" ;
+	ELSub.   Exp ::= Exp4 "[" Exp ":]" ;
+	ERSub.   Exp ::= Exp4 "[:" Exp "]" ;
+	ELRSub.  Exp ::= Exp4 "[" Exp ":" Exp "]" ;
+	EKey.    Exp ::= Exp4 "[" Exp "]" ;
+	-- ELen.    Exp ::= "longitudo" "(" Exp ")" ;
+	-- EOrd.    Exp ::= "ord" "(" Exp ")" ;
 
-    EOr.     Exp ::= Exp "uel" Exp ;
-    EAnd.    Exp ::= Exp "et" Exp ;
-	EAss.    Exp ::= Exp "=" Exp ;
-	ENAss.   Exp ::= Exp "<>" Exp ;
-	ELt.     Exp ::= Exp2 "<" Exp2 ;
-	EGt.     Exp ::= Exp2 ">" Exp2 ;
-	ELEt.    Exp ::= Exp2 "=<" Exp2 ;
-	EGEt.    Exp ::= Exp2 ">=" Exp2 ;
+    EOr.     Exp ::= Exp "uel" Exp2 ;
+    EAnd.    Exp ::= Exp "et" Exp2 ;
+	EAss.    Exp ::= Exp "=" Exp2 ;
+	ENAss.   Exp ::= Exp "<>" Exp2 ;
+	ELt.     Exp ::= Exp2 "<" Exp3 ;
+	EGt.     Exp ::= Exp2 ">" Exp3 ;
+	ELEt.    Exp ::= Exp2 "=<" Exp3 ;
+	EGEt.    Exp ::= Exp2 ">=" Exp3 ;
 
 	EAdd.    Exp2 ::= Exp2 "+" Exp3 ;
 	ESub.    Exp2 ::= Exp2 "-" Exp3 ;

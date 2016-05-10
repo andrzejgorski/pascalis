@@ -60,28 +60,26 @@ import ErrM
   'incipe' { PT _ (TS _ 33) }
   'litera' { PT _ (TS _ 34) }
   'logica booleana' { PT _ (TS _ 35) }
-  'longitudo' { PT _ (TS _ 36) }
-  'matrix' { PT _ (TS _ 37) }
-  'non' { PT _ (TS _ 38) }
-  'nullum' { PT _ (TS _ 39) }
-  'numeri integri' { PT _ (TS _ 40) }
-  'ord' { PT _ (TS _ 41) }
-  'param' { PT _ (TS _ 42) }
-  'persulta' { PT _ (TS _ 43) }
-  'pro' { PT _ (TS _ 44) }
-  'procedure' { PT _ (TS _ 45) }
-  'processus' { PT _ (TS _ 46) }
-  'program' { PT _ (TS _ 47) }
-  'refer' { PT _ (TS _ 48) }
-  'si' { PT _ (TS _ 49) }
-  'titulus' { PT _ (TS _ 50) }
-  'tunc' { PT _ (TS _ 51) }
-  'uel' { PT _ (TS _ 52) }
-  'ut' { PT _ (TS _ 53) }
-  'variabilis' { PT _ (TS _ 54) }
-  'verum' { PT _ (TS _ 55) }
-  '{' { PT _ (TS _ 56) }
-  '}' { PT _ (TS _ 57) }
+  'matrix' { PT _ (TS _ 36) }
+  'non' { PT _ (TS _ 37) }
+  'nullum' { PT _ (TS _ 38) }
+  'numeri integri' { PT _ (TS _ 39) }
+  'param' { PT _ (TS _ 40) }
+  'persulta' { PT _ (TS _ 41) }
+  'pro' { PT _ (TS _ 42) }
+  'procedure' { PT _ (TS _ 43) }
+  'processus' { PT _ (TS _ 44) }
+  'program' { PT _ (TS _ 45) }
+  'refer' { PT _ (TS _ 46) }
+  'si' { PT _ (TS _ 47) }
+  'titulus' { PT _ (TS _ 48) }
+  'tunc' { PT _ (TS _ 49) }
+  'uel' { PT _ (TS _ 50) }
+  'ut' { PT _ (TS _ 51) }
+  'variabilis' { PT _ (TS _ 52) }
+  'verum' { PT _ (TS _ 53) }
+  '{' { PT _ (TS _ 54) }
+  '}' { PT _ (TS _ 55) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -104,6 +102,7 @@ Decl :: { Decl }
 Decl : 'variabilis' Ident ':' Type { AbsPascalis.DVar $2 $4 }
      | 'param' Ident ':' Type { AbsPascalis.DParam $2 $4 }
      | 'variabilis' Ident ':' 'matrix' '[' Exp '..' Exp ']' 'autem' Type { AbsPascalis.DAVar $2 $6 $8 $11 }
+     | 'variabilis' Ident ':' 'matrix' '{' Type '}' 'autem' Type { AbsPascalis.DAPVar $2 $6 $9 }
      | 'processus' Ident '(' ListDecl ')' ';' ListDecl 'incipe' ListStm 'fini' { AbsPascalis.DProc $2 $4 $7 (reverse $9) }
      | 'functio' Ident '(' ListDecl ')' ':' Type ';' ListDecl 'incipe' ListStm 'fini' { AbsPascalis.DFunc $2 $4 $7 $9 (reverse $11) }
 ListStm :: { [Stm] }
@@ -131,13 +130,11 @@ Exp : 'verum' { AbsPascalis.BTrue }
     | 'falsum' { AbsPascalis.BFalse }
     | 'nullum' { AbsPascalis.Null }
     | 'non' Exp { AbsPascalis.BNot $2 }
-    | Exp '[:]' { AbsPascalis.EFSub $1 }
-    | Exp '[' Exp ':]' { AbsPascalis.ELSub $1 $3 }
-    | Exp '[:' Exp ']' { AbsPascalis.ERSub $1 $3 }
-    | Exp '[' Exp ':' Exp ']' { AbsPascalis.ELRSub $1 $3 $5 }
-    | Exp '[' Exp ']' { AbsPascalis.EKey $1 $3 }
-    | 'longitudo' '(' Exp ')' { AbsPascalis.ELen $3 }
-    | 'ord' '(' Exp ')' { AbsPascalis.EOrd $3 }
+    | Exp4 '[:]' { AbsPascalis.EFSub $1 }
+    | Exp4 '[' Exp ':]' { AbsPascalis.ELSub $1 $3 }
+    | Exp4 '[:' Exp ']' { AbsPascalis.ERSub $1 $3 }
+    | Exp4 '[' Exp ':' Exp ']' { AbsPascalis.ELRSub $1 $3 $5 }
+    | Exp4 '[' Exp ']' { AbsPascalis.EKey $1 $3 }
     | Exp 'uel' Exp { AbsPascalis.EOr $1 $3 }
     | Exp 'et' Exp { AbsPascalis.EAnd $1 $3 }
     | Exp '=' Exp { AbsPascalis.EAss $1 $3 }

@@ -1,0 +1,6 @@
+program array_length;
+
+incipe
+    variabilis x: matrix[1..10] autem numeri integri;
+    incribo(longitudo(x));
+fini.

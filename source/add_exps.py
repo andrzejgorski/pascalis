@@ -2,6 +2,8 @@
 import re
 
 Exps = '''    | EArrII ArrII
+    | EOrd Exp
+    | ELen Exp
     | EProc [Decl] [Stm] Env
     | EFunc [Decl] Type [Stm] Env
 '''

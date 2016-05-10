@@ -1,0 +1,31 @@
+program array_function_param;
+
+
+functio sorted(variabilis x: matrix{numeri integri} autem numeri integri): logica booleana;
+incipe
+    variabilis i: numeri integri;
+    variabilis last: numeri integri;
+    variabilis length: numeri integri;
+    last := x[0];
+    length := longitudo(x) - 1;
+    pro i = 1 ut longitudo(x) - 1 fac
+        si last =< (x[i]) tunc
+        incipe
+            last := x[i];
+        fini;
+        alter
+        incipe
+            refer falsum;
+        fini;
+    refer verum;
+fini;
+
+incipe
+    variabilis x: matrix[0 .. 10] autem numeri integri;
+    variabilis i: numeri integri;
+    pro i = 0 ut longitudo(x) - 1 fac
+        x[i] := i * 2;
+    incribo(sorted(x), " ");
+    x[9] := 1;
+    incribo(sorted(x));
+fini.

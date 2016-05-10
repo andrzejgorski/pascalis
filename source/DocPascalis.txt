@@ -44,21 +44,20 @@ The set of reserved words is the set of terminals appearing in the grammar. Thos
 The reserved words used in Pascalis are the following:
   | ``alter`` | ``autem`` | ``dictionarum`` | ``donec``
   | ``et`` | ``fac`` | ``falsum`` | ``fini``
-  | ``functio`` | ``incipe`` | ``litera`` | ``longitudo``
-  | ``matrix`` | ``non`` | ``nullum`` | ``ord``
-  | ``param`` | ``persulta`` | ``pro`` | ``procedure``
-  | ``processus`` | ``program`` | ``refer`` | ``si``
-  | ``titulus`` | ``tunc`` | ``uel`` | ``ut``
-  | ``variabilis`` | ``verum`` |  | 
+  | ``functio`` | ``incipe`` | ``litera`` | ``matrix``
+  | ``non`` | ``nullum`` | ``param`` | ``persulta``
+  | ``pro`` | ``procedure`` | ``processus`` | ``program``
+  | ``refer`` | ``si`` | ``titulus`` | ``tunc``
+  | ``uel`` | ``ut`` | ``variabilis`` | ``verum``
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | [
-  | .. | ] | ( | )
-  | , | := | = | [:]
-  | :] | [: | <> | <
-  | > | =< | >= | +
-  | - | * | / | numeri integri
-  | logica booleana | { | } | 
+  | .. | ] | { | }
+  | ( | ) | , | :=
+  | = | [:] | :] | [:
+  | <> | < | > | =<
+  | >= | + | - | *
+  | / | numeri integri | logica booleana | 
 
 ===Comments===
 Single-line comments begin with //.Multiple-line comments are  enclosed with { and }.
@@ -73,6 +72,7 @@ All other symbols are terminals.
   | //Decl// | -> | ``variabilis`` //Ident// ``:`` //Type// 
   |  |  **|**  | ``param`` //Ident// ``:`` //Type// 
   |  |  **|**  | ``variabilis`` //Ident// ``:`` ``matrix`` ``[`` //Exp// ``..`` //Exp// ``]`` ``autem`` //Type// 
+  |  |  **|**  | ``variabilis`` //Ident// ``:`` ``matrix`` ``{`` //Type// ``}`` ``autem`` //Type// 
   |  |  **|**  | ``processus`` //Ident// ``(`` //[Decl]// ``)`` ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini`` 
   |  |  **|**  | ``functio`` //Ident// ``(`` //[Decl]// ``)`` ``:`` //Type// ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini`` 
   | //[Stm]// | -> | **eps**
@@ -97,13 +97,11 @@ All other symbols are terminals.
   |  |  **|**  | ``falsum`` 
   |  |  **|**  | ``nullum`` 
   |  |  **|**  | ``non`` //Exp// 
-  |  |  **|**  | //Exp// ``[:]`` 
-  |  |  **|**  | //Exp// ``[`` //Exp// ``:]`` 
-  |  |  **|**  | //Exp// ``[:`` //Exp// ``]`` 
-  |  |  **|**  | //Exp// ``[`` //Exp// ``:`` //Exp// ``]`` 
-  |  |  **|**  | //Exp// ``[`` //Exp// ``]`` 
-  |  |  **|**  | ``longitudo`` ``(`` //Exp// ``)`` 
-  |  |  **|**  | ``ord`` ``(`` //Exp// ``)`` 
+  |  |  **|**  | //Exp4// ``[:]`` 
+  |  |  **|**  | //Exp4// ``[`` //Exp// ``:]`` 
+  |  |  **|**  | //Exp4// ``[:`` //Exp// ``]`` 
+  |  |  **|**  | //Exp4// ``[`` //Exp// ``:`` //Exp// ``]`` 
+  |  |  **|**  | //Exp4// ``[`` //Exp// ``]`` 
   |  |  **|**  | //Exp// ``uel`` //Exp// 
   |  |  **|**  | //Exp// ``et`` //Exp// 
   |  |  **|**  | //Exp// ``=`` //Exp// 

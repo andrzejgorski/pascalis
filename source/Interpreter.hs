@@ -52,6 +52,8 @@ getType exp = case exp of
     EOrd _       -> return TFunc
     EArrII _     -> return (TArr TInt TInt)
     EVar v       -> askType v
+    Call (Ident "longitudo") _    -> return TInt
+    Call (Ident "ord") _          -> return TInt
     Call id _    -> askType id
     -- EFunc _ t _ _-> return t
 
@@ -117,6 +119,8 @@ calcBool exp = case exp of
     ELEt exp1 exp2  -> calcConvered (<=) exp1 exp2
     EGEt exp1 exp2  -> calcConvered (>=) exp1 exp2
     EVar i          -> convertVar calcBool i
+    e               -> do putStr_IO $ "\n" ++  show e ++ "\n"
+                          return Null
   where
     calcConvered func exp1 exp2 = do {
         t1 <- getType exp1;
@@ -154,6 +158,8 @@ calcInt x = case x of
     Call id d      -> do exp <- calcFunc (Call id d)
                          case exp of
                            EInt i -> return i
+                           e -> do putStr_IO $ "calc int " ++ show e
+                                   return 0
     EKey cont k    -> getFromCont cont k
       where
         getFromCont (EArrII a) (EInt i1) = do i <- intFromEInt (EInt i1)
@@ -234,13 +240,29 @@ handleFunc (EFunc decls tType stmts env) params = do {
 
 calcFunc :: EExp -> MRSIO EExp
 calcFunc (ELen (EStr s))  = return $ EInt (toInteger $ length s)
+calcFunc (ELen (EArrII a))= return $ EInt (toInteger $ range_ $ bounds a)
+  where
+    range_ bounds = (snd bounds) - (fst bounds) + 1
+calcFunc (ELen (EVar v))  = do exp <- calcExp (EVar v)
+                               calcFunc (ELen exp)
+
 calcFunc (EOrd (EChar c)) = return $ EInt (toInteger $ ord c)
+calcFunc (EOrd (EVar v))  = do exp <- calcExp (EVar v)
+                               calcFunc (EOrd exp)
+
+calcFunc (Call (Ident "ord") h) = calcFunc $ EOrd $ head h
+calcFunc (Call (Ident "longitudo") h) = calcFunc $ ELen $ head h
 calcFunc (Call id params) = do exp <- askExp id
                                handleFunc exp params
 
+-- Debug
+calcFunc f                = do putStr_IO $ "calc func " ++ show f
+                               return Null
+
 
 calcArr :: EExp -> MRSIO EExp
-calcArr = (\x -> return x)
+calcArr (EVar id) = askExp id
+calcArr e = return e
 
 
 calcExp :: EExp -> MRSIO EExp
@@ -258,6 +280,7 @@ nextExp (EInt i) = return (EInt (i + 1))
 showExp (EInt i)    = show i
 showExp (EStr s)    = s
 showExp (EChar s)   = [s]
+showExp (EArrII a)  = show $ assocs a
 showExp BTrue       = "verum"
 showExp BFalse      = "falsum"
 
@@ -353,7 +376,7 @@ iStmt :: Stm -> MRSIO Exp
 iStmt Skip           = return Null
 iStmt (SReturn exp)  = do calced <- calcExp exp
                           return calced
-iStmt (SExp value)   = interSExp value
+iStmt (SExp value)   = do interSExp value
   where
     interSExp (Call (Ident "incribo") params) = do printParams params
                                                    return Null
@@ -413,8 +436,10 @@ iStmt (SBlock stms) = do {
 
 iStmt (SWhile exp stm) = do calced <- calcBool exp
                             if calced == BTrue then
-                              do iStmt stm
-                                 iStmt (SWhile exp stm)
+                              do e <- iStmt stm
+                                 case e of
+                                   Null -> iStmt (SWhile exp stm)
+                                   e -> return e
                             else
                               return Null
 
@@ -426,9 +451,11 @@ iStmt (SFor ident exp1 exp2 stm) = do iStmt (SSet ident exp1)
                                           doNTimes stmt old 0 = return Null
                                           doNTimes stmt old times = do {
     next <- nextExp old;
-    iStmt stmt;
-    iStmt (SSet ident next);
-    doNTimes stmt next (times - 1)
+    exp <- iStmt stmt;
+    case exp of
+    Null -> do iStmt (SSet ident next);
+               doNTimes stmt next (times - 1)
+    e -> return e
 }
 
 

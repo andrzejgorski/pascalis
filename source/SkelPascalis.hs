@@ -20,6 +20,7 @@ transDecl x = case x of
   DVar ident type_ -> failure x
   DParam ident type_ -> failure x
   DAVar ident exp1 exp2 type_ -> failure x
+  DAPVar ident type_1 type_2 -> failure x
   DProc ident decls1 decls2 stms -> failure x
   DFunc ident decls1 type_ decls2 stms -> failure x
 transStm :: Stm -> Result
@@ -46,8 +47,6 @@ transExp x = case x of
   ERSub exp1 exp2 -> failure x
   ELRSub exp1 exp2 exp3 -> failure x
   EKey exp1 exp2 -> failure x
-  ELen exp -> failure x
-  EOrd exp -> failure x
   EOr exp1 exp2 -> failure x
   EAnd exp1 exp2 -> failure x
   EAss exp1 exp2 -> failure x
