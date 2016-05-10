@@ -3,6 +3,7 @@ import re
 
 Exps = '''    | EArrII ArrII
     | EProc [Decl] [Stm] Env
+    | EFunc [Decl] Type [Stm] Env
 '''
 
 imports = '''import Data.Array

@@ -94,13 +94,13 @@ instance Print Decl where
     DParam id type_ -> prPrec i 0 (concatD [doc (showString "param"), prt 0 id, doc (showString ":"), prt 0 type_])
     DAVar id exp1 exp2 type_ -> prPrec i 0 (concatD [doc (showString "variabilis"), prt 0 id, doc (showString ":"), doc (showString "matrix"), doc (showString "["), prt 0 exp1, doc (showString ".."), prt 0 exp2, doc (showString "]"), doc (showString "autem"), prt 0 type_])
     DProc id decls1 decls2 stms -> prPrec i 0 (concatD [doc (showString "processus"), prt 0 id, doc (showString "("), prt 0 decls1, doc (showString ")"), doc (showString ";"), prt 0 decls2, doc (showString "incipe"), prt 0 stms, doc (showString "fini")])
+    DFunc id decls1 type_ decls2 stms -> prPrec i 0 (concatD [doc (showString "functio"), prt 0 id, doc (showString "("), prt 0 decls1, doc (showString ")"), doc (showString ":"), prt 0 type_, doc (showString ";"), prt 0 decls2, doc (showString "incipe"), prt 0 stms, doc (showString "fini")])
   prtList _ [] = (concatD [])
   prtList _ [x] = (concatD [prt 0 x])
   prtList _ (x:xs) = (concatD [prt 0 x, doc (showString ";"), prt 0 xs])
 instance Print Stm where
   prt i e = case e of
     Skip -> prPrec i 0 (concatD [doc (showString "persulta"), doc (showString ";")])
-    SPrint exp -> prPrec i 0 (concatD [doc (showString "incribo"), doc (showString "("), prt 0 exp, doc (showString ")"), doc (showString ";")])
     SIf exp stm -> prPrec i 0 (concatD [doc (showString "si"), prt 0 exp, doc (showString "tunc"), prt 0 stm])
     SIfElse exp stm1 stm2 -> prPrec i 0 (concatD [doc (showString "si"), prt 0 exp, doc (showString "tunc"), prt 0 stm1, doc (showString "alter"), prt 0 stm2])
     SExp exp -> prPrec i 0 (concatD [prt 0 exp, doc (showString ";")])

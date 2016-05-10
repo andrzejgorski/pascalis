@@ -25,11 +25,11 @@ data Decl
     | DParam Ident Type
     | DAVar Ident Exp Exp Type
     | DProc Ident [Decl] [Decl] [Stm]
+    | DFunc Ident [Decl] Type [Decl] [Stm]
   deriving (Eq, Ord, Show, Read)
 
 data Stm
     = Skip
-    | SPrint Exp
     | SIf Exp Stm
     | SIfElse Exp Stm Stm
     | SExp Exp
@@ -73,6 +73,7 @@ data Exp
     | EInt Integer
     | EArrII ArrII
     | EProc [Decl] [Stm] Env
+    | EFunc [Decl] Type [Stm] Env
 
     | EDouble Double
   deriving (Eq, Ord, Show, Read)

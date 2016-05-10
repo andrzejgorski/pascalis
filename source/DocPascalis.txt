@@ -44,12 +44,12 @@ The set of reserved words is the set of terminals appearing in the grammar. Thos
 The reserved words used in Pascalis are the following:
   | ``alter`` | ``autem`` | ``dictionarum`` | ``donec``
   | ``et`` | ``fac`` | ``falsum`` | ``fini``
-  | ``functio`` | ``incipe`` | ``incribo`` | ``litera``
-  | ``longitudo`` | ``matrix`` | ``non`` | ``nullum``
-  | ``ord`` | ``param`` | ``persulta`` | ``pro``
-  | ``procedure`` | ``processus`` | ``program`` | ``refer``
-  | ``si`` | ``titulus`` | ``tunc`` | ``uel``
-  | ``ut`` | ``variabilis`` | ``verum`` | 
+  | ``functio`` | ``incipe`` | ``litera`` | ``longitudo``
+  | ``matrix`` | ``non`` | ``nullum`` | ``ord``
+  | ``param`` | ``persulta`` | ``pro`` | ``procedure``
+  | ``processus`` | ``program`` | ``refer`` | ``si``
+  | ``titulus`` | ``tunc`` | ``uel`` | ``ut``
+  | ``variabilis`` | ``verum`` |  | 
 
 The symbols used in Pascalis are the following:
   | ; | fini. | : | [
@@ -74,6 +74,7 @@ All other symbols are terminals.
   |  |  **|**  | ``param`` //Ident// ``:`` //Type// 
   |  |  **|**  | ``variabilis`` //Ident// ``:`` ``matrix`` ``[`` //Exp// ``..`` //Exp// ``]`` ``autem`` //Type// 
   |  |  **|**  | ``processus`` //Ident// ``(`` //[Decl]// ``)`` ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini`` 
+  |  |  **|**  | ``functio`` //Ident// ``(`` //[Decl]// ``)`` ``:`` //Type// ``;`` //[Decl]// ``incipe`` //[Stm]// ``fini`` 
   | //[Stm]// | -> | **eps**
   |  |  **|**  | //Stm// //[Stm]// 
   | //[Decl]// | -> | **eps**
@@ -82,7 +83,6 @@ All other symbols are terminals.
   | //[Ident]// | -> | //Ident// 
   |  |  **|**  | //Ident// ``,`` //[Ident]// 
   | //Stm// | -> | ``persulta`` ``;`` 
-  |  |  **|**  | ``incribo`` ``(`` //Exp// ``)`` ``;`` 
   |  |  **|**  | ``si`` //Exp// ``tunc`` //Stm// 
   |  |  **|**  | ``si`` //Exp// ``tunc`` //Stm// ``alter`` //Stm// 
   |  |  **|**  | //Exp// ``;`` 

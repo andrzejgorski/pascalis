@@ -6,13 +6,13 @@
     DParam. Decl    ::= "param" Ident ":" Type ;
     DAVar. Decl     ::= "variabilis" Ident ":" "matrix" "[" Exp ".." Exp"]" "autem" Type ;
     DProc. Decl     ::= "processus" Ident "(" [Decl] ")" ";" [Decl] "incipe" [Stm] "fini" ;
+    DFunc. Decl     ::= "functio" Ident "(" [Decl] ")" ":" Type ";" [Decl] "incipe" [Stm] "fini" ;
 
 	terminator Stm "" ;
 	separator  Decl ";" ;
 	separator  nonempty Ident "," ;
 
     Skip.    Stm ::= "persulta" ";" ;
-    SPrint.  Stm ::= "incribo" "(" Exp ")" ";" ;
 
     SIf.     Stm ::= "si" Exp "tunc" Stm ;
     SIfElse. Stm ::= "si" Exp "tunc" Stm "alter" Stm;

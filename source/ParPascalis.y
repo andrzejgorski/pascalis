@@ -58,31 +58,30 @@ import ErrM
   'fini.' { PT _ (TS _ 31) }
   'functio' { PT _ (TS _ 32) }
   'incipe' { PT _ (TS _ 33) }
-  'incribo' { PT _ (TS _ 34) }
-  'litera' { PT _ (TS _ 35) }
-  'logica booleana' { PT _ (TS _ 36) }
-  'longitudo' { PT _ (TS _ 37) }
-  'matrix' { PT _ (TS _ 38) }
-  'non' { PT _ (TS _ 39) }
-  'nullum' { PT _ (TS _ 40) }
-  'numeri integri' { PT _ (TS _ 41) }
-  'ord' { PT _ (TS _ 42) }
-  'param' { PT _ (TS _ 43) }
-  'persulta' { PT _ (TS _ 44) }
-  'pro' { PT _ (TS _ 45) }
-  'procedure' { PT _ (TS _ 46) }
-  'processus' { PT _ (TS _ 47) }
-  'program' { PT _ (TS _ 48) }
-  'refer' { PT _ (TS _ 49) }
-  'si' { PT _ (TS _ 50) }
-  'titulus' { PT _ (TS _ 51) }
-  'tunc' { PT _ (TS _ 52) }
-  'uel' { PT _ (TS _ 53) }
-  'ut' { PT _ (TS _ 54) }
-  'variabilis' { PT _ (TS _ 55) }
-  'verum' { PT _ (TS _ 56) }
-  '{' { PT _ (TS _ 57) }
-  '}' { PT _ (TS _ 58) }
+  'litera' { PT _ (TS _ 34) }
+  'logica booleana' { PT _ (TS _ 35) }
+  'longitudo' { PT _ (TS _ 36) }
+  'matrix' { PT _ (TS _ 37) }
+  'non' { PT _ (TS _ 38) }
+  'nullum' { PT _ (TS _ 39) }
+  'numeri integri' { PT _ (TS _ 40) }
+  'ord' { PT _ (TS _ 41) }
+  'param' { PT _ (TS _ 42) }
+  'persulta' { PT _ (TS _ 43) }
+  'pro' { PT _ (TS _ 44) }
+  'procedure' { PT _ (TS _ 45) }
+  'processus' { PT _ (TS _ 46) }
+  'program' { PT _ (TS _ 47) }
+  'refer' { PT _ (TS _ 48) }
+  'si' { PT _ (TS _ 49) }
+  'titulus' { PT _ (TS _ 50) }
+  'tunc' { PT _ (TS _ 51) }
+  'uel' { PT _ (TS _ 52) }
+  'ut' { PT _ (TS _ 53) }
+  'variabilis' { PT _ (TS _ 54) }
+  'verum' { PT _ (TS _ 55) }
+  '{' { PT _ (TS _ 56) }
+  '}' { PT _ (TS _ 57) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -106,6 +105,7 @@ Decl : 'variabilis' Ident ':' Type { AbsPascalis.DVar $2 $4 }
      | 'param' Ident ':' Type { AbsPascalis.DParam $2 $4 }
      | 'variabilis' Ident ':' 'matrix' '[' Exp '..' Exp ']' 'autem' Type { AbsPascalis.DAVar $2 $6 $8 $11 }
      | 'processus' Ident '(' ListDecl ')' ';' ListDecl 'incipe' ListStm 'fini' { AbsPascalis.DProc $2 $4 $7 (reverse $9) }
+     | 'functio' Ident '(' ListDecl ')' ':' Type ';' ListDecl 'incipe' ListStm 'fini' { AbsPascalis.DFunc $2 $4 $7 $9 (reverse $11) }
 ListStm :: { [Stm] }
 ListStm : {- empty -} { [] } | ListStm Stm { flip (:) $1 $2 }
 ListDecl :: { [Decl] }
@@ -116,7 +116,6 @@ ListIdent :: { [Ident] }
 ListIdent : Ident { (:[]) $1 } | Ident ',' ListIdent { (:) $1 $3 }
 Stm :: { Stm }
 Stm : 'persulta' ';' { AbsPascalis.Skip }
-    | 'incribo' '(' Exp ')' ';' { AbsPascalis.SPrint $3 }
     | 'si' Exp 'tunc' Stm { AbsPascalis.SIf $2 $4 }
     | 'si' Exp 'tunc' Stm 'alter' Stm { AbsPascalis.SIfElse $2 $4 $6 }
     | Exp ';' { AbsPascalis.SExp $1 }

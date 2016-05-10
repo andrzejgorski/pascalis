@@ -21,10 +21,10 @@ transDecl x = case x of
   DParam ident type_ -> failure x
   DAVar ident exp1 exp2 type_ -> failure x
   DProc ident decls1 decls2 stms -> failure x
+  DFunc ident decls1 type_ decls2 stms -> failure x
 transStm :: Stm -> Result
 transStm x = case x of
   Skip -> failure x
-  SPrint exp -> failure x
   SIf exp stm -> failure x
   SIfElse exp stm1 stm2 -> failure x
   SExp exp -> failure x
