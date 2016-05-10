@@ -103,6 +103,7 @@ OUTPUTS = {
     'test_lege_char': 'c',
     'test_lege_10_char': 'abc\n10\nyhb',
     'test_lege_string': 'De vita Pascalis etiam pellicula perfecta est anno 1972, Roberto Rossellini moderatore.',
+    'test_lege_3_strings': 'kochammojestudia',
 }
 
 INPUTS = {
@@ -114,6 +115,7 @@ INPUTS = {
     'test_lege_char': 'c',
     'test_lege_10_char': '10_chars',
     'test_lege_string': 'string_input',
+    'test_lege_3_strings': '3_strings',
 }
 
 

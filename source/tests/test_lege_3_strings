@@ -1,0 +1,12 @@
+program aa;
+
+variabilis s1: titulus;
+variabilis s2: titulus;
+variabilis s3: titulus;
+
+incipe
+    s1 := lege();
+    s2 := lege();
+    s3 := lege();
+    incribo(s1, s2, s3);
+fini.
