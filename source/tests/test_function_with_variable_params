@@ -1,0 +1,13 @@
+program ff;
+
+functio ff(variabilis x1: numeri integri; variabilis x2: numeri integri): numeri integri;
+incipe
+    x1 := x1 * x2;
+    refer x1;
+fini;
+
+variabilis x3: numeri integri;
+incipe
+    x3 := 100;
+    incribo(ff(x3, x3), " ", x3);
+fini.
