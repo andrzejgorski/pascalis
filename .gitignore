@@ -13,5 +13,6 @@ cabal.sandbox.config
 *.prof
 *.aux
 *.hp
+*.bak
 .stack-work/
 source/TestPascalis
