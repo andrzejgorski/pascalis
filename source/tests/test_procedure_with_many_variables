@@ -1,0 +1,16 @@
+program many;
+
+processus add(variabilis x1: numeri integri; variabilis x2: numeri integri; variabilis result: numeri integri);
+incipe
+    result := x1 + x2;
+fini;
+
+variabilis first: numeri integri;
+variabilis second: numeri integri;
+variabilis sum: numeri integri;
+incipe
+    first := 10;
+    second := 14;
+    add(first, second, sum);
+    incribo(sum);
+fini.
