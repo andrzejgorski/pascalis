@@ -1,0 +1,42 @@
+program reutrn_array;
+
+functio sort(param arr: matrix{numeri integri} autem numeri integri): matrix{numeri integri} autem numeri integri;
+
+variabilis i: numeri integri;
+variabilis j: numeri integri;
+variabilis tmp: numeri integri;
+
+incipe
+    i := longitudo(arr) - 1;
+    donec i > 0 fac
+    incipe
+        pro j = 2 ut i fac
+            si arr[j - 1] > arr[j] tunc
+            incipe
+                tmp := arr[j - 1];
+                arr[j - 1] := arr[j];
+                arr[j] := tmp;
+            fini;
+        i := i - 1;
+    fini;
+    refer arr;
+fini;
+
+incipe
+    variabilis array: matrix[1 .. 10] autem numeri integri;
+    variabilis sorted: matrix[1 .. 10] autem numeri integri;
+    array[1] := 111;
+    array[2] := 21;
+    array[3] := 0;
+    array[4] := 123;
+    array[5] := 3;
+    array[6] := 12;
+    array[7] := 52;
+    array[8] := 432;
+    array[9] := 2;
+    array[10] := 23423;
+    sorted := sort(array);
+    variabilis i: numeri integri;
+    pro i = 1 ut 10 fac
+        incribo(i, ": ", sorted[i], "\n");
+fini.

@@ -55,7 +55,7 @@ getType exp = case exp of
     Call (Ident "longitudo") _    -> return TInt
     Call (Ident "ord") _          -> return TInt
     Call id _    -> askType id
-    -- EFunc _ t _ _-> return t
+    EFunc _ t _ _-> return t
 
 
 getContainerKeyType :: Type -> Type
@@ -403,14 +403,25 @@ iStmt (SIfElse exp stm1 stm2) = do {
 
 iStmt (SSet ident value) = do t1 <- askType ident
                               t2 <- getType value
-                              if t1 == t2 then
-                               do loc <- getLoc ident
-                                  exp <- calcExp value
-                                  putToStore loc exp
-                                  return Null
+                              if t2 == TFunc then
+                                do exp <- calcExp value
+                                   t3 <- getType exp
+                                   if t1 == t3 then
+                                     do loc <- getLoc ident
+                                        putToStore loc exp
+                                        return Null
+                                   else
+                                     do putStr_IO $ show t3 ++ " cannot be set to " ++ show t1
+                                        return Null
                               else
-                                  -- TODO err
-                                  return Null
+                                if t1 == t2 then
+                                 do loc <- getLoc ident
+                                    exp <- calcExp value
+                                    putToStore loc exp
+                                    return Null
+                                else
+                                    do putStr_IO $ show t2 ++ " cannot be set to " ++ show t1
+                                       return Null
 
 iStmt (STSet ident key value) = do {
     cont_t <- askType ident;

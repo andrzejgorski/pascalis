@@ -94,6 +94,7 @@ OUTPUTS = {
     'test_function_with_variable_params': '10000 10000',
     'test_array_function_param': 'verum falsum',
     'test_array_length': '10',
+    'test_function_return_array': '1: 0\n2: 2\n3: 3\n4: 12\n5: 21\n6: 52\n7: 111\n8: 123\n9: 432\n10: 23423\n',
 }
 
 

@@ -18,6 +18,9 @@ return_IO = lift $ lift $ return ()
 putStr_IO :: String -> MRSIO ()
 putStr_IO s = lift $ lift $ putStr s
 
+putStr_Err :: String -> MRSIO ()
+putStr_Err s = lift $ lift $ putStr $ "Error: " ++ s ++ "\n"
+
 runBlock :: Env -> ([Stm] -> MRSIO Exp) -> [Stm] -> MRSIO Exp
 runBlock env interpretFunc stms = lift $ runReaderT (interpretFunc stms) env;
 
@@ -84,7 +87,11 @@ getTypeFromStore l = do {
 -- help Env functions
 getLoc :: Ident -> MRSIO Loc
 getLoc v = do env <- askEnv
-              return $ fromJust $ M.lookup v env
+              result <- return $ M.lookup v env
+              case result of
+                Just x  -> return x
+                Nothing -> do putStr_Err $ "Cannot take from env " ++ show v ++ " location."
+                              return (-1)
 
 askExp :: Ident -> MRSIO EExp
 askExp ident = do loc <- getLoc ident
