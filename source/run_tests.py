@@ -107,6 +107,7 @@ OUTPUTS = {
     'test_dict_sample': '10',
     'test_dict_param': '1',
     'test_dict_variable_param': '10',
+    'test_function_return_dict': '10',
 }
 
 INPUTS = {

@@ -57,6 +57,8 @@ getType exp = case exp of
     Call (Ident "ord") _          -> return TInt
     Call id _    -> askType id
     EFunc _ t _ _-> return t
+    e            -> do putStr_Err $ "unknown type: " ++ show e
+                       return TBool
 
 
 getContainerKeyType :: Type -> Type

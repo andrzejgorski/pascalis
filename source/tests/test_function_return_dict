@@ -1,0 +1,14 @@
+program x;
+
+functio s(param x: numeri integri): dictionarum {numeri integri} autem numeri integri;
+incipe
+    variabilis dict: dictionarum {numeri integri} autem numeri integri;
+    dict[x] := x;
+    refer dict;
+fini;
+
+incipe
+    variabilis dict2: dictionarum {numeri integri} autem numeri integri;
+    dict2 := s(10);
+    incribo(dict2[10]);
+fini.
