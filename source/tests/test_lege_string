@@ -1,0 +1,7 @@
+program lege_string;
+
+incipe
+    variabilis s: titulus;
+    s := lege();
+    incribo(s);
+fini.

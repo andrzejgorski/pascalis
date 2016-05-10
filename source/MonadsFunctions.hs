@@ -21,6 +21,9 @@ putStr_IO s = lift $ lift $ putStr s
 getChar_IO :: MRSIO Char
 getChar_IO = lift $ lift $ getChar
 
+getLine_IO :: MRSIO String
+getLine_IO = lift $ lift $ getLine
+
 putStr_Err :: String -> MRSIO ()
 putStr_Err s = lift $ lift $ putStr $ "Error: " ++ s ++ "\n"
 
