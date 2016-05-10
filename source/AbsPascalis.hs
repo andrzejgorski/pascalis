@@ -3,7 +3,8 @@
 module AbsPascalis where
 import Data.Array
 import qualified Data.Map as M
-type ArrII = Array Int Int
+type ArrI = Array Int Exp
+type Dict = M.Map Exp Exp
 type EExp = Exp
 type Var = String
 type Loc = Int
@@ -70,7 +71,8 @@ data Exp
     | EChar Char
     | EVar Ident
     | EInt Integer
-    | EArrII ArrII
+    | EArrI ArrI
+    | EDict Dict
     | EOrd Exp
     | ELen Exp
     | EProc [Decl] [Stm] Env

@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import re
 
-Exps = '''    | EArrII ArrII
+Exps = '''    | EArrI ArrI
+    | EDict Dict
     | EOrd Exp
     | ELen Exp
     | EProc [Decl] [Stm] Env
@@ -10,7 +11,8 @@ Exps = '''    | EArrII ArrII
 
 imports = '''import Data.Array
 import qualified Data.Map as M
-type ArrII = Array Int Int
+type ArrI = Array Int Exp
+type Dict = M.Map Exp Exp
 type EExp = Exp
 type Var = String
 type Loc = Int

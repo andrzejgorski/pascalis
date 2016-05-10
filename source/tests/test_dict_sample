@@ -1,0 +1,10 @@
+program slownik;
+
+variabilis dict: dictionarum{numeri integri} autem numeri integri;
+
+incipe
+    dict[1] := 10;
+    variabilis x: numeri integri;
+    x := dict[1];
+    incribo(dict[1]);
+fini.

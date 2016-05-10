@@ -50,7 +50,7 @@ getType exp = case exp of
                        return $ getContainerValueType con_t
     ELen _       -> return TFunc
     EOrd _       -> return TFunc
-    EArrII _     -> return (TArr TInt TInt)
+    EArrI _      -> return (TArr TInt TInt)
     EVar v       -> askType v
     Call (Ident "longitudo") _    -> return TInt
     Call (Ident "ord") _          -> return TInt
@@ -59,13 +59,15 @@ getType exp = case exp of
 
 
 getContainerKeyType :: Type -> Type
-getContainerKeyType TStr     = TInt
-getContainerKeyType (TArr t1 t2)  = t1
+getContainerKeyType TStr            = TInt
+getContainerKeyType (TArr t1 t2)    = t1
+getContainerKeyType (TDict t1 t2)   = t2
 
 
 getContainerValueType :: Type -> Type
-getContainerValueType TStr   = TChar
-getContainerValueType (TArr t1 t2)= t2
+getContainerValueType TStr          = TChar
+getContainerValueType (TArr t1 t2)  = t2
+getContainerValueType (TDict t1 t2) = t2
 
 
 -- converters utils functions
@@ -90,6 +92,7 @@ getConverter t = case t of
     TStr       -> calcString
     TFunc      -> calcFunc
     TArr _ _   -> calcArr
+    TDict _ _  -> calcDict
 
 
 calcBool :: EExp -> MRSIO EExp
@@ -162,11 +165,24 @@ calcInt x = case x of
                                    return 0
     EKey cont k    -> getFromCont cont k
       where
-        getFromCont (EArrII a) (EInt i1) = do i <- intFromEInt (EInt i1)
-                                              return $ toInteger $ a ! i
+        getFromCont (EArrI a) (EInt i1) = do i <- intFromEInt (EInt i1)
+                                             exp <- return $ a ! i
+                                             case exp of
+                                               EInt i -> return $ toInteger i
+                                               e      -> do putStr_Err "Error type error"
+                                                            return 0
 
         getFromCont (EVar ident) key     = do a <- askExp ident
                                               getFromCont a key
+        getFromCont (EDict d) key        = if M.member key d then
+              do exp <- return $ fromJust $ M.lookup key d
+                 case exp of
+                  EInt i -> return $ toInteger i
+                  e      -> do putStr_Err $ "Error type error"
+                               return 0
+              else
+                do putStr_Err $ "Dict " ++ show d ++ " doesn't have a key " ++ show key
+                   return 0
 
         getFromCont arr key              = do cexp <- calcExp key
                                               getFromCont arr cexp
@@ -240,7 +256,7 @@ handleFunc (EFunc decls tType stmts env) params = do {
 
 calcFunc :: EExp -> MRSIO EExp
 calcFunc (ELen (EStr s))  = return $ EInt (toInteger $ length s)
-calcFunc (ELen (EArrII a))= return $ EInt (toInteger $ range_ $ bounds a)
+calcFunc (ELen (EArrI a))= return $ EInt (toInteger $ range_ $ bounds a)
   where
     range_ bounds = (snd bounds) - (fst bounds) + 1
 calcFunc (ELen (EVar v))  = do exp <- calcExp (EVar v)
@@ -264,6 +280,9 @@ calcArr :: EExp -> MRSIO EExp
 calcArr (EVar id) = askExp id
 calcArr e = return e
 
+calcDict :: EExp -> MRSIO EExp
+calcDict (EVar id) = askExp id
+calcDict e = return e
 
 calcExp :: EExp -> MRSIO EExp
 calcExp e = do t <- getType e
@@ -280,13 +299,13 @@ nextExp (EInt i) = return (EInt (i + 1))
 showExp (EInt i)    = show i
 showExp (EStr s)    = s
 showExp (EChar s)   = [s]
-showExp (EArrII a)  = show $ assocs a
+showExp (EArrI a)  = show $ assocs a
 showExp BTrue       = "verum"
 showExp BFalse      = "falsum"
 
 
 createArray :: EExp -> EExp -> Type -> EExp
-createArray (EInt i1) (EInt i2) TInt = EArrII (array (fromInteger i1, fromInteger i2) [])
+createArray (EInt i1) (EInt i2) TInt = EArrI (array (fromInteger i1, fromInteger i2) [])
 
 
 update_container :: EExp -> EExp -> EExp -> EExp
@@ -295,8 +314,8 @@ update_container (EStr s) (EInt i) (EChar c) = EStr (upd_con s i c)
     upd_con (_:t) 0 c = (c:t)
     upd_con (h:t) i c = (h:upd_con t (i - 1) c)
 
-update_container (EArrII a) (EInt i1) (EInt i2) = EArrII (a // [(fromInteger i1, fromInteger i2)])
-
+update_container (EDict d) e1 e2 = EDict (M.insert e1 e2 d)
+update_container (EArrI a) (EInt i1) (EInt i2) = EArrI (a // [(fromInteger i1, EInt i2)])
 
 createProcedure :: [Decl] -> [Stm] -> Env -> Exp
 createProcedure params stmts env = (EProc params stmts env)
@@ -310,9 +329,12 @@ createFunction params tType stmts env = (EFunc params tType stmts env)
 iDecl :: [Decl] -> [Stm] -> MRSIO (Env, Exp)
 iDecl ((DParam ind ty):tail) stm = iDecl ((DVar ind ty):tail) stm
 
-iDecl ((DVar ind ty):tail) stm = do {
-    loc <- alloc ty;
-    localEnv (M.insert ind loc) (iDecl tail stm);
+iDecl ((DVar ind tType):tail) stm = do {
+    loc <- alloc tType;
+    case tType of
+      TDict _ _ -> do putToStore loc (EDict M.empty)
+                      localEnv (M.insert ind loc) (iDecl tail stm)
+      t         -> localEnv (M.insert ind loc) (iDecl tail stm)
   }
 
 iDecl ((DAVar i e1 e2 t):tail) stm = do {
@@ -451,11 +473,12 @@ iStmt (SSet ident value) = do t1 <- askType ident
                                         putToStore loc exp
                                         return Null
                                    else
-                                     do putStr_IO $ show t3 ++ " cannot be set to " ++ show t1
+                                     do putStr_Err $ show t3 ++ " cannot be set to " ++ show t1
                                         return Null
                               else
                                 if t1 == t2 then
                                  do loc <- getLoc ident
+                                    -- Debug
                                     exp <- calcExp value
                                     putToStore loc exp
                                     return Null
