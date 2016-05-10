@@ -16,6 +16,7 @@ type Env = M.Map Ident Loc
 type Store = M.Map Loc (Type, EExp)
 '''
 patternExp = '    | EInt Integer'
+patternExp2 = ' | EInt Integer'
 patternImports = 'module AbsPascalis where'
 
 with open('AbsPascalis.hs', 'r') as f:
@@ -23,6 +24,7 @@ with open('AbsPascalis.hs', 'r') as f:
 
 toInsert = {
     patternExp: Exps,
+    patternExp2: Exps,
     patternImports: imports,
 }
 
@@ -39,3 +41,6 @@ for line in lines:
 
 with open('AbsPascalis.hs', 'w') as f:
     data = f.write('\n'.join(result))
+
+
+print ('Add exps works fine! :)')
