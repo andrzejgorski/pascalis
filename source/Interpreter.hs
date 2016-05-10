@@ -151,6 +151,9 @@ calcInt x = case x of
                          n2 <- calcInt exp2
                          return $ n1 `div` n2
     EInt n         -> return n
+    Call id d      -> do exp <- calcFunc (Call id d)
+                         case exp of
+                           EInt i -> return i
     EKey cont k    -> getFromCont cont k
       where
         getFromCont (EArrII a) (EInt i1) = do i <- intFromEInt (EInt i1)
@@ -348,7 +351,8 @@ printParams (h:t) = do {
 -- interpret stmts ...
 iStmt :: Stm -> MRSIO Exp
 iStmt Skip           = return Null
-iStmt (SReturn exp)  = return exp
+iStmt (SReturn exp)  = do calced <- calcExp exp
+                          return calced
 iStmt (SExp value)   = interSExp value
   where
     interSExp (Call (Ident "incribo") params) = do printParams params

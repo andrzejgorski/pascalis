@@ -1,0 +1,13 @@
+program func;
+
+functio ff(param x: numeri integri): numeri integri;
+incipe
+    si x > 1 tunc
+        refer x * ff(x - 1);
+    alter
+        refer 1;
+fini;
+
+incipe
+    incribo(ff(10));
+fini.
