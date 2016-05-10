@@ -395,7 +395,7 @@ readVariable TInt = get_ 0 1
                     get_ ((i * 10) + (ord c - 48)) n
                   else
                    if isSpace c then
-                     return $ EInt $ toInteger i
+                     return $ EInt $ toInteger (i * n)
                    else
                     do putStr_Err $
                            "Read function error. Cannot read type: "

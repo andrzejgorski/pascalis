@@ -96,10 +96,14 @@ OUTPUTS = {
     'test_array_length': '10',
     'test_function_return_array': '1: 0\n2: 2\n3: 3\n4: 12\n5: 21\n6: 52\n7: 111\n8: 123\n9: 432\n10: 23423\n',
     'test_lege_int_simple': '123',
+    'test_lege_minus_int': '-10',
+    'test_lege_int_white_spaces': '80',
 }
 
 INPUTS = {
     'test_lege_int_simple': 'cat_123',
+    'test_lege_minus_int': 'cat_minus_10',
+    'test_lege_int_white_spaces': 'int_with_white_space',
 }
 
 
