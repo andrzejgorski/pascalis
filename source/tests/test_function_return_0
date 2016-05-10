@@ -1,0 +1,10 @@
+program funcret0;
+
+functio returner_0(): numeri integri;
+incipe
+    refer 0;
+fini;
+
+incipe
+    incribo(returner_0());
+fini.

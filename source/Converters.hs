@@ -2,6 +2,8 @@ module Converters where
 
 import Data.Array
 import Data.Char
+import Data.Maybe(fromMaybe, fromJust)
+import qualified Data.Map as M
 
 import AbsPascalis
 import PrintPascalis
@@ -15,38 +17,39 @@ printDebug (h:t) = do{putStr_IO h; printDebug t}
 -- Type functions
 getType :: EExp -> MRSIO Type
 getType exp = case exp of
-    BTrue       -> return TBool
-    BFalse      -> return TBool
-    BNot _      -> return TBool
+    BTrue        -> return TBool
+    BFalse       -> return TBool
+    BNot _       -> return TBool
 
-    EOr _ _     -> return TBool
-    EAnd _ _    -> return TBool
-    EAss _ _    -> return TBool
-    ENAss _ _   -> return TBool
-    ELt _ _     -> return TBool
-    EGt _ _     -> return TBool
-    ELEt _ _    -> return TBool
-    EGEt _ _    -> return TBool
+    EOr _ _      -> return TBool
+    EAnd _ _     -> return TBool
+    EAss _ _     -> return TBool
+    ENAss _ _    -> return TBool
+    ELt _ _      -> return TBool
+    EGt _ _      -> return TBool
+    ELEt _ _     -> return TBool
+    EGEt _ _     -> return TBool
 
-    EAdd e _    -> getType e
-    ESub _ _    -> return TInt
-    EMul _ _    -> return TInt
-    EDiv _ _    -> return TInt
+    EAdd e _     -> getType e
+    ESub _ _     -> return TInt
+    EMul _ _     -> return TInt
+    EDiv _ _     -> return TInt
 
-    EInt _      -> return TInt
-    EChar _     -> return TChar
-    EStr _      -> return TStr
-    EFSub _     -> return TStr
-    ELSub _ _   -> return TStr
-    ERSub _ _   -> return TStr
-    ELRSub _ _ _-> return TStr
-    -- TODO consider it
-    EKey e _    -> do con_t <- getType e
-                      return $ getContainerValueType con_t
-    ELen _      -> return TFunc
-    EOrd _      -> return TFunc
-    EArrII _    -> return (TArr TInt TInt)
-    EVar v      -> askType v
+    EInt _       -> return TInt
+    EChar _      -> return TChar
+    EStr _       -> return TStr
+    EFSub _      -> return TStr
+    ELSub _ _    -> return TStr
+    ERSub _ _    -> return TStr
+    ELRSub _ _ _ -> return TStr
+    EKey e _     -> do con_t <- getType e
+                       return $ getContainerValueType con_t
+    ELen _       -> return TFunc
+    EOrd _       -> return TFunc
+    EArrII _     -> return (TArr TInt TInt)
+    EVar v       -> askType v
+    Call id _    -> askType id
+    -- EFunc _ t _ _-> return t
 
 
 getContainerKeyType :: Type -> Type
@@ -194,10 +197,32 @@ calcString str = case str of
     EVar i              -> convertVar calcString i
 
 
+handleParams [] [] env = return env
+handleParams (DParam id ty:tc) (exp:te) env = do {
+    caled <- calcExp exp;
+    loc <- return $ fromJust $ M.lookup id env;
+    putToStore loc caled;
+    handleParams tc te env;
+}
+handleParams (DVar id1 ty:tc) (EVar id2:te) env = do {
+    loc <- getLoc id2;
+    new_env <- return $ M.insert id1 loc env;
+    handleParams tc te new_env;
+}
+
+handleFunc :: Exp -> [Exp] -> MRSIO Exp
+handleFunc (EProc decls stmts env interpret) params = do {
+    new_env <- handleParams decls params env;
+    runBlock new_env interpret stmts;
+    return Null;
+  }
+
 
 calcFunc :: EExp -> MRSIO EExp
-calcFunc (ELen (EStr s)) = return $ EInt (toInteger $ length s)
+calcFunc (ELen (EStr s))  = return $ EInt (toInteger $ length s)
 calcFunc (EOrd (EChar c)) = return $ EInt (toInteger $ ord c)
+calcFunc (Call id params) = do exp <- askExp id
+                               handleFunc exp params
 
 
 calcArr :: EExp -> MRSIO EExp
