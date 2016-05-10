@@ -1,0 +1,17 @@
+program recursion;
+
+processus recur(param x: numeri integri; variabilis result: numeri integri);
+incipe
+    si x > 1 tunc
+    incipe
+        result := result * x;
+        recur(x - 1, result);
+    fini;
+fini;
+
+incipe
+    variabilis result: numeri integri;
+    result := 1;
+    recur(10, result);
+    incribo(result);
+fini.

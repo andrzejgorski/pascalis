@@ -71,7 +71,8 @@ iDecl ((DProc ident params decl stmts):tail) stm = do {
     envParams <- runNewEnv env addParamsToEnv params ;
     envParamsDecls <- runNewEnv envParams addDeclsToEnv decl;
     loc <- alloc TFunc;
-    putToStore loc (createProcedure params stmts envParamsDecls);
+    recursion_env <- return $ M.insert ident loc envParamsDecls;
+    putToStore loc (createProcedure params stmts recursion_env);
     localEnv (M.insert ident loc) (iDecl tail stm);
   }
   where

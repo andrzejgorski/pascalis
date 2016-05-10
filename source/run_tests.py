@@ -84,6 +84,7 @@ OUTPUTS = {
     'test_procedure_with_two_params': 'ala ma kota',
     'test_procedure_with_variable_param': 'verum',
     'test_procedure_with_many_variables': '24',
+    'test_procedure_recursion': '3628800',
 }
 
 
