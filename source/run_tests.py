@@ -106,6 +106,7 @@ OUTPUTS = {
     'test_lege_3_strings': 'kochammojestudia',
     'test_dict_sample': '10',
     'test_dict_param': '1',
+    'test_dict_variable_param': '10',
 }
 
 INPUTS = {

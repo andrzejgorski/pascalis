@@ -1,0 +1,12 @@
+program dict_dict_dict;
+
+processus dd(variabilis x: dictionarum{numeri integri} autem numeri integri);
+incipe
+    x[1] := 10;
+fini;
+
+incipe
+    variabilis x1: dictionarum {numeri integri} autem numeri integri;
+    dd(x1);
+    incribo(x1[1]);
+fini.
