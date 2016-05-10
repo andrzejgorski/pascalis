@@ -130,11 +130,11 @@ Exp : 'verum' { AbsPascalis.BTrue }
     | 'falsum' { AbsPascalis.BFalse }
     | 'nullum' { AbsPascalis.Null }
     | 'non' Exp { AbsPascalis.BNot $2 }
-    | Exp4 '[:]' { AbsPascalis.EFSub $1 }
-    | Exp4 '[' Exp ':]' { AbsPascalis.ELSub $1 $3 }
-    | Exp4 '[:' Exp ']' { AbsPascalis.ERSub $1 $3 }
-    | Exp4 '[' Exp ':' Exp ']' { AbsPascalis.ELRSub $1 $3 $5 }
-    | Exp4 '[' Exp ']' { AbsPascalis.EKey $1 $3 }
+    | Exp '[:]' { AbsPascalis.EFSub $1 }
+    | Exp '[' Exp ':]' { AbsPascalis.ELSub $1 $3 }
+    | Exp '[:' Exp ']' { AbsPascalis.ERSub $1 $3 }
+    | Exp '[' Exp ':' Exp ']' { AbsPascalis.ELRSub $1 $3 $5 }
+    | Exp '[' Exp ']' { AbsPascalis.EKey $1 $3 }
     | Exp 'uel' Exp { AbsPascalis.EOr $1 $3 }
     | Exp 'et' Exp { AbsPascalis.EAnd $1 $3 }
     | Exp '=' Exp { AbsPascalis.EAss $1 $3 }
