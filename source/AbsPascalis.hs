@@ -72,7 +72,7 @@ data Exp
     | EVar Ident
     | EInt Integer
     | EArrI ArrI
-    | EDict Dict
+    | EDict Dict Type Type
     | EOrd Exp
     | ELen Exp
     | EProc [Decl] [Stm] Env

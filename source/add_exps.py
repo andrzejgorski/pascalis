@@ -2,7 +2,7 @@
 import re
 
 Exps = '''    | EArrI ArrI
-    | EDict Dict
+    | EDict Dict Type Type
     | EOrd Exp
     | ELen Exp
     | EProc [Decl] [Stm] Env

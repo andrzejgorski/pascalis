@@ -105,6 +105,7 @@ OUTPUTS = {
     'test_lege_string': 'De vita Pascalis etiam pellicula perfecta est anno 1972, Roberto Rossellini moderatore.',
     'test_lege_3_strings': 'kochammojestudia',
     'test_dict_sample': '10',
+    'test_dict_param': '1',
 }
 
 INPUTS = {

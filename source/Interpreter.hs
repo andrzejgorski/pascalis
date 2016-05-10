@@ -51,6 +51,7 @@ getType exp = case exp of
     ELen _       -> return TFunc
     EOrd _       -> return TFunc
     EArrI _      -> return (TArr TInt TInt)
+    EDict _ t1 t2-> return (TDict t1 t2)
     EVar v       -> askType v
     Call (Ident "longitudo") _    -> return TInt
     Call (Ident "ord") _          -> return TInt
@@ -174,7 +175,7 @@ calcInt x = case x of
 
         getFromCont (EVar ident) key     = do a <- askExp ident
                                               getFromCont a key
-        getFromCont (EDict d) key        = if M.member key d then
+        getFromCont (EDict d t1 t2) key  = if M.member key d then
               do exp <- return $ fromJust $ M.lookup key d
                  case exp of
                   EInt i -> return $ toInteger i
@@ -308,13 +309,13 @@ createArray :: EExp -> EExp -> Type -> EExp
 createArray (EInt i1) (EInt i2) TInt = EArrI (array (fromInteger i1, fromInteger i2) [])
 
 
-update_container :: EExp -> EExp -> EExp -> EExp
+update_container :: Exp -> Exp -> Exp -> Exp
 update_container (EStr s) (EInt i) (EChar c) = EStr (upd_con s i c)
   where
     upd_con (_:t) 0 c = (c:t)
     upd_con (h:t) i c = (h:upd_con t (i - 1) c)
 
-update_container (EDict d) e1 e2 = EDict (M.insert e1 e2 d)
+update_container (EDict d t1 t2) e1 e2 = EDict (M.insert e1 e2 d) t1 t2
 update_container (EArrI a) (EInt i1) (EInt i2) = EArrI (a // [(fromInteger i1, EInt i2)])
 
 createProcedure :: [Decl] -> [Stm] -> Env -> Exp
@@ -332,8 +333,8 @@ iDecl ((DParam ind ty):tail) stm = iDecl ((DVar ind ty):tail) stm
 iDecl ((DVar ind tType):tail) stm = do {
     loc <- alloc tType;
     case tType of
-      TDict _ _ -> do putToStore loc (EDict M.empty)
-                      localEnv (M.insert ind loc) (iDecl tail stm)
+      TDict t1 t2 -> do putToStore loc (EDict M.empty t1 t2)
+                        localEnv (M.insert ind loc) (iDecl tail stm)
       t         -> localEnv (M.insert ind loc) (iDecl tail stm)
   }
 

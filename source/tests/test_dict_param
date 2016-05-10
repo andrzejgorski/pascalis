@@ -1,0 +1,12 @@
+program dict_param;
+
+processus rr(param x: dictionarum{numeri integri} autem numeri integri);
+incipe
+    incribo(x[10]);
+fini;
+
+incipe
+    variabilis dict: dictionarum{numeri integri} autem numeri integri;
+    dict[10] := 1;
+    rr(dict);
+fini.
