@@ -372,6 +372,8 @@ printParams (h:t) = do {
 
 
 readVariable :: Type -> MRSIO Exp
+readVariable TChar = do c <- getChar_IO
+                        return (EChar c)
 readVariable TInt = get_ 0 1
   where
     get_ :: Int -> Int -> MRSIO Exp

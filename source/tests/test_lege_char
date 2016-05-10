@@ -1,0 +1,9 @@
+program lege_char;
+
+
+variabilis c: litera;
+
+incipe
+    c := lege();
+    incribo(c);
+fini.
