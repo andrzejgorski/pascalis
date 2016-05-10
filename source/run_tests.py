@@ -87,6 +87,8 @@ OUTPUTS = {
     'test_procedure_recursion': '3628800',
     'test_function_return_0': '0',
     'test_function_recursive': '3628800',
+    'test_function_recursive2': '3628800',
+    'test_variables_strange': '109',
 }
 
 

@@ -206,10 +206,12 @@ calcString str = case str of
 
 handleParams [] [] env = return env
 handleParams (DParam id ty:tc) (exp:te) env = do {
-    caled <- calcExp exp;
-    loc <- return $ fromJust $ M.lookup id env;
-    putToStore loc caled;
-    handleParams tc te env;
+    calced <- calcExp exp;
+    tType <- getType calced;
+    loc <- alloc tType;
+    new_env <- return $ M.insert id loc env;
+    putToStore loc calced;
+    handleParams tc te new_env;
 }
 handleParams (DVar id1 ty:tc) (EVar id2:te) env = do {
     loc <- getLoc id2;
