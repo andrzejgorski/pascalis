@@ -1,0 +1,22 @@
+program mleko;
+
+functio milk(param x1: numeri integri): logica booleana;
+variabilis x: logica booleana;
+incipe
+    si x1 > 0 tunc
+    incipe
+        x := verum;
+        milk(x1 - 1);
+        incribo(x, " ");
+    fini;
+        alter
+    incipe
+        x := falsum;
+        incribo(x);
+    fini;
+    refer x;
+fini;
+
+incipe
+    incribo(milk(5));
+fini.
