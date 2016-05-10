@@ -256,7 +256,7 @@ calcFunc (Call id params) = do exp <- askExp id
                                handleFunc exp params
 
 -- Debug
-calcFunc f                = do putStr_IO $ "calc func " ++ show f
+calcFunc f                = do putStr_Err $ "calc func " ++ show f
                                return Null
 
 
