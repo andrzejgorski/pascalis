@@ -3,9 +3,9 @@
 Za pomocą poleceń `make gramma`, oraz `make test`można zbudować i przetestować cały projekt.
 
 Zostały do projektu dostawione 2 pliki napisane w pythonie, które służą pomocy w pisaniu:
-`add/_exps.py` - program do wygenerowanej przez bnfc gramatyki dodaje część kodu do pliku AbsPascalis.hs,
+1. `add/_exps.py` - program do wygenerowanej przez bnfc gramatyki dodaje część kodu do pliku AbsPascalis.hs,
 którego nie udało mi się wstawić poprzez gramatykę.
-`run_tests.py` - program uruchamia każdy plik z folderu tests jako program napisany w języku pascalis.
+2. `run_tests.py` - program uruchamia każdy plik z folderu tests jako program napisany w języku pascalis.
 w pliku znajduje się duży słownik, który mówi jaki output powinien być wypisany dla każdego testu.
 Część testów wymaga podania inputu, który jest podawany w plików w folderze inputs.
 
@@ -65,7 +65,7 @@ działanie danej rzeczy w programie.
 2. ..h) operacje na stringach s[:], s[e:], s[:e], s[e1:e2] - na wzór pythonowych list. (test_python_str_\*)
 
 
-Co zostało zrobione ponad to?
+#### Co zostało zrobione ponad to?
 1. funkcja lege() (read) która wczytuje i rozpoznaje z wejścia typy int string i char. (test_lege\*)
 2. funkcja ord() char -> int (test_char_ord)
 3. funkcja longitudo() (length) (test_array_length)
