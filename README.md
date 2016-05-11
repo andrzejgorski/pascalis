@@ -80,3 +80,12 @@ działanie danej rzeczy w programie.
 4. zmienne typu char wraz całą arytmetyką porównań (test_eq_char_false, test_eq_char_true, test_decl_char)
 5. Deklaracje jako instrukcje (test_stmt_decl)
 6. framework do testów napisany w pythonie
+
+
+Interpreter umie rozpoznawać tylko poprawne programy.
+
+Dla niepoprawnych programów zachowanie jest niezdefiniowane.
+
+Nie wypisuje na standardowe wyjście błędów komunikatów o błędach.
+
+Brak przykładowych niepoprawnych programów.
