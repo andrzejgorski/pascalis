@@ -4,9 +4,10 @@
 
 #####Zostały do projektu dostawione 2 pliki napisane w pythonie, które służą pomocy w pisaniu:
 1. `add/_exps.py` - program do wygenerowanej przez bnfc gramatyki dodaje część kodu do pliku AbsPascalis.hs,
-którego nie udało mi się wstawić poprzez gramatykę.
+którego nie udało mi się wstawić poprzez gramatykę.  (nie jest to ładne rozwiązanie)
 2. `run_tests.py` - program uruchamia każdy plik z folderu tests jako program napisany w języku pascalis.
-#####w pliku znajduje się duży słownik, który mówi jaki output powinien być wypisany dla każdego testu.
+
+w pliku znajduje się duży słownik, który mówi jaki output powinien być wypisany dla każdego testu.
 #####Część testów wymaga podania inputu, który jest podawany w plików w folderze inputs.
 
 #####Zostało zrobione:
