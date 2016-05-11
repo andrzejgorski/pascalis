@@ -1,5 +1,7 @@
 # pascalis
 
+Cały projekt wraz z tym opisem znajduje się na stronie (https://github.com/andrzejgorski/pascalis)
+
 Za pomocą poleceń `make gramma`, oraz `make test`można zbudować i przetestować cały projekt.
 
 Zostały do projektu dostawione 2 pliki napisane w pythonie, które służą pomocy w pisaniu:
@@ -81,3 +83,4 @@ działanie danej rzeczy w programie.
 
 
 
+![alt tag](http://url/to/img.png)
