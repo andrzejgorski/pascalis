@@ -2,6 +2,7 @@ all:
 	happy -gca ParPascalis.y
 	alex -g LexPascalis.x
 	ghc --make TestPascalis.hs -o TestPascalis
+	ghc --make go_pascalis.hs -o go_pascalis
 
 test:
 	happy -gca ParPascalis.y
