@@ -37,8 +37,8 @@ działanie danej rzeczy w programie.
 (test\_decl\_bool)
 2. arytmetyka (porównań boolowskich)
 (test\_eq\_int, test\_eq\_int\_false, test\_neq\_int, test\_neq\_int\_false, test\_eq\_bool*(4), test\_bool*(4), test\_and\_*(4), test\_or\_*(4), test\_bool\_not)
--- 3. o while if else już napisałem
--- 4. Funckje i procedury już wspomniałem
+#########-- 3. o while if else już napisałem
+#########-- 4. Funckje i procedury już wspomniałem
 5. instrukcja print umiejąca wypisywać stringi, chary, boole, tablice (tylko pełne)
 (test\_decl*, test\_array\_write)
 6. a) dwa sposoby przekazywania parametrów do funkcji i procedur.
