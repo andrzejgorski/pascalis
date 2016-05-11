@@ -1,0 +1,15 @@
+program function_in_function;
+
+functio s(param x: litera): logica booleana;
+functio b(param x: numeri integri): logica booleana;
+incipe
+    refer x > 10;
+fini;
+
+incipe
+    refer b(ord(x));
+fini;
+
+incipe
+    incribo(s('a'));
+fini.
