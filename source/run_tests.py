@@ -89,7 +89,6 @@ OUTPUTS = {
     'test_function_recursive': '3628800',
     'test_function_recursive2': '3628800',
     'test_variables_strange': '109',
-    'test_variables_strange': '109',
     'test_function_recursive_with_decls': 'falsumverum verum verum verum verum verum',
     'test_function_with_variable_params': '10000 10000',
     'test_array_function_param': 'verum falsum',
