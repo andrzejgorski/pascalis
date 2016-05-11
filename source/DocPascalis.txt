@@ -60,7 +60,7 @@ The symbols used in Pascalis are the following:
   | / | numeri integri | logica booleana | 
 
 ===Comments===
-Single-line comments begin with //.Multiple-line comments are  enclosed with { and }.
+Single-line comments begin with //.There are no multiple-line comments in the grammar.
 
 ==The syntactic structure of Pascalis==
 Non-terminals are enclosed between < and >. 

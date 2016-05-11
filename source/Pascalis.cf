@@ -1,6 +1,4 @@
     comment "//" ;
-    comment "{" "}" ;
-
     Prog. Program   ::= "program" Ident ";" [Decl] "incipe" [Stm] "fini." ;
     DVar.  Decl     ::= "variabilis" Ident ":" Type ;
     DParam. Decl    ::= "param" Ident ":" Type ;

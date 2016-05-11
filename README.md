@@ -6,7 +6,7 @@ Za pomocą poleceń `make gramma`, oraz `make test`można zbudować i przetestow
 
 Zostały do projektu dostawione 2 pliki napisane w pythonie, które służą pomocy w pisaniu:
 
-1. `add/_exps.py` - program do wygenerowanej przez bnfc gramatyki dodaje część kodu do pliku AbsPascalis.hs,
+1. `add_exps.py` - program do wygenerowanej przez bnfc gramatyki dodaje część kodu do pliku AbsPascalis.hs,
 którego nie udało mi się wstawić poprzez gramatykę.  (nie jest to ładne rozwiązanie)
 2. `run_tests.py` - program uruchamia każdy plik z folderu tests jako program napisany w języku pascalis.
 w pliku znajduje się duży słownik, który mówi jaki output powinien być wypisany dla każdego testu.
@@ -80,7 +80,3 @@ działanie danej rzeczy w programie.
 4. zmienne typu char wraz całą arytmetyką porównań (test_eq_char_false, test_eq_char_true, test_decl_char)
 5. Deklaracje jako instrukcje (test_stmt_decl)
 6. framework do testów napisany w pythonie
-
-
-
-![alt tag](http://url/to/img.png)
