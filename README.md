@@ -1,17 +1,17 @@
 # pascalis
 
-Za pomocą poleceń `make gramma`, oraz `make test`można zbudować i przetestować cały projekt.
+#####Za pomocą poleceń `make gramma`, oraz `make test`można zbudować i przetestować cały projekt.
 
-Zostały do projektu dostawione 2 pliki napisane w pythonie, które służą pomocy w pisaniu:
+#####Zostały do projektu dostawione 2 pliki napisane w pythonie, które służą pomocy w pisaniu:
 1. `add/_exps.py` - program do wygenerowanej przez bnfc gramatyki dodaje część kodu do pliku AbsPascalis.hs,
 którego nie udało mi się wstawić poprzez gramatykę.
 2. `run_tests.py` - program uruchamia każdy plik z folderu tests jako program napisany w języku pascalis.
-w pliku znajduje się duży słownik, który mówi jaki output powinien być wypisany dla każdego testu.
-Część testów wymaga podania inputu, który jest podawany w plików w folderze inputs.
+#####w pliku znajduje się duży słownik, który mówi jaki output powinien być wypisany dla każdego testu.
+#####Część testów wymaga podania inputu, który jest podawany w plików w folderze inputs.
 
-Zostało zrobione:
-Dla każdego z punktów dopiszę nazwy testów znajdujących sie w katalogu tests, które pokazują
-działanie danej rzeczy w programie.
+#####Zostało zrobione:
+#####Dla każdego z punktów dopiszę nazwy testów znajdujących sie w katalogu tests, które pokazują
+#####działanie danej rzeczy w programie.
 
 
 #### na 8 punktów
