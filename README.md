@@ -18,59 +18,59 @@ działanie danej rzeczy w programie.
 1. typ int
 (program)
 2. zimenne typu int
-(test\_decl\_int, test\_eq\_var\_int, test\_variables\_strange)
+(test_decl_int, test_eq_var_int, test_variables_strange)
 3. if
-(test\_if, test\_if\_false, test\_if\_el, test\_if\_el\_false)
+(test_if, test\_if_false, test_if_el, test_if_el_false)
 4. while
-(test\_while)
+(test_while)
 5. wyrażenia z arytmetyką + - */ ()
-(test\_x\_plus\_1, test\_x\_minus\_1, test\_10\_minus\_1)
+(test_x_plus_1, test_x_minus_1, test_10_minus_1)
 6. Porównowanie intów
-(test\_eq\_int\_*, test\_lt\_*, test\_gt\_*, test\_le\_*, test\_ge\_*, test\_neq\_*)
+(test_eq_int_\*, test_lt_\*, test_gt_\*, test_le_\*, test_ge_\*, test_neq_\*)
 
 #### na 12 punktów
 7. funkcje i procedury z parametrami przez wartość i zmeinną z rekurencją.
-(test\_function\_recursive*, test\_procedure\_*)
+(test_function_recursive\*, test_procedure_\*)
 
 #### na 16 punktów
 1. drugi typ wyrażeń (bool)
-(test\_decl\_bool)
+(test_decl_bool)
 2. arytmetyka (porównań boolowskich)
-(test\_eq\_int, test\_eq\_int\_false, test\_neq\_int, test\_neq\_int\_false, test\_eq\_bool*(4), test\_bool*(4), test\_and\_*(4), test\_or\_*(4), test\_bool\_not)
+(test_eq_int, test_eq_int_false, test_neq_int, test_neq_int_false, test_eq_bool\*(4), test_bool\*(4), test_and_\*(4), test_or_\*(4), test_bool_not)
 #####-- 3. o while if else już napisałem
 #####-- 4. Funckje i procedury już wspomniałem
 5. instrukcja print umiejąca wypisywać stringi, chary, boole, tablice (tylko pełne)
-(test\_decl*, test\_array\_write)
+(test_decl\*, test_array_write)
 6. a) dwa sposoby przekazywania parametrów do funkcji i procedur.
-(test\_procedure\_*, test\_function\_*)
+(test_procedure_\*, test_function_\*)
    b) pętla for jak w pascalu
-   (test\_loop\_for)
+   (test_loop_for)
    c) typ String.
-(test\_eq\_string\_true, test\_string\_*, test\_decl\_str, test\_change\_string\_content, test\_change\_one\_letter\_string, test\_sub\_str\_var)
+(test_eq_string_true, test_string_\*, test_decl_str, test_change_string_content, test_change_one_letter_string, test_sub_str_var)
 (miały być 2 z 4, a jest 3)
 
 #### na 20 punktów
-1. przesłanianie indentyfikatorów (test\_block\_variables, test\_global\_variables)
+1. przesłanianie indentyfikatorów (test_block_variables, test_global_variables)
 2. (brak) Statycznego typowania
 3. Jawnie obsłużone dynamiczne błędy wykonania (nieotestowane, nie przerywają działania programu, niewielka część błędów)
 4. Funkcje zwracające wartość
-(test\_function\_return\_0)
-5. b) tablice int -> int (test\_array\_construct)
-   (test\_dict\_*)
+(test_function_return_0)
+5. b) tablice int -> int (test_array_construct)
+   (test_dict_\*)
    c) słowniki int -> int
    (2 z 5)
 
 #### na 24 punkty
-1. Dowolne zagnieżdżanie definicji funkcji / procedur z zachowaniem poprawności statycznego wiązania indentyfikatorów (test\_function\_declaration\_in\_function)
-2. ..h) operacje na stringach s[:], s[e:], s[:e], s[e1:e2] - na wzór pythonowych list. (test\_python\_str\_*)
+1. Dowolne zagnieżdżanie definicji funkcji / procedur z zachowaniem poprawności statycznego wiązania indentyfikatorów (test_function_declaration_in_function)
+2. ..h) operacje na stringach s[:], s[e:], s[:e], s[e1:e2] - na wzór pythonowych list. (test_python_str_\*)
 
 
 Co zostało zrobione ponad to?
-1. funkcja lege() (read) która wczytuje i rozpoznaje z wejścia typy int string i char. (test\_lege*)
-2. funkcja ord() char -> int (test\_char\_ord)
-3. funkcja longitudo() (length) (test\_array\_length)
-4. zmienne typu char wraz całą arytmetyką porównań (test\_eq\_char\_false, test\_eq\_char\_true, test\_decl\_char)
-5. Deklaracje jako instrukcje (test\_stmt\_decl)
+1. funkcja lege() (read) która wczytuje i rozpoznaje z wejścia typy int string i char. (test_lege\*)
+2. funkcja ord() char -> int (test_char_ord)
+3. funkcja longitudo() (length) (test_array_length)
+4. zmienne typu char wraz całą arytmetyką porównań (test_eq_char_false, test_eq_char_true, test_decl_char)
+5. Deklaracje jako instrukcje (test_stmt_decl)
 6. framework do testów napisany w pythonie
 
 
