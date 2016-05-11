@@ -6,7 +6,6 @@
 1. `add/_exps.py` - program do wygenerowanej przez bnfc gramatyki dodaje część kodu do pliku AbsPascalis.hs,
 którego nie udało mi się wstawić poprzez gramatykę.  (nie jest to ładne rozwiązanie)
 2. `run_tests.py` - program uruchamia każdy plik z folderu tests jako program napisany w języku pascalis.
-
 w pliku znajduje się duży słownik, który mówi jaki output powinien być wypisany dla każdego testu.
 #####Część testów wymaga podania inputu, który jest podawany w plików w folderze inputs.
 
@@ -38,8 +37,11 @@ w pliku znajduje się duży słownik, który mówi jaki output powinien być wyp
 (test_decl_bool)
 2. arytmetyka (porównań boolowskich)
 (test_eq_int, test_eq_int_false, test_neq_int, test_neq_int_false, test_eq_bool\*(4), test_bool\*(4), test_and_\*(4), test_or_\*(4), test_bool_not)
-#####-- 3. o while if else już napisałem
-#####-- 4. Funckje i procedury już wspomniałem
+
+-- 3. o while if else już napisałem
+
+-- 4. Funckje i procedury już wspomniałem
+
 5. instrukcja print umiejąca wypisywać stringi, chary, boole, tablice (tylko pełne)
 (test_decl\*, test_array_write)
 6. a) dwa sposoby przekazywania parametrów do funkcji i procedur.
