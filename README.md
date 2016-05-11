@@ -66,7 +66,6 @@ działanie danej rzeczy w programie.
 
 
 Co zostało zrobione ponad to?
-wbudowane funkcje:
 1. funkcja lege() (read) która wczytuje i rozpoznaje z wejścia typy int string i char. (test\_lege*)
 2. funkcja ord() char -> int (test\_char\_ord)
 3. funkcja longitudo() (length) (test\_array\_length)
