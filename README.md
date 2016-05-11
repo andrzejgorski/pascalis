@@ -7,11 +7,13 @@
 którego nie udało mi się wstawić poprzez gramatykę.  (nie jest to ładne rozwiązanie)
 2. `run_tests.py` - program uruchamia każdy plik z folderu tests jako program napisany w języku pascalis.
 w pliku znajduje się duży słownik, który mówi jaki output powinien być wypisany dla każdego testu.
-#####Część testów wymaga podania inputu, który jest podawany w plików w folderze inputs.
 
-#####Zostało zrobione:
-#####Dla każdego z punktów dopiszę nazwy testów znajdujących sie w katalogu tests, które pokazują
-#####działanie danej rzeczy w programie.
+Część testów wymaga podania inputu, który jest podawany w plików w folderze inputs.
+
+Zostało zrobione:
+
+Dla każdego z punktów dopiszę nazwy testów znajdujących sie w katalogu tests, które pokazują
+działanie danej rzeczy w programie.
 
 
 #### na 8 punktów
